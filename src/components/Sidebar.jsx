@@ -1,21 +1,50 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import { IoMdCheckboxOutline } from "react-icons/io";
 import { TbMessageReport } from "react-icons/tb";
+import { CiLogout } from "react-icons/ci";
+import { AdminContext } from '../../context/AdminContext';
+import { TbReportSearch } from "react-icons/tb";
 
 const Sidebar = () => {
+
+  const {setToken, token} = useContext(AdminContext)
   return (
-    <div className='w-1/3 md:w-1/6 bg-[#f8f9fd]'>
+    <div className='w-1/3 md:w-1/6 bg-[#004e76] h-[101%] relative'>
+    {token==='admin'?       
         <ul>
-            <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-[#f2f3ff] border-r-4 border-[#5f6fff]':''}`}>
+            <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
                 <IoMdCheckboxOutline className='text-lg'/>
                 <p>Uncheck</p>
             </NavLink>
-            <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-[#f2f3ff] border-r-4 border-[#5f6fff]':''}`}>
+            <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
                 <TbMessageReport className='text-lg'/>
                 <p>Report & Update</p>
             </NavLink>
+            <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute cursor-pointer flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full hover:bg-white hover:text-red-600 hover:font-bold'>
+              <CiLogout className='text-lg'/>
+              <button>Logout</button>
+            </div>
+        </ul>:
+        <ul>
+          <NavLink to={'/delivery-record'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
+              <TbReportSearch className='text-lg' />
+              <p>成績查詢</p>
+          </NavLink>
+          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
+              <TbReportSearch className='text-lg' />
+              <p>已確認</p>
+          </NavLink>
+          <NavLink to={'/confirmed'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
+              <TbReportSearch className='text-lg' />
+              <p>已回報</p>
+          </NavLink>
+          <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full cursor-pointer hover:bg-white hover:text-red-600 hover:font-bold'>
+            <CiLogout className='text-lg'/>
+            <button>登出</button>
+          </div>
         </ul>
+        }
     </div>
   )
 }
