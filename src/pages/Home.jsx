@@ -6,10 +6,12 @@ import { BiDetail } from "react-icons/bi";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegSave } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
+import { VscReport } from "react-icons/vsc";
 
 const Home = () => {
 
-    const {getDB, rider, data, state, setData} = useContext(AdminContext)
+    const {getDB, rider, data, state, setData, token} = useContext(AdminContext)
     const [isShowDetail, setIsShowDetail] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
 
@@ -82,7 +84,7 @@ const Home = () => {
 
         </div>
         {isShowDetail? 
-            <div className='absolute bg-white w-[80%] h-[85%] rounded-lg p-2 mt-3'> 
+            <div className='absolute bg-white w-[81%] h-[86.5vh] rounded-lg p-2 mt-3'> 
                 <div className='border-l-2 border-gray-300 pl-4'>
                     <div className='flex justify-between'>
                         <p className='text-lg font-bold'>Detail</p>
@@ -103,54 +105,664 @@ const Home = () => {
                             <p className='font-bold'>{displayItem.sp2_1}</p>
                             <p className={displayItem.is_service_bonus==="o"?'border-l-4 border-green-400 pl-2':filterdData[0].is_service_bonus==="△"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
                         </div>
-                        <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>
-                        <p className='text-sm'>Remain Delivering Count:</p>
-                        <p className='text-sm'>Onhold Count:</p>
-                        <p className='text-sm'>Total Delivered:</p>
-                        <p className='text-sm'>Personal Delivered:</p> 
-                        <hr className='my-4' />
-                        <p className='text-sm font-semibold mt-4'>2. 取件流程正確率 :</p>
-                        <p className='text-sm'>Smart Inbound:</p>
-                        <p className='text-sm'>Appsheet滯留包裹:</p> 
-                        <p className='text-sm'>EPOD:</p> 
-                        <hr className='my-4' />
-                        <p className='text-sm font-semibold mt-4'>3. 是否接受當日承攬任務 :</p>
-                        <p className='text-sm'>承攬開始時間:</p>
+                        <p className='text-sm font-semibold mt-4'>1. 門市清空</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">數量(異常)</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    {token==='admin'?'':
+                                        <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">應配貨量(異常)</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_remain_delivering_qty}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">個人總配送量</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_delivered_cnt}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">門市總配送量</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_clened_ttl_cnt}</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
+                        <p className='text-sm font-semibold mt-8'>2. 取件流程正確率</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    {token==='admin'?'':
+                                        <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">Smart Inbound</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">Appsheet滯留包裹</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">EPOD</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.epod}</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
+                        <p className='text-sm font-semibold mt-8'>3. 是否接受當日承攬任務</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full text-left min-w-[730px] mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    {token==='admin'?'':
+                                        <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">承攬時間</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><span className='font-bold'>當週</span>完成承攬任務天數比例</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     {displayItem.sp2_2_serve_type==="-"?'':           
                         <div className={displayItem.sp2_2_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                             <p className='font-bold'>{displayItem.sp2_2}</p>
-                            <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>
-                            <p className='text-sm'>Remain Delivering Count:</p>
-                            <p className='text-sm'>Onhold Count:</p>
-                            <p className='text-sm'>Total Delivered:</p>
-                            <p className='text-sm'>Personal Delivered:</p> 
-                            <hr className='my-4' />
-                            <p className='text-sm font-semibold mt-4'>2. 取件流程正確率 :</p>
-                            <p className='text-sm'>Smart Inbound:</p>
-                            <p className='text-sm'>Appsheet滯留包裹:</p> 
-                            <p className='text-sm'>EPOD:</p> 
-                            <hr className='my-4' />
-                            <p className='text-sm font-semibold mt-4'>3. 是否接受當日承攬任務 :</p>
-                            <p className='text-sm'>承攬開始時間:</p>
+                            <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">數量(異常)</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    {token==='admin'?'':
+                                        <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">應配貨量(異常)</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_remain_delivering_qty}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">個人總配送量</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_delivered_cnt}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">門市總配送量</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_clened_ttl_cnt}</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
+                        <p className='text-sm font-semibold mt-8'>2. 取件流程正確率</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    {token==='admin'?'':
+                                        <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">Smart Inbound</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">Appsheet滯留包裹</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">EPOD</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.epod}</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
+                        <p className='text-sm font-semibold mt-8'>3. 是否接受當日承攬任務</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full text-left min-w-[730px] mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    {token==='admin'?'':
+                                        <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">承攬時間</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><span className='font-bold'>當週</span>完成承攬任務天數比例</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    {token==='admin'?'':                                   
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
                         </div>
                     }
                     {displayItem.sp2_3_serve_type==="-"?'':           
                         <div className={displayItem.sp2_3_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                             <p className='font-bold'>{displayItem.sp2_2}</p>
                             <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>
-                            <p className='text-sm'>Remain Delivering Count:</p>
-                            <p className='text-sm'>Onhold Count:</p>
-                            <p className='text-sm'>Total Delivered:</p>
-                            <p className='text-sm'>Personal Delivered:</p> 
-                            <hr className='my-4' />
-                            <p className='text-sm font-semibold mt-4'>2. 取件流程正確率 :</p>
-                            <p className='text-sm'>Smart Inbound:</p>
-                            <p className='text-sm'>Appsheet滯留包裹:</p> 
-                            <p className='text-sm'>EPOD:</p> 
-                            <hr className='my-4' />
-                            <p className='text-sm font-semibold mt-4'>3. 是否接受當日承攬任務 :</p>
-                            <p className='text-sm'>承攬開始時間:</p>
+                            <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">數量(異常)</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">應配貨量(異常)</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_remain_delivering_qty}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">個人總配送量</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_delivered_cnt}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">門市總配送量</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.sp2_1_clened_ttl_cnt}</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p className='text-sm font-semibold mt-8'>2. 取件流程正確率</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">Smart Inbound</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">Appsheet滯留包裹</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">EPOD</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.epod}</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    <td className="p-4 border-b border-slate-200">
+                                        <p className="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p className='text-sm font-semibold mt-8'>3. 是否接受當日承攬任務</p>
+                        <div className='w-full overflow-scroll'>
+                            <table className="table-fixed w-full text-left min-w-[730px] mt-3">
+                                <tr>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                                    </th>
+                                    <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                        <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                    </th>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">承攬時間</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><span className='font-bold'>當週</span>完成承攬任務天數比例</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"></p>
+                                    </td>
+                                    <td class="p-4 border-b border-slate-200">
+                                        <p class="block text-sm text-slate-800"><VscReport className='text-xl'/></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         </div>
                     }
                 </div> 
@@ -158,7 +770,7 @@ const Home = () => {
             :''
         }
         {isEdit? 
-            <div className='absolute bg-white w-[80%] h-[85%] rounded-lg p-2 mt-3'> 
+            <div className='absolute bg-white w-[81%] h-[86%] rounded-lg p-2 mt-3'> 
                 <div className='border-l-2 border-gray-300 pl-4'>
                     <div className='flex justify-between'>
                         <p className='text-lg font-bold'>Edit</p>
@@ -181,7 +793,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className='bg-[#f8f9fd] h-[80%] mt-4 rounded-lg overflow-scroll px-5 py-4'>
+                <div className='bg-[#f8f9fd] h-[86%] mt-4 rounded-lg px-5 py-4'>
                     <div className={displayItem.sp2_1_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2'}>
                         <p className='font-bold'>{displayItem.sp2_1}</p>
                         <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>

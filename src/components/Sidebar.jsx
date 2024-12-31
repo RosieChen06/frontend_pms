@@ -5,19 +5,21 @@ import { TbMessageReport } from "react-icons/tb";
 import { CiLogout } from "react-icons/ci";
 import { AdminContext } from '../../context/AdminContext';
 import { TbReportSearch } from "react-icons/tb";
+import { MdOutlineFactCheck } from "react-icons/md";
+import { VscReport } from "react-icons/vsc";
 
 const Sidebar = () => {
 
   const {setToken, token} = useContext(AdminContext)
   return (
-    <div className='w-1/3 md:w-1/6 bg-[#004e76] h-[101%] relative'>
+    <div className='w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] relative'>
     {token==='admin'?       
         <ul>
-            <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
+            <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
                 <IoMdCheckboxOutline className='text-lg'/>
                 <p>Uncheck</p>
             </NavLink>
-            <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
+            <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
                 <TbMessageReport className='text-lg'/>
                 <p>Report & Update</p>
             </NavLink>
@@ -27,16 +29,16 @@ const Sidebar = () => {
             </div>
         </ul>:
         <ul>
-          <NavLink to={'/delivery-record'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
+          <NavLink to={'/delivery-record'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
               <TbReportSearch className='text-lg' />
               <p>成績查詢</p>
           </NavLink>
-          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
-              <TbReportSearch className='text-lg' />
+          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+              <MdOutlineFactCheck className='text-lg'/>
               <p>已確認</p>
           </NavLink>
-          <NavLink to={'/confirmed'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer text-white ${isActive? 'bg-white text-[#004e76]':''}`}>
-              <TbReportSearch className='text-lg' />
+          <NavLink to={'/confirmed'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+              <VscReport className='text-lg'/>
               <p>已回報</p>
           </NavLink>
           <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full cursor-pointer hover:bg-white hover:text-red-600 hover:font-bold'>

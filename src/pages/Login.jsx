@@ -14,6 +14,10 @@ const Login = () => {
         {
             user: 'rosie.chenyy@shopee.com',
             password: 'user001'
+        },
+        {
+            user: 'vendor@gmail.com',
+            password: 'user001'
         }
     ]
 

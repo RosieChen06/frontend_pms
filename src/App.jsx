@@ -9,6 +9,8 @@ import {Route, Routes} from 'react-router-dom'
 import Login from './pages/Login';
 import Report from './pages/Report';
 import { AdminContext } from '../context/AdminContext';
+import VendorHomePage from './pages/VendorHomePage';
+import Confirmed from './pages/Confirmed';
 
 function App() {
 
@@ -19,11 +21,11 @@ function App() {
       <div>
         <ToastContainer />
         {token==='admin'?
-        <div className='w-full h-lvh bg-gray-400'>
-            <div className='max-h-[6%]'>
+        <div className='w-full bg-gray-400'>
+            <div className='h-[12vh] bg-white flex justify-center items-center'>
               <Navbar />
             </div>
-            <div className='flex items-start mt-10 h-[86%]'>
+            <div className='flex items-start mt-0 h-[88vh]'>
               <Sidebar />
               <Routes>
                   <Route path='/' element={<Home />} />
@@ -31,20 +33,20 @@ function App() {
               </Routes>
           </div>
         </div>:token==='user'?
-        <div className='w-full h-lvh bg-gray-400'>
-          <div className='max-h-[6%]'>
+        <div className='w-full max-h-lvh bg-gray-400'>
+          <div className='h-[6%]'>
             <Navbar />
           </div>
-          <div className='flex items-start mt-10 h-[86%]'>
+          <div className='flex items-start h-[100%]'>
             <Sidebar />
             <Routes>
-                  <Route path='/delivery-record' element={<Report />} />
+                  <Route path='/delivery-record' element={<VendorHomePage /> } />
             </Routes>
             <Routes>
                   <Route path='/report' element={<Report />} />
             </Routes>
             <Routes>
-                  <Route path='/confirmed' element={<Report />} />
+                  <Route path='/confirmed' element={<Confirmed />} />
             </Routes>
           </div>
         </div>
