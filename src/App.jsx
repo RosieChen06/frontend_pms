@@ -40,7 +40,7 @@ function App() {
           <div className='flex items-start h-[100%]'>
             <Sidebar />
             <Routes>
-                  <Route path='/delivery-record' element={<VendorHomePage /> } />
+                  <Route path='/' element={<VendorHomePage /> } />
             </Routes>
             <Routes>
                   <Route path='/report' element={<Report />} />

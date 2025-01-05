@@ -29,7 +29,7 @@ const Sidebar = () => {
             </div>
         </ul>:
         <ul>
-          <NavLink to={'/delivery-record'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+          <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
               <TbReportSearch className='text-lg' />
               <p>成績查詢</p>
           </NavLink>
