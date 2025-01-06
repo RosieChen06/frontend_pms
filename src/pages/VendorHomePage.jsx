@@ -7,13 +7,18 @@ import { IoClose } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { VscReport } from "react-icons/vsc";
 import { MdOutlineFactCheck } from "react-icons/md";
+import { FiUpload } from "react-icons/fi";
 
 const VendorHomePage = () => {
 
     const {getDB, rider, state, token} = useContext(AdminContext)
     const [isShowDetail, setIsShowDetail] = useState(false)
     const [displayItem, setDisplayItem] =useState([])
-    const [reportForm, setReportForm] = useState(true)
+    const [reportForm, setReportForm] = useState(false)
+    const [comment, setComment] = useState('')
+    const [image1, setImage1] = useState(false)
+    const [image2, setImage2] = useState(false)
+    const [image3, setImage3] = useState(false)
 
     const filterdData = rider.filter((item)=>(
       item.status === 'submit'
@@ -42,16 +47,34 @@ const VendorHomePage = () => {
     }
 
     const isReport = async (_id) => {
+
+        if(reportItem['1'].length===0 && reportItem['2'].length===0 && reportItem['3'].length===0){
+            toast.error('請選擇回報項目')
+            return
+        }
+
         try{
             const formData = new FormData()
             formData.append('riderId', _id)
             formData.append('status', 'report')
             formData.append('reportItem', JSON.stringify(reportItem))
+            formData.append('comment', comment)
+            formData.append('image1', image1)
+            formData.append('image2', image2)
+            formData.append('image3', image3)
   
             const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
   
             if(data.success){
+                setReportForm(false);
                 toast.success(data.message)
+                reportItem['1'].length = 0;
+                reportItem['2'].length = 0;
+                reportItem['3'].length = 0;
+                setComment('')
+                setImage1(false)
+                setImage2(false)
+                setImage3(false)
                 getDB()
             }else{
                 toast.error(data.message)
@@ -93,9 +116,9 @@ const VendorHomePage = () => {
             <div className='border-l-2 border-gray-300 pl-4'>
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回報</p>
-                  <div className='flex flex-row gap-4'>
-                    <button className='mr-5' onClick={()=>setReportForm(false)}>取消回報</button>  
-                    <button className='mr-5' onClick={()=>{isReport(displayItem._id); setReportForm(false);}}>提交回報</button>  
+                  <div className='flex flex-row'>
+                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>{setReportForm(false); reportItem['1'].length = 0;reportItem['2'].length = 0;reportItem['3'].length = 0; setComment(''); setImage1(false); setImage2(false); setImage3(false)}}>取消回報</button>  
+                    <button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReport(displayItem._id);}}>提交回報</button>  
                   </div>
               </div>
               <p className='mt-4 text-sm text-gray-700'>Rider Name:</p>
@@ -227,7 +250,7 @@ const VendorHomePage = () => {
                   </table>
               </div>
           </div>
-          {displayItem.sp2_2_serve_type==="-"?'':           
+          {displayItem.sp2_2==="-"?'':           
               <div className={displayItem.sp2_2_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                   <p className='font-bold'>{displayItem.sp2_2}</p>
               <div className='w-full overflow-scroll'>
@@ -350,7 +373,7 @@ const VendorHomePage = () => {
                 </div>
               </div>
           }
-          {displayItem.sp2_3_serve_type==="-"?'':           
+          {displayItem.sp2_3==="-"?'':           
               <div className={displayItem.sp2_3_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                   <p className='font-bold'>{displayItem.sp2_2}</p>
               <div className='w-full overflow-scroll'>
@@ -461,6 +484,26 @@ const VendorHomePage = () => {
               </div>
           </div>
           }
+          <div>
+            <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
+                <textarea id="comment" rows="4" className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
+            </div>
+            <div className="flex border gap-4 border-gray-200 flex-row p-2 items-center bg-gray-100 rounded-b-lg">
+                <label htmlFor='image1' className={!image1?'bg-white cursor-pointer rounded-sm p-6 border-4 border-dashed':'bg-white cursor-pointer rounded-smborder-4 border-2 rounded-md'}>
+                    {!image1?<FiUpload className='font-bold text-2xl'/>: <img className='w-24' src={URL.createObjectURL(image1)}></img>}
+                    <input type='file' onChange={(e)=>setImage1(e.target.files[0])} id='image1' hidden></input>
+                </label>    
+                <label htmlFor='image2' className={!image2?'bg-white cursor-pointer rounded-sm p-6 border-4 border-dashed':'bg-white cursor-pointer rounded-smborder-4 border-2 rounded-md'}>
+                    {!image2?<FiUpload className='font-bold text-2xl'/>: <img className='w-24' src={URL.createObjectURL(image2)}></img>}
+                    <input type='file' onChange={(e)=>setImage2(e.target.files[0])} id='image2' hidden></input>
+                </label>    
+                <label htmlFor='image3' className={!image3?'bg-white cursor-pointer rounded-sm p-6 border-4 border-dashed':'bg-white cursor-pointer rounded-smborder-4 border-2 rounded-md'}>
+                    {!image3?<FiUpload className='font-bold text-2xl'/>: <img className='w-24' src={URL.createObjectURL(image3)}></img>}
+                    <input type='file' onChange={(e)=>setImage3(e.target.files[0])} id='image3' hidden></input>
+                </label>    
+
+            </div>
+           </div>
             </div>
           </div>:''
         }
@@ -1174,7 +1217,7 @@ const VendorHomePage = () => {
                     </div>
                     <div className='flex flex-row gap-4'>
                         <button onClick={()=>displayDetail(index)} className='bg-white p-3 rounded-full'><BiDetail /></button>
-                        <button onClick={()=>isReport(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
+                        <button onClick={()=>isCheck(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
                     </div>
                 </div> 
                 ))

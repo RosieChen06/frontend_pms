@@ -33,11 +33,11 @@ function App() {
               </Routes>
           </div>
         </div>:token==='user'?
-        <div className='w-full max-h-lvh bg-gray-400'>
-          <div className='h-[6%]'>
+        <div className='w-full bg-gray-400'>
+          <div className='h-[12vh] bg-white flex justify-center items-center'>
             <Navbar />
           </div>
-          <div className='flex items-start h-[100%]'>
+          <div className='flex items-start mt-0 h-[88vh]'>
             <Sidebar />
             <Routes>
                   <Route path='/' element={<VendorHomePage /> } />
