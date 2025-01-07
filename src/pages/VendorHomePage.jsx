@@ -186,7 +186,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='sppsheet' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
+                              <input type='checkbox' value='Appsheet' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -205,7 +205,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='epod' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
+                              <input type='checkbox' value='EPOD' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -224,7 +224,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='accept' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
+                              <input type='checkbox' value='first_delivering_time' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -243,7 +243,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='attendance' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
+                              <input type='checkbox' value='work&clean' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -308,7 +308,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='appsheet' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
+                              <input type='checkbox' value='Appsheet' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -327,7 +327,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='epod' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
+                              <input type='checkbox' value='EPOD' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -346,7 +346,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='accept' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
+                              <input type='checkbox' value='first_delivering_time' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -365,7 +365,7 @@ const VendorHomePage = () => {
                           </td>
                           {token==='admin'?'':                                   
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='attendance' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
+                              <input type='checkbox' value='work&clean' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
                           </td>
                           }
                       </tr>
@@ -426,7 +426,7 @@ const VendorHomePage = () => {
                               <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
                           </td>
                           <td className="p-4 border-b border-slate-200">
-                            <input type='checkbox' value='appsheet' onChange={(e)=>resetReportItem(3, e.target.value)}></input> 
+                            <input type='checkbox' value='Appsheet' onChange={(e)=>resetReportItem(3, e.target.value)}></input> 
                           </td>
                       </tr>
                       <tr className="hover:bg-slate-50">
@@ -443,7 +443,7 @@ const VendorHomePage = () => {
                               <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
                           </td>
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='epod' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
+                              <input type='checkbox' value='EPOD' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
                           </td>
                       </tr>
                       <tr className="hover:bg-slate-50">
@@ -460,7 +460,7 @@ const VendorHomePage = () => {
                               <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
                           </td>
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='accept' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
+                              <input type='checkbox' value='first_delivering_time' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
                           </td>
                       </tr>
                       <tr className="hover:bg-slate-50">
@@ -477,7 +477,7 @@ const VendorHomePage = () => {
                               <p className="block text-sm text-slate-800"></p>
                           </td>
                           <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='attendance' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
+                              <input type='checkbox' value='work&clean' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
                           </td>
                       </tr>
                   </table>
@@ -486,7 +486,7 @@ const VendorHomePage = () => {
           }
           <div>
             <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
-                <textarea id="comment" rows="4" className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
+                <textarea id="comment" rows="4" onChange={(e)=>{setComment(e.target.value); console.log(comment)}} value={comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
             </div>
             <div className="flex border gap-4 border-gray-200 flex-row p-2 items-center bg-gray-100 rounded-b-lg">
                 <label htmlFor='image1' className={!image1?'bg-white cursor-pointer rounded-sm p-6 border-4 border-dashed':'bg-white cursor-pointer rounded-smborder-4 border-2 rounded-md'}>

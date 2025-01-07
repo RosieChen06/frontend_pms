@@ -385,7 +385,7 @@ const Home = () => {
                             </table>
                         </div>
                     </div>
-                    {displayItem.sp2_2_serve_type==="-"?'':           
+                    {displayItem.sp2_2==="-"?'':           
                         <div className={displayItem.sp2_2_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                             <p className='font-bold'>{displayItem.sp2_2}</p>
                             <div className='w-full overflow-scroll'>
@@ -613,9 +613,9 @@ const Home = () => {
                         </div>
                         </div>
                     }
-                    {displayItem.sp2_3_serve_type==="-"?'':           
+                    {displayItem.sp2_3==="-"?'':           
                         <div className={displayItem.sp2_3_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
-                            <p className='font-bold'>{displayItem.sp2_2}</p>
+                            <p className='font-bold'>{displayItem.sp2_3}</p>
                             <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>
                             <div className='w-full overflow-scroll'>
                             <table className="table-fixed w-full min-w-[730px] text-left mt-3">
@@ -744,7 +744,7 @@ const Home = () => {
                                     </td>
                                 </tr>
                                 <tr className="hover:bg-slate-50">
-                                    <td classNames="p-4 border-b border-slate-200">
+                                <td className="p-4 border-b border-slate-200">
                                         <p className="block text-sm text-slate-800">EPOD</p>
                                     </td>
                                     <td className="p-4 border-b border-slate-200">
