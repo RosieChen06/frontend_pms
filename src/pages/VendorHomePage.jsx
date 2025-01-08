@@ -62,6 +62,7 @@ const VendorHomePage = () => {
             formData.append('image1', image1)
             formData.append('image2', image2)
             formData.append('image3', image3)
+            formData.append('reportdatetime', new Date())
   
             const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
   

@@ -28,10 +28,19 @@ const AdminContextProvider = (props) =>{
 
     const fetchData = async () => {
         try{
-            const response = await axios.get('https://script.google.com/macros/s/AKfycbz1MfB3vVV3hiXH7D-pwdA5AiHw8rFHBghmHW5LyG0_t6wpQXIawpE7-hCJfkmGug5c3A/exec')
-            setData(response.data)
-            console.log(data)
+            if(sessionStorage.getItem('gsheet')){
+                console.log('get data from sessionStorage')
+                setData(JSON.parse(sessionStorage.getItem('gsheet')))
+                console.log(state)
+            }else{
+                console.log('get data from google sheet')
+                const response = await axios.get('https://script.google.com/macros/s/AKfycbz1MfB3vVV3hiXH7D-pwdA5AiHw8rFHBghmHW5LyG0_t6wpQXIawpE7-hCJfkmGug5c3A/exec')
+                setData(response.data)
+                sessionStorage.setItem('gsheet', JSON.stringify(response.data))
+                console.log(state)
+            }
             setState(true)
+            console.log(state)
         }catch(error){
             console.log(error)
         }

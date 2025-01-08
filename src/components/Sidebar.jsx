@@ -33,11 +33,11 @@ const Sidebar = () => {
               <TbReportSearch className='text-lg' />
               <p>成績查詢</p>
           </NavLink>
-          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
-              <MdOutlineFactCheck className='text-lg'/>
-              <p>已確認</p>
-          </NavLink>
           <NavLink to={'/confirmed'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+                <MdOutlineFactCheck className='text-lg'/>
+                <p>已確認</p>
+          </NavLink>
+          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
               <VscReport className='text-lg'/>
               <p>已回報</p>
           </NavLink>

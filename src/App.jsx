@@ -21,7 +21,7 @@ function App() {
       <div>
         <ToastContainer />
         {token==='admin'?
-        <div className='w-full bg-gray-400'>
+        <div className='w-full bg-gray-200'>
             <div className='h-[12vh] bg-white flex justify-center items-center'>
               <Navbar />
             </div>
@@ -33,7 +33,7 @@ function App() {
               </Routes>
           </div>
         </div>:token==='user'?
-        <div className='w-full bg-gray-400'>
+        <div className='w-full bg-gray-200'>
           <div className='h-[12vh] bg-white flex justify-center items-center'>
             <Navbar />
           </div>

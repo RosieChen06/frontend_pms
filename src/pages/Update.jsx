@@ -10,7 +10,7 @@ const Update = () => {
 
     const [isEdit, setIsEdit] = useState(false)
     const [riderData, setRiderData] = useState({
-        id:'',
+        riderId:'',
         name: '',
         date: '',
         sp2_1: '',
@@ -29,14 +29,21 @@ const Update = () => {
         admincomment:'',
         image:''
     })
+
+    const [reportSp2Item, setReportSp2Item] = useState(false)
+    const reportDetail = []
+
     const openEditForm = (id) => {
 
         const selectedData = ReportedData.filter((item)=>(
             item._id===id
         ))
 
+        reportDetail.push(JSON.parse(selectedData[0].reportItem))
+        setReportSp2Item(reportDetail[0])
+
         setRiderData({
-            id: id,
+            riderId: id,
             name: selectedData[0].name,
             date: selectedData[0].date,
             sp2_1: selectedData[0].sp2_1,
@@ -56,12 +63,13 @@ const Update = () => {
             image:selectedData[0].image
         })
         setIsEdit(true)
+        console.log(reportSp2Item['1'].includes('EPOD'))
     }
 
-    const updateData = async () => {
+    const updateData = async (id) => {
         try{
             const formData = new FormData()
-            formData.append('riderId', riderData._id)
+            formData.append('riderId', id)
             formData.append('sp2_1_appsheet', riderData.sp2_1_appsheet)
             formData.append('sp2_1_epod', riderData.sp2_1_epod)
             formData.append('sp2_1_sop', riderData.sp2_1_sop)
@@ -142,41 +150,56 @@ const Update = () => {
                     <div className='w-full'>
                         <div className='flex flex-row justify-end items-center w-full'>
                             <button onClick={()=>setIsEdit(false)} className='mr-5 px-6 py-2 bg-yellow-200 rounded-sm'>Cancel</button>
-                            <button onClick={()=>updateData()} className='mr-5 px-6 py-2 bg-green-200 rounded-sm'>Update</button>
+                            <button onClick={()=>updateData(riderData.riderId)} className='mr-5 px-6 py-2 bg-green-200 rounded-sm'>Update</button>
                         </div>
                         <div className='w-full mt-4'>
                             <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
                             <div className='flex flex-wrap gap-x-24 gap-y-12 w-full mt-12'>
                                 <div className='w-full max-w-96'> 
-                                    <p className='text-sm mb-4 text-gray-700'>SMART INBOUND執行率</p>
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('smart_inbound')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>SMART INBOUND執行率</p>
+                                    </div>
                                     <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                         <option value='達標'>達標</option>
                                         <option value='未達標'>未達標</option>
                                     </select>
                                 </div>
                                 <div className='w-full max-w-96'>
-                                    <p className='text-sm mb-4 text-gray-700'>Appsheet清空滯留包裹</p>
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('Appsheet')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>APPSHEET清空滯留包裹</p>
+                                    </div>
                                     <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_1_appsheet: e.target.value}))}>
                                         <option value='清空'>清空</option>
                                         <option value='未清空'>未清空</option>
                                     </select>
                                 </div>
                                 <div className='w-full max-w-96'>
-                                    <p className='text-sm mb-4 text-gray-700'>EPOD執行率</p>
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('EPOD')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>EPOD執行率</p>
+                                    </div>
                                     <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                         <option value='達標'>達標</option>
                                         <option value='未達標'>未達標</option>
                                     </select>
                                 </div>
                                 <div className='w-full max-w-96'>
-                                    <p className='text-sm mb-4 text-gray-700'>當周承攬達標比例</p>
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('work&clean')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>當周承攬達標比例</p>
+                                    </div>
                                     <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                         <option value='>=70%'>&gt;=70%</option>
                                         <option value='<70%'>&lt;70%</option>
                                     </select>
                                 </div>
                                 <div className='w-full max-w-96'>
-                                    <p className='text-sm mb-4 text-gray-700'>EPOD執行率</p>
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('first_delivering_time')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>承攬時間</p>
+                                    </div>
                                     <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                         <option value='達標'>達標</option>
                                         <option value='未達標'>未達標</option>
@@ -196,35 +219,50 @@ const Update = () => {
                                 <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
                                 <div className='flex flex-wrap gap-x-24 gap-y-12 w-full overflow-scroll mt-12'>
                                     <div className='w-full max-w-96'> 
-                                        <p className='text-sm mb-4 text-gray-700'>SMART INBOUND執行率</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('smart_inbound')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>SMART INBOUND執行率</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>Appsheet清空滯留包裹</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('Appsheet')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>APPSHEET清空滯留包裹</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_1_appsheet: e.target.value}))}>
                                             <option value='清空'>清空</option>
                                             <option value='未清空'>未清空</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>EPOD執行率</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('EPOD')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>EPOD執行率</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>當周承攬達標比例</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('work&clean')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>當周承攬達標比例</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='>=70%'>&gt;=70%</option>
                                             <option value='<70%'>&lt;70%</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>EPOD執行率</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('first_delivering_time')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>承攬時間</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
@@ -245,14 +283,20 @@ const Update = () => {
                                 <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
                                 <div className='flex flex-wrap gap-x-24 gap-y-12 w-full overflow-scroll mt-12'>
                                     <div className='w-full max-w-96'> 
-                                        <p className='text-sm mb-4 text-gray-700'>SMART INBOUND執行率</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('smart_inbound')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>SMART INBOUND執行率</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>Appsheet清空滯留包裹</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('Appsheet')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>APPSHEET清空滯留包裹</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_1_appsheet: e.target.value}))}>
                                             <option value='清空'>清空</option>
                                             <option value='未清空'>未清空</option>
@@ -266,14 +310,20 @@ const Update = () => {
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>當周承攬達標比例</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('work&clean')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>當周承攬達標比例</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='>=70%'>&gt;=70%</option>
                                             <option value='<70%'>&lt;70%</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
-                                        <p className='text-sm mb-4 text-gray-700'>EPOD執行率</p>
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('first_delivering_time')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>承攬時間</p>
+                                        </div>
                                         <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
@@ -286,10 +336,12 @@ const Update = () => {
                     <div className='mt-8 flex flex-col justify-center items-start w-full'>
                         <h1 className='border-l-4 pl-4 text-lg font-bold border-gray-400 '>File attached</h1>
                         <div className='flex flex-wrap gap-4 mt-6 bg-slate-50 p-2 w-full'>
+                            {riderData.image[0]?
                             <div className='flex flex-row gap-2 items-center'>
                                 <p className='w-3 h-3 rounded-full bg-green-500'></p>
                                 <p><a href={riderData.image[0]} target="_blank">image_1</a></p>
-                            </div>
+                            </div>:''
+                            }
                             {riderData.image[1]?
                             <div className='flex flex-row gap-2 items-center'>
                                 <p className='w-3 h-3 rounded-full bg-green-500'></p>
