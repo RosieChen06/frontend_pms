@@ -108,7 +108,6 @@ const Update = () => {
         test.filter((item, index) => test.indexOf(item) !== index);
         obj.push(test)
     }
-    console.log(obj)
 
   return state && (
         <div className='flex flex-col gap-3 pl-12 w-2/3 md:w-5/6 mt-4'>  

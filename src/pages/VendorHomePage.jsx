@@ -52,6 +52,7 @@ const VendorHomePage = () => {
             toast.error('請選擇回報項目')
             return
         }
+        console.log(reportItem)
 
         try{
             const formData = new FormData()
@@ -69,13 +70,6 @@ const VendorHomePage = () => {
             if(data.success){
                 setReportForm(false);
                 toast.success(data.message)
-                reportItem['1'].length = 0;
-                reportItem['2'].length = 0;
-                reportItem['3'].length = 0;
-                setComment('')
-                setImage1(false)
-                setImage2(false)
-                setImage3(false)
                 getDB()
             }else{
                 toast.error(data.message)
@@ -84,6 +78,13 @@ const VendorHomePage = () => {
         }catch(error){
             console.log(error)
         }
+        reportItem['1'].length = 0;
+        reportItem['2'].length = 0;
+        reportItem['3'].length = 0;
+        setComment('')
+        setImage1(false)
+        setImage2(false)
+        setImage3(false)
     }
 
     const isCheck = async (_id) => {
