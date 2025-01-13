@@ -8,6 +8,7 @@ import { FaRegSave } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { VscReport } from "react-icons/vsc";
+import List from '../components/List';
 
 const Home = () => {
 
@@ -835,13 +836,7 @@ const Home = () => {
             {
                 filterdData.map((item, index)=>(
                 <div key={index} className='flex flex-row items-center w-full justify-between'>
-                    <div className='w-[87%] grid grid-cols-5 bg-white p-3 mb-2 mr-8'>
-                        <p>{item.date.slice(0,10)}</p>
-                        <p>{item.user_name}</p>
-                        <p>{item.is_garantee}</p>
-                        <p>{item.is_service_bonus}</p>
-                        <p>{item.is_online_bonus}</p>
-                    </div>
+                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
                     <div className='flex flex-row gap-4'>
                         <button onClick={()=>displayDetail(index)} className='bg-white p-3 rounded-full'><BiDetail /></button>
                         {/* <button onClick={()=>editDetail(item.user_name, item.date)} className='bg-white p-3 rounded-full'><FaRegEdit /></button> */}
