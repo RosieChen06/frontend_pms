@@ -108,7 +108,7 @@ const VendorHomePage = () => {
   }
 
   return state && (
-    <div className='flex flex-col pl-8 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
+    <div className='flex flex-col pl-4 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
         <div>
 
         </div>

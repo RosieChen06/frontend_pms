@@ -7,14 +7,14 @@ import { UserContext } from '../../context/UserContext';
 
 const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bonus, sp2_1, sp2_1_serve_type, sp2_2, sp2_2_serve_type, sp2_3, sp2_3_serve_type, sp2_1_remaindelivering, sp2_2_remaindelivering, sp2_3_remaindelivering, sp2_1_delivered_cnt, sp2_2_delivered_cnt, sp2_3_delivered_cnt, sp2_1_clened_ttl_cnt, sp2_2_clened_ttl_cnt, sp2_3_clened_ttl_cnt, appsheet, sop, epod}) => {
   
-    const {isShowDetail, setIsShowDetail, reportForm, setReportForm, displayItem, setDisplayItem} =useContext(UserContext)
+    const {isShowDetail, setIsShowDetail, reportForm, setReportForm, displayItem, setDisplayItem, isShowConfirmDetail, setIsShowConfirmDetail} =useContext(UserContext)
 
     return (
-    <div className='absolute bg-white w-[80%] h-[86%] rounded-lg p-2 mt-3'> 
+    <div className='absolute bg-white w-[81%] h-[86%] rounded-lg p-2 mt-3 ml-0'> 
         <div className='border-l-2 border-gray-300 pl-4'>
             <div className='flex justify-between'>
                 <p className='text-lg font-bold'>Detail</p>
-                <button className='mr-5' onClick={()=>setIsShowDetail(false)}><IoClose /></button>  
+                <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false);}}><IoClose /></button>  
             </div>
             <p className='mt-4 text-sm text-gray-700'>Rider Name: {name}</p>
             <div className='flex justify-between'>
@@ -149,7 +149,7 @@ const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bon
                             </td>
                             {token==='admin'?'':                                   
                             <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setReportForm(true); setIsShowDetail(false)}}/></p>
+                                <p class="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setReportForm(true); setIsShowDetail(false);}}/></p>
                             </td>
                             }
                         </tr>
@@ -684,7 +684,7 @@ const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bon
                                 <p className="block text-sm text-slate-800"></p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                <p className="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setReportForm(true); setIsShowDetail(false)}}/></p>
+                                <p className="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setReportForm(true); setIsShowDetail(false);}}/></p>
                             </td>
                         </tr>
                     </table>

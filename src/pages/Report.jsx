@@ -163,7 +163,7 @@ const Report = () => {
                       <p>{item.name}</p>
                     </div>
                     {isResolve==='report'?
-                    <button className='p-2 px-4 bg-transparent border-2 border-[#004e76] rounded-md hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報')}>取消回報</button>:
+                    <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報')}>取消回報</button>:
                     <div className='flex flex-row gap-4'>
                       <button className='p-2 px-4 bg-red-200 rounded-md' onClick={()=>showReportForm(index)}>回復</button>
                       <button className='p-2 px-4 bg-green-200 rounded-md' onClick={()=>changeReportStatus(item._id, 'confirm', '資料已確認')}>已確認</button>
@@ -284,7 +284,10 @@ const Report = () => {
                     <p className='mt-4 border-l-4 border-gray-400 pl-4'>文字說明</p>
                     <LuClipboardPenLine className='text-lg mt-4'/>
                   </div>
-                  <p className='w-full mt-4 bg-slate-50 p-2 text-gray-600'>{item.comment}</p>
+                  {isResolve==='report'?
+                    <p className='w-full mt-4 bg-slate-50 p-2 text-gray-600'>{item.comment}</p>:
+                    <p className='w-full mt-4 bg-slate-50 p-2 text-gray-600'>{item.admincomment}</p>
+                  }
                   <div className='flex flex-row mt-2 gap-2 items-center justify-start'> 
                     <BsPaperclip />
                     <p>{obj[index]['1'].length+obj[index]['2'].length+obj[index]['3'].length}份附件</p>
