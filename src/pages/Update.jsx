@@ -210,12 +210,8 @@ const Update = () => {
                     {riderData.sp2_2==='-'?'':
                         <div className='w-full'>
                             <hr className='w-full mt-8'/>
-                            <div className='flex flex-row items-center gap-3 w-full'>
-                                <button onClick={()=>updateData(riderData.id, riderData.name, riderData.date, riderData.is_garantee, riderData.smart_inbound_sop, riderData.is_report)} className='bg-green-100 p-3 round-lg cursor-pointer'>Save</button>
-                                <button onClick={()=>setIsEdit(false)} className='bg-green-100 p-3 round-lg cursor-pointer'>Cancel</button>
-                            </div>
-                            <div className='w-full'>
-                                <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
+                            <div className='w-full mt-8'>
+                                <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_2}</h1>
                                 <div className='flex flex-wrap gap-x-24 gap-y-12 w-full overflow-scroll mt-12'>
                                     <div className='w-full max-w-96'> 
                                         <div className='flex flex-row items-center mb-4 gap-3'>

@@ -513,7 +513,7 @@ const VendorHomePage = () => {
             <Detail token={token} name={displayItem.name} date={displayItem.date} is_garantee={displayItem.is_garantee} is_service_bonus={displayItem.is_service_bonus} is_online_bonus={displayItem.is_online_bonus} sp2_1={displayItem.sp2_1} sp2_1_serve_type={displayItem.sp2_1_serve_type}
              sp2_2={displayItem.sp2_2} sp2_2_serve_type={displayItem.sp2_2_serve_type} sp2_3={displayItem.sp2_3} sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering} sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering} 
              sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_1_delivered_cnt={displayItem.sp2_1_delivered_cnt} sp2_2_delivered_cnt={displayItem.sp2_2_delivered_cnt} sp2_3_delivered_cnt={displayItem.sp2_3_delivered_cnt} sp2_1_clened_ttl_cnt={displayItem.sp2_1_clened_ttl_cnt} 
-             sp2_2_clened_ttl_cnt={displayItem.sp2_2_clened_ttl_cnt} sp2_3_clened_ttl_cnt={displayItem.sp2_3_clened_ttl_cnt} appsheet={displayItem.appsheet} sop={displayItem.smart_inbound} epod={displayItem.epod}/>
+             sp2_2_clened_ttl_cnt={displayItem.sp2_2_clened_ttl_cnt} sp2_3_clened_ttl_cnt={displayItem.sp2_3_clened_ttl_cnt} appsheet={displayItem.appsheet} sop={displayItem.smart_inbound} epod={displayItem.epod} status='submit' weeknum={displayItem.weeknum}/>
             :''
         }
         <div className='w-[87%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
@@ -526,9 +526,9 @@ const VendorHomePage = () => {
         <div className='w-full overflow-scroll text-center'>
             {
                 filterdData.map((item, index)=>(
-                <div key={index} className='flex flex-row items-center w-full justify-between'>
+                <div key={index} className='flex flex-row items-center w-full'>
                     <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
-                    <div className='flex flex-row gap-4'>
+                    <div className='flex flex-row gap-4 ml-6'>
                         <button onClick={()=>displayDetail(index)} className='bg-white p-3 rounded-full'><BiDetail /></button>
                         <button onClick={()=>isCheck(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
                     </div>

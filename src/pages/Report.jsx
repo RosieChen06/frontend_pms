@@ -13,9 +13,9 @@ const Report = () => {
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
       const [image3, setImage3] = useState(false)
-      const [uploadimage1, setUploadImage1] = useState(false)
-      const [uploadimage2, setUploadImage2] = useState(false)
-      const [uploadimage3, setUploadImage3] = useState(false)
+      const [uploadUrl1, setUploadUrl1] = useState(false)
+      const [uploadUrl2, setUploadUrl2] = useState(false)
+      const [uploadUrl3, setUploadUrl3] = useState(false)
       const [replyItem, setReplyItem] = useState([])
       const [isReply, setIsReply] = useState(false)
 
@@ -60,33 +60,26 @@ const Report = () => {
     let seletedData = filterdData.filter((item)=>(item._id===_id))
 
     if(!image1){
-      setUploadImage1(seletedData[0].image[0])
-    }else{
-      setUploadImage1(image1)
+      setUploadUrl1(seletedData[0].image[0])
     }
     if(!image2){
-      setUploadImage2(seletedData[0].image[1])
-    }else{
-      setUploadImage2(image2)
+      setUploadUrl2(seletedData[0].image[1])
     }
     if(!image3){
-      setUploadImage3(seletedData[0].image[2])
-    }else{
-      setUploadImage3(image3)
+      setUploadUrl3(seletedData[0].image[2])
     }
-
-    console.log(uploadimage1)
-    console.log(uploadimage2)
-    console.log(uploadimage3)
 
     try{
         const formData = new FormData()
         formData.append('riderId', _id)
         formData.append('status', 'report')
         formData.append('comment', replyItem.comment)
-        formData.append('uploadimage1', uploadimage1)
-        formData.append('uploadimage2', uploadimage2)
-        formData.append('uploadimage3', uploadimage3)
+        formData.append('imageUrl1', uploadUrl1)
+        formData.append('imageUrl2', uploadUrl2)
+        formData.append('imageUrl3', uploadUrl3)
+        formData.append('image1', image1)
+        formData.append('image2', image2)
+        formData.append('image3', image3)
 
         const {data} = await axios.post('http://localhost:4000/api/user/reply',formData)
 
@@ -118,7 +111,7 @@ const Report = () => {
       </div>
       <div className='w-full flex-wrap-reverse h-[76vh] px-4 overflow-scroll'>
         {isReply?
-          <div className='absolute bg-white w-[81%] h-[76vh] rounded-lg p-2'>
+          <div className='absolute bg-white w-[82%] h-[76vh] rounded-lg p-2'>
             <div className='border-l-2 border-gray-300 pl-4'>
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回復</p>
@@ -172,8 +165,8 @@ const Report = () => {
                   </div>
                   <hr className='w-full bg-gray-100 mt-2'/>
                   <div className='flex flex-row items-center gap-3'>
-                    <p className='mt-4 border-l-4 border-gray-400 pl-4'>回報項目</p>
-                    <VscReport className='text-lg mt-4'/>
+                    <p className='mt-6 border-l-4 border-blue-400 pl-4'>回報項目</p>
+                    <VscReport className='text-lg mt-6'/>
                   </div>
                   <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[1030px] text-left mt-3">
@@ -281,8 +274,8 @@ const Report = () => {
                     </table>
                   </div>
                   <div className='flex flex-row items-center gap-3'>
-                    <p className='mt-4 border-l-4 border-gray-400 pl-4'>文字說明</p>
-                    <LuClipboardPenLine className='text-lg mt-4'/>
+                    <p className='mt-6 border-l-4 border-gray-400 pl-4'>文字說明</p>
+                    <LuClipboardPenLine className='text-lg mt-6'/>
                   </div>
                   {isResolve==='report'?
                     <p className='w-full mt-4 bg-slate-50 p-2 text-gray-600'>{item.comment}</p>:

@@ -11,6 +11,7 @@ const AdminContextProvider = (props) =>{
     const [state, setState] = useState(false)
     const [token, setToken] = useState(sessionStorage.getItem('token')?sessionStorage.getItem('token'):'')
     const [userEmail, setUserEmail] = useState(sessionStorage.getItem('useremail')?sessionStorage.getItem('useremail'):'')
+    const [isShowAdminDetail, setIsShowAdminDetail] = useState(false)
 
     const getDB = async () => {
         try{
@@ -52,7 +53,7 @@ const AdminContextProvider = (props) =>{
     },[])
 
     const value = {
-        getDB, rider, data, state, setData, setToken, token, userEmail, setUserEmail
+        getDB, rider, data, state, setData, setToken, token, userEmail, setUserEmail, isShowAdminDetail, setIsShowAdminDetail
     }
 
     return(
