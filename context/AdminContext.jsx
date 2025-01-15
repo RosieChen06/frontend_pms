@@ -8,10 +8,12 @@ const AdminContextProvider = (props) =>{
 
     const [rider, setRider] = useState([])
     const [data, setData] = useState([])
+    const [weekData, setWeekData] = useState([])
     const [state, setState] = useState(false)
     const [token, setToken] = useState(sessionStorage.getItem('token')?sessionStorage.getItem('token'):'')
     const [userEmail, setUserEmail] = useState(sessionStorage.getItem('useremail')?sessionStorage.getItem('useremail'):'')
     const [isShowAdminDetail, setIsShowAdminDetail] = useState(false)
+    const [onlineData, setOnlineData] = useState([])
 
     const getDB = async () => {
         try{
@@ -27,33 +29,42 @@ const AdminContextProvider = (props) =>{
         }
     }
 
+    const getWeekDB = async () => {
+        try{
+            const {data} = await axios.get('http://localhost:4000/api/admin/week-data')
+            if(data.success){
+                setOnlineData(data.weekData)
+
+            }else{
+                toast.error(data.message)
+            }
+        }catch(error){
+            toast.error(data.message)
+        }
+    }
+
     const fetchData = async () => {
         try{
-            if(sessionStorage.getItem('gsheet')){
-                console.log('get data from sessionStorage')
-                setData(JSON.parse(sessionStorage.getItem('gsheet')))
-                console.log(state)
-            }else{
-                console.log('get data from google sheet')
                 const response = await axios.get('https://script.google.com/macros/s/AKfycbz1MfB3vVV3hiXH7D-pwdA5AiHw8rFHBghmHW5LyG0_t6wpQXIawpE7-hCJfkmGug5c3A/exec')
                 setData(response.data)
-                sessionStorage.setItem('gsheet', JSON.stringify(response.data))
+                const response2 = await axios.get('https://script.google.com/macros/s/AKfycbw1RwAEg0sGWUgG40s8v3lIxu_1ZEfrwub9oXka9JuzcMCX3a34fORX0UNRoFMFxxzs/exec')
+                setWeekData(response2.data)
+                setState(true)
                 console.log(state)
             }
-            setState(true)
-            console.log(state)
-        }catch(error){
+        catch(error){
             console.log(error)
         }
     }
 
     useEffect(()=>{
         getDB()
+        getWeekDB()
         fetchData()
     },[])
 
     const value = {
-        getDB, rider, data, state, setData, setToken, token, userEmail, setUserEmail, isShowAdminDetail, setIsShowAdminDetail
+        getDB, rider, data, state, setData, setToken, token, userEmail, setUserEmail, isShowAdminDetail, setIsShowAdminDetail, weekData, setWeekData, getWeekDB, onlineData, setOnlineData
     }
 
     return(

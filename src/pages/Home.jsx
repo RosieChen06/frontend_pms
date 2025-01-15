@@ -9,12 +9,14 @@ import Detail from '../components/Detail';
 
 const Home = () => {
 
-    const {getDB, rider, data, state, setData, token, isShowAdminDetail, setIsShowAdminDetail} = useContext(AdminContext)
+    const {getDB, rider, data, state, setData, token, isShowAdminDetail, setIsShowAdminDetail, weekData, setWeekData} = useContext(AdminContext)
     const [displayMainItem, setDisplayMainItem] =useState([])
 
-    const filterdData = data.filter((item)=>(rider.filter((i)=>(i.name===item.user_name)).filter((j)=>(j.date===item.date)).length===0) && item.user_name !=='')
+    const filterdData = data.filter((item)=>(rider.filter((i)=>(i.name===item.user_name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.user_name !=='')
 
-    const saveRecord = async (index) => {
+    const saveRecord = async (index, name, weeknum) => {
+        const weekDataforSave = weekData.filter((item)=>(item.name===name && item.weeknum===weeknum))
+        console.log(weekDataforSave)
         try{
             const formData = new FormData()
             formData.append('phone', filterdData[index].rider_phone_num)
@@ -36,7 +38,12 @@ const Home = () => {
             formData.append('sp2_3_appsheet', filterdData[index].appsheet)
             formData.append('sp2_3_epod', filterdData[index].epod)
             formData.append('sp2_attendance', filterdData[index].attendance_record)
-            formData.append('weeknum', filterdData[index].weeknum)
+            formData.append('ttl_delivered', weekDataforSave[0].ttl_delivered)
+            formData.append('ttl_worksday', weekDataforSave[0].ttl_worksday)
+            formData.append('ttl_workday_weekend', weekDataforSave[0].ttl_workday_weekend)
+            formData.append('seq', weekDataforSave[0].seq)
+            formData.append('epod_lost', weekDataforSave[0].epod_lost)
+            formData.append('weeknum', weekDataforSave[0].weeknum)
 
             const {data} = await axios.post('http://localhost:4000/api/admin/add-data',formData)
 
@@ -123,6 +130,8 @@ const Home = () => {
     //     setIsEdit(false)
     // }
 
+    console.log(weekData)
+
   return state && (
     <div className='flex flex-col pl-8 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
         <div>
@@ -155,7 +164,7 @@ const Home = () => {
                     <div className='flex flex-row gap-4'>
                         <button onClick={()=>displayDetail(item.user_name, item.date)} className='bg-white p-3 rounded-full'><BiDetail /></button>
                         {/* <button onClick={()=>editDetail(item.user_name, item.date)} className='bg-white p-3 rounded-full'><FaRegEdit /></button> */}
-                        <button onClick={()=>saveRecord(index)} className='bg-white p-3 rounded-full'><FaRegSave /></button>
+                        <button onClick={()=>saveRecord(index, item.user_name, item.weeknum)} className='bg-white p-3 rounded-full'><FaRegSave /></button>
                     </div>
                 </div> 
                 ))

@@ -4,37 +4,38 @@ import { FaCheck } from "react-icons/fa";
 import { VscReport } from "react-icons/vsc";
 import { UserContext } from '../../context/UserContext';
 import { AdminContext } from '../../context/AdminContext';
+import { ImCross } from "react-icons/im";
 
 
-const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bonus, sp2_1, sp2_1_serve_type, sp2_2, sp2_2_serve_type, sp2_3, sp2_3_serve_type, sp2_1_remaindelivering, sp2_2_remaindelivering, sp2_3_remaindelivering, sp2_1_delivered_cnt, sp2_2_delivered_cnt, sp2_3_delivered_cnt, sp2_1_clened_ttl_cnt, sp2_2_clened_ttl_cnt, sp2_3_clened_ttl_cnt, appsheet, sop, epod, status, weeknum}) => {
+const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bonus, sp2_1, sp2_1_serve_type, sp2_2, sp2_2_serve_type, sp2_3, sp2_3_serve_type, sp2_1_remaindelivering, sp2_2_remaindelivering, sp2_3_remaindelivering, sp2_1_delivered_cnt, sp2_2_delivered_cnt, sp2_3_delivered_cnt, sp2_1_clened_ttl_cnt, sp2_2_clened_ttl_cnt, sp2_3_clened_ttl_cnt, appsheet, sop, epod, status, weeknum, ttl_delivered, seq, ttl_workday_weekend, ttl_worksday, epod_lost}) => {
   
-    const {isShowDetail, setIsShowDetail, reportForm, setReportForm, displayItem, setDisplayItem, isShowConfirmDetail, setIsShowConfirmDetail} =useContext(UserContext)
-    const {isShowAdminDetail, setIsShowAdminDetail, rider, displayMainItem, setDisplayMainItem} = useContext(AdminContext)
+    const {setIsShowDetail, setReportForm, setIsShowConfirmDetail, setIsReportOnline} = useContext(UserContext)
+    const {setIsShowAdminDetail} = useContext(AdminContext)
 
-    const [weekArray, setWeekArray] = useState([])
-    let dummyWeekArray=[]
+    // const [weekArray, setWeekArray] = useState([])
+    // let dummyWeekArray=[]
 
-    const lookUp = (name, weeknum) => {
-        setWeekArray([])
-        let selectedWeek = rider.filter((item)=>(
-            item.name===name && item.weeknum===weeknum
-        ))
-        console.log(selectedWeek)
-        for(let i=0; i<=selectedWeek.length; i++){
-            dummyWeekArray.push(selectedWeek[i]._id)
-            console.log(dummyWeekArray)
-            setWeekArray(dummyWeekArray)
-        }
-    }
+    // const lookUp = (name, weeknum) => {
+    //     setWeekArray([])
+    //     let selectedWeek = rider.filter((item)=>(
+    //         item.name===name && item.weeknum===weeknum
+    //     ))
+    //     console.log(selectedWeek)
+    //     for(let i=0; i<=selectedWeek.length; i++){
+    //         dummyWeekArray.push(selectedWeek[i]._id)
+    //         console.log(dummyWeekArray)
+    //         setWeekArray(dummyWeekArray)
+    //     }
+    // }
 
-    console.log(weekArray)
+    // console.log(weekArray)
 
     return (
     <div className='absolute bg-white w-[81%] h-[86%] rounded-lg p-2 mt-3 ml-0'> 
         <div className='border-l-2 border-gray-300 pl-4'>
             <div className='flex justify-between'>
                 <p className='text-lg font-bold'>Detail</p>
-                <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false); setIsShowAdminDetail(false);}}><IoClose /></button>  
+                <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false); setIsShowAdminDetail(false); setIsReportOnline(false);}}><IoClose /></button>  
             </div>
             <p className='mt-4 text-sm text-gray-700'>Rider Name: {name}</p>
             <div className='flex justify-between'>
@@ -75,19 +76,19 @@ const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bon
                     </tr>
                     <tr class="hover:bg-slate-50">
                         <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{}</p>
+                            <p class="block text-sm text-slate-800">{ttl_delivered}</p>
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{}</p>
+                            <p class="block text-sm text-slate-800">{ttl_worksday}</p>
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{}</p>
+                            <p class="block text-sm text-slate-800">{ttl_workday_weekend}</p>
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{}</p>
+                            <p class="block text-sm text-slate-800">{parseFloat(seq*100).toFixed(2)+'%'}</p>
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{}</p>
+                            <p class="block text-sm text-slate-800">{epod_lost}</p>
                         </td>
                         {token==='admin'?'':status==='confirm'?'':                                
                         <td class="p-4 border-b border-slate-200">
@@ -97,23 +98,38 @@ const Detail = ({token, name, date, is_garantee, is_service_bonus, is_online_bon
                     </tr>
                     <tr class="hover:bg-slate-50">
                         <td class="p-4 border-b border-slate-200">
-                            <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>
+                            {parseInt(ttl_delivered)>=400?
+                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                            }
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>
+                            {parseInt(ttl_worksday)>=5?
+                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                            }
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>
+                            {parseInt(ttl_workday_weekend)>=1?
+                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                            }
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>
+                            {parseInt(seq)>=0.9?
+                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                            }
                         </td>
                         <td class="p-4 border-b border-slate-200">
-                            <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>
+                            {parseInt(epod_lost)<=2?
+                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                            }
                         </td>
                         {token==='admin'?'':status==='confirm'?'':                                
                         <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{lookUp(name, weeknum)}}/></p>
+                            <p class="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setIsReportOnline(true); setReportForm(true); setIsShowDetail(false);}}/></p>
                         </td>
                         }
                     </tr>

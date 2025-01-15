@@ -9,30 +9,44 @@ import { FiUpload } from "react-icons/fi";
 import List from '../components/List';
 import Detail from '../components/Detail';
 import { UserContext } from '../../context/UserContext';
+import { ImCross } from "react-icons/im";
 
 
 const VendorHomePage = () => {
 
-    const {getDB, rider, state, token} = useContext(AdminContext)
-    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm} = useContext( UserContext)
+    const {getDB, rider, state, token, getWeekDB, onlineData} = useContext(AdminContext)
+    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
     const [image3, setImage3] = useState(false)
+    const [displayOnlineItem, setDisplayOnlineItem] = useState([])
+    const [onlineReportItem, setOnlineReportItem] = useState([])
+
+    console.log(onlineReportItem)
 
     const filterdData = rider.filter((item)=>(
       item.status === 'submit'
     ))
+    
+    console.log(filterdData)
 
-    const displayDetail = (index) =>{
-        setDisplayItem(filterdData[index])
-        setIsShowDetail(true)
+    const displayDetail = (index, name, weeknum) =>{
+        // let online_bonus_data = onlineData.filter((item)=>(
+        //     item.name===name
+        // ))
+        // setDisplayItem(filterdData[index])
+        // setDisplayOnlineItem(online_bonus_data[0])
+        console.log(name)
+        console.log(onlineData)
+        // console.log(displayOnlineItem)
+        // setIsShowDetail(true)
     }
 
     const reportItem = {
       '1':[],
       '2':[],
-      '3':[]
+      '3':[],
     }
 
     const resetReportItem = (sp2_index, value) => {
@@ -44,6 +58,46 @@ const VendorHomePage = () => {
         reportItem[sp2_index].splice(reportItem[sp2_index].indexOf(value), 1)
         console.log(reportItem)
       }
+    }
+
+    const isReportOnline = async (_id) => {
+
+        if(Object.keys(onlineReportItem).length === 0){
+            toast.error('請選擇回報項目')
+            return
+        }
+
+        try{
+            // const formData = new FormData()
+            // formData.append('riderId', _id)
+            // formData.append('status', 'report')
+            // formData.append('reportItem', onlineReportItem)
+            // formData.append('comment', comment)
+            // formData.append('image1', image1)
+            // formData.append('image2', image2)
+            // formData.append('image3', image3)
+  
+            // const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
+  
+            // if(data.success){
+            //     setReportForm(false);
+            //     toast.success(data.message)
+            //     getDB()
+            // }else{
+            //     toast.error(data.message)
+            // }
+  
+        }catch(error){
+            console.log(error)
+        }
+        reportItem['1'].length = 0;
+        reportItem['2'].length = 0;
+        reportItem['3'].length = 0;
+        reportItem['4'].length = 0;
+        setComment('')
+        setImage1(false)
+        setImage2(false)
+        setImage3(false)
     }
 
     const isReport = async (_id) => {
@@ -81,6 +135,7 @@ const VendorHomePage = () => {
         reportItem['1'].length = 0;
         reportItem['2'].length = 0;
         reportItem['3'].length = 0;
+        reportItem['4'].length = 0;
         setComment('')
         setImage1(false)
         setImage2(false)
@@ -107,6 +162,14 @@ const VendorHomePage = () => {
       }
   }
 
+  const toggleOnlineReportItem = (e) => {
+    if(onlineReportItem.includes(e.target.value)){
+        setOnlineReportItem(prev=> prev.filter((item)=> item !== e.target.value))
+    }else{
+        setOnlineReportItem(prev =>[...prev, e.target.value])
+    }
+  }
+
   return state && (
     <div className='flex flex-col pl-4 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
         <div>
@@ -119,8 +182,11 @@ const VendorHomePage = () => {
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回報</p>
                   <div className='flex flex-row'>
-                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>{setReportForm(false); reportItem['1'].length = 0;reportItem['2'].length = 0;reportItem['3'].length = 0; setComment(''); setImage1(false); setImage2(false); setImage3(false)}}>取消回報</button>  
-                    <button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReport(displayItem._id);}}>提交回報</button>  
+                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>{setReportForm(false); reportItem['1'].length = 0;reportItem['2'].length = 0;reportItem['3'].length = 0; setComment(''); setImage1(false); setImage2(false); setImage3(false); setIsReportOnline(false)}}>取消回報</button>  
+                    {isOnlineReport?
+                        <button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReportOnline(displayOnlineItem._id);}}>提交回報</button>  
+                        :<button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReport(displayItem._id);}}>提交回報</button>  
+                    }
                   </div>
               </div>
               <p className='mt-4 text-sm text-gray-700'>Rider Name:</p>
@@ -129,6 +195,137 @@ const VendorHomePage = () => {
               </div>
             </div>
             <div className='bg-[#f8f9fd] h-[80%] mt-4 rounded-lg overflow-scroll px-5 py-4'>
+            {isOnlineReport?
+            <div>
+                <div className='border-l-4 border-[#004e76] mb-4 pl-4 rounded-lg bg-white p-2'>
+                <div className='flex justify-between pr-2'>    
+                  <p className='font-bold'>當周表現</p>
+                </div>
+                    <table className="table-fixed w-full min-w-[730px] text-left mt-3">
+                        <tr>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500"></p>
+                            </th>
+                            {token==='admin'?'':
+                                <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                            </th>
+                            }
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">當周總配送包裹</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{displayOnlineItem.ttl_delivered}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(displayOnlineItem.ttl_delivered)>=400?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200"></td>
+                            {token==='admin'?'':                                   
+                            <td class="p-4 border-b border-slate-200">
+                                <input type='checkbox' value='ttl_delivered' onChange={toggleOnlineReportItem}></input>
+                            </td>
+                            }
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">總配送天數</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{displayOnlineItem.ttl_worksday}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(displayOnlineItem.ttl_worksday)>=5?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200"></td>
+                            {token==='admin'?'':                                   
+                            <td class="p-4 border-b border-slate-200">
+                                <input type='checkbox' value='ttl_workday' onChange={toggleOnlineReportItem}></input>
+                            </td>
+                            }
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">假日總配送天數</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{displayOnlineItem.ttl_workday_weekend}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(displayOnlineItem.ttl_workday_weekend)>=1?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200"></td>
+                            {token==='admin'?'':                                   
+                            <td class="p-4 border-b border-slate-200">
+                                <input type='checkbox' value='ttl_workday_weekend' onChange={toggleOnlineReportItem}></input>
+                            </td>
+                            }
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">推薦排序使用率</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{parseFloat(displayOnlineItem.seq*100).toFixed(2)+'%'}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(displayOnlineItem.seq)>=0.9?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200"></td>
+                            {token==='admin'?'':                                   
+                            <td class="p-4 border-b border-slate-200">
+                                <input type='checkbox' value='seq' onChange={toggleOnlineReportItem}></input>
+                            </td>
+                            }
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">EPOD</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{displayOnlineItem.epod_lost}</p>
+                            </td>
+                            <td className="p-4 border-b border-slate-200">
+                                {parseInt(displayOnlineItem.epod_lost)<=2?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200"></td>
+                            {token==='admin'?'':                                   
+                            <td class="p-4 border-b border-slate-200">
+                                <input type='checkbox' value='epod & lost' onChange={toggleOnlineReportItem}></input>
+                            </td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            </div>:''
+            }
+            {isOnlineReport?'':
             <div className={displayItem.sp2_1_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2'}>
               <div className='flex justify-between pr-2'>    
                   <p className='font-bold'>{displayItem.sp2_1}</p>
@@ -252,7 +449,8 @@ const VendorHomePage = () => {
                   </table>
               </div>
           </div>
-          {displayItem.sp2_2==="-"?'':           
+          }
+          {displayItem.sp2_2==="-"?'':isOnlineReport?'':          
               <div className={displayItem.sp2_2_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                   <p className='font-bold'>{displayItem.sp2_2}</p>
               <div className='w-full overflow-scroll'>
@@ -375,7 +573,7 @@ const VendorHomePage = () => {
                 </div>
               </div>
           }
-          {displayItem.sp2_3==="-"?'':           
+          {displayItem.sp2_3==="-"?'':isOnlineReport?'':                
               <div className={displayItem.sp2_3_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
                   <p className='font-bold'>{displayItem.sp2_2}</p>
               <div className='w-full overflow-scroll'>
@@ -513,7 +711,8 @@ const VendorHomePage = () => {
             <Detail token={token} name={displayItem.name} date={displayItem.date} is_garantee={displayItem.is_garantee} is_service_bonus={displayItem.is_service_bonus} is_online_bonus={displayItem.is_online_bonus} sp2_1={displayItem.sp2_1} sp2_1_serve_type={displayItem.sp2_1_serve_type}
              sp2_2={displayItem.sp2_2} sp2_2_serve_type={displayItem.sp2_2_serve_type} sp2_3={displayItem.sp2_3} sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering} sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering} 
              sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_1_delivered_cnt={displayItem.sp2_1_delivered_cnt} sp2_2_delivered_cnt={displayItem.sp2_2_delivered_cnt} sp2_3_delivered_cnt={displayItem.sp2_3_delivered_cnt} sp2_1_clened_ttl_cnt={displayItem.sp2_1_clened_ttl_cnt} 
-             sp2_2_clened_ttl_cnt={displayItem.sp2_2_clened_ttl_cnt} sp2_3_clened_ttl_cnt={displayItem.sp2_3_clened_ttl_cnt} appsheet={displayItem.appsheet} sop={displayItem.smart_inbound} epod={displayItem.epod} status='submit' weeknum={displayItem.weeknum}/>
+             sp2_2_clened_ttl_cnt={displayItem.sp2_2_clened_ttl_cnt} sp2_3_clened_ttl_cnt={displayItem.sp2_3_clened_ttl_cnt} appsheet={displayItem.appsheet} sop={displayItem.smart_inbound} epod={displayItem.epod} status='submit' weeknum={displayItem.weeknum} ttl_delivered={displayOnlineItem.ttl_delivered} seq={displayOnlineItem.seq}
+             ttl_workday_weekend={displayOnlineItem.ttl_workday_weekend} ttl_worksday={displayOnlineItem.ttl_worksday} epod_lost={displayOnlineItem.epod_lost}/>
             :''
         }
         <div className='w-[87%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
@@ -527,9 +726,9 @@ const VendorHomePage = () => {
             {
                 filterdData.map((item, index)=>(
                 <div key={index} className='flex flex-row items-center w-full'>
-                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
+                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} />
                     <div className='flex flex-row gap-4 ml-6'>
-                        <button onClick={()=>displayDetail(index)} className='bg-white p-3 rounded-full'><BiDetail /></button>
+                        <button onClick={()=>displayDetail(index, item.name, item.weeknum)} className='bg-white p-3 rounded-full'><BiDetail /></button>
                         <button onClick={()=>isCheck(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
                     </div>
                 </div> 
