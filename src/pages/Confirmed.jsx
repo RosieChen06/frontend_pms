@@ -7,9 +7,9 @@ import Detail from '../components/Detail';
 
 const Confirmed = () => {
 
-    const {getDB, rider, state, token} = useContext(AdminContext)
+    const {rider, token} = useContext(AdminContext)
     const filterdData = rider.filter((item)=>(
-      item.status === 'confirm'
+      item.status === 'confirmed'
     ))
     const {isShowConfirmDetail, setIsShowConfirmDetail} = useContext( UserContext)
     const [displayConfirmItem, setDisplayConfirmItem] = useState([])
@@ -18,6 +18,8 @@ const Confirmed = () => {
       setDisplayConfirmItem(filterdData[index])
       setIsShowConfirmDetail(true)
   }
+
+  console.log(filterdData)
   return (
     <div className='w-2/3 md:w-5/6 h-[88vh] ml-4'>
         {isShowConfirmDetail? 

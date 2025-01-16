@@ -10,12 +10,12 @@ import List from '../components/List';
 import Detail from '../components/Detail';
 import { UserContext } from '../../context/UserContext';
 import { ImCross } from "react-icons/im";
-
+import Spreport from '../components/spReport';
 
 const VendorHomePage = () => {
 
     const {getDB, rider, state, token, getWeekDB, onlineData} = useContext(AdminContext)
-    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline} = useContext( UserContext)
+    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
@@ -23,41 +23,25 @@ const VendorHomePage = () => {
     const [displayOnlineItem, setDisplayOnlineItem] = useState([])
     const [onlineReportItem, setOnlineReportItem] = useState([])
 
-    console.log(onlineReportItem)
 
     const filterdData = rider.filter((item)=>(
       item.status === 'submit'
     ))
-    
-    console.log(filterdData)
-
-    const displayDetail = (index, name, weeknum) =>{
-        // let online_bonus_data = onlineData.filter((item)=>(
-        //     item.name===name
-        // ))
-        // setDisplayItem(filterdData[index])
-        // setDisplayOnlineItem(online_bonus_data[0])
-        console.log(name)
-        console.log(onlineData)
-        // console.log(displayOnlineItem)
-        // setIsShowDetail(true)
-    }
 
     const reportItem = {
-      '1':[],
-      '2':[],
-      '3':[],
-    }
-
-    const resetReportItem = (sp2_index, value) => {
-      if(reportItem[sp2_index].indexOf(value)===-1){
-        reportItem[sp2_index].push(value)
-        console.log(value)
-        console.log(reportItem)
-      }else{
-        reportItem[sp2_index].splice(reportItem[sp2_index].indexOf(value), 1)
-        console.log(reportItem)
+        '1':[],
+        '2':[],
+        '3':[],
       }
+    
+
+    const displayDetail = (index, name, weeknum) =>{
+        let online_bonus_data = onlineData.filter((item)=>(
+            item.name===name && item.weeknum===weeknum
+        ))
+        setDisplayItem(filterdData[index])
+        setDisplayOnlineItem(online_bonus_data[0])
+        setIsShowDetail(true)
     }
 
     const isReportOnline = async (_id) => {
@@ -68,58 +52,16 @@ const VendorHomePage = () => {
         }
 
         try{
-            // const formData = new FormData()
-            // formData.append('riderId', _id)
-            // formData.append('status', 'report')
-            // formData.append('reportItem', onlineReportItem)
-            // formData.append('comment', comment)
-            // formData.append('image1', image1)
-            // formData.append('image2', image2)
-            // formData.append('image3', image3)
-  
-            // const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
-  
-            // if(data.success){
-            //     setReportForm(false);
-            //     toast.success(data.message)
-            //     getDB()
-            // }else{
-            //     toast.error(data.message)
-            // }
-  
-        }catch(error){
-            console.log(error)
-        }
-        reportItem['1'].length = 0;
-        reportItem['2'].length = 0;
-        reportItem['3'].length = 0;
-        reportItem['4'].length = 0;
-        setComment('')
-        setImage1(false)
-        setImage2(false)
-        setImage3(false)
-    }
-
-    const isReport = async (_id) => {
-
-        if(reportItem['1'].length===0 && reportItem['2'].length===0 && reportItem['3'].length===0){
-            toast.error('請選擇回報項目')
-            return
-        }
-        console.log(reportItem)
-
-        try{
             const formData = new FormData()
             formData.append('riderId', _id)
             formData.append('status', 'report')
-            formData.append('reportItem', JSON.stringify(reportItem))
+            formData.append('reportItem', onlineReportItem)
             formData.append('comment', comment)
             formData.append('image1', image1)
             formData.append('image2', image2)
             formData.append('image3', image3)
-            formData.append('reportdatetime', new Date())
   
-            const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
+            const {data} = await axios.post('http://localhost:4000/api/user/week-report',formData)
   
             if(data.success){
                 setReportForm(false);
@@ -132,6 +74,7 @@ const VendorHomePage = () => {
         }catch(error){
             console.log(error)
         }
+        setOnlineReportItem([])
         reportItem['1'].length = 0;
         reportItem['2'].length = 0;
         reportItem['3'].length = 0;
@@ -140,6 +83,52 @@ const VendorHomePage = () => {
         setImage1(false)
         setImage2(false)
         setImage3(false)
+    }
+
+    const isReport = async (_id) => {
+
+        // if(reportItem['1'].length===0 && reportItem['2'].length===0 && reportItem['3'].length===0){
+        //     toast.error('請選擇回報項目')
+        //     return
+        // }
+
+        // try{
+        //     const formData = new FormData()
+        //     formData.append('riderId', _id)
+        //     formData.append('status', 'report')
+        //     formData.append('reportItem', JSON.stringify(reportItem))
+        //     formData.append('comment', comment)
+        //     formData.append('image1', image1)
+        //     formData.append('image2', image2)
+        //     formData.append('image3', image3)
+        //     formData.append('reportdatetime', new Date())
+  
+        //     const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
+  
+        //     if(data.success){
+        //         setReportForm(false);
+        //         toast.success(data.message)
+        //         getDB()
+        //     }else{
+        //         toast.error(data.message)
+        //     }
+  
+        // }catch(error){
+        //     console.log(error)
+        // }
+        // setOnlineReportItem([])
+        // reportItem['1'].length = 0;
+        // reportItem['2'].length = 0;
+        // reportItem['3'].length = 0;
+        // reportItem['4'].length = 0;
+        // setComment('')
+        // setImage1(false)
+        // setImage2(false)
+        // setImage3(false)
+
+        console.log(sp2_1_reportItem) 
+        console.log(sp2_2_reportItem)
+        console.log(sp2_3_reportItem)
     }
 
     const isCheck = async (_id) => {
@@ -182,7 +171,7 @@ const VendorHomePage = () => {
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回報</p>
                   <div className='flex flex-row'>
-                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>{setReportForm(false); reportItem['1'].length = 0;reportItem['2'].length = 0;reportItem['3'].length = 0; setComment(''); setImage1(false); setImage2(false); setImage3(false); setIsReportOnline(false)}}>取消回報</button>  
+                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>{setReportForm(false); reportItem['1'].length = 0;reportItem['2'].length = 0;reportItem['3'].length = 0; setComment(''); setImage1(false); setImage2(false); setImage3(false); setIsReportOnline(false); setOnlineReportItem([]);}}>取消回報</button>  
                     {isOnlineReport?
                         <button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReportOnline(displayOnlineItem._id);}}>提交回報</button>  
                         :<button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReport(displayItem._id);}}>提交回報</button>  
@@ -203,490 +192,167 @@ const VendorHomePage = () => {
                 </div>
                     <table className="table-fixed w-full min-w-[730px] text-left mt-3">
                         <tr>
-                            <th class="p-4 border-b border-slate-300 bg-slate-50">
-                                <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
+                            <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                <p className="block text-sm font-normal leading-none text-slate-500">項目</p>
                             </th>
-                            <th class="p-4 border-b border-slate-300 bg-slate-50">
-                                <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
+                            <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                <p className="block text-sm font-normal leading-none text-slate-500">結果</p>
                             </th>
-                            <th class="p-4 border-b border-slate-300 bg-slate-50">
-                                <p class="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                            <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
                             </th>
-                            <th class="p-4 border-b border-slate-300 bg-slate-50">
-                                <p class="block text-sm font-normal leading-none text-slate-500"></p>
+                            <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                <p className="block text-sm font-normal leading-none text-slate-500"></p>
                             </th>
                             {token==='admin'?'':
-                                <th class="p-4 border-b border-slate-300 bg-slate-50">
-                                <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                                <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                <p className="block text-sm font-normal leading-none text-slate-500">我要回報</p>
                             </th>
                             }
                         </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">當周總配送包裹</p>
+                        <tr className="hover:bg-slate-50">
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">當周總配送包裹</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">{displayOnlineItem.ttl_delivered}</p>
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">{displayOnlineItem.ttl_delivered}</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 {parseInt(displayOnlineItem.ttl_delivered)>=400?
-                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
                                 }
                             </td>
-                            <td class="p-4 border-b border-slate-200"></td>
+                            <td className="p-4 border-b border-slate-200"></td>
                             {token==='admin'?'':                                   
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 <input type='checkbox' value='ttl_delivered' onChange={toggleOnlineReportItem}></input>
                             </td>
                             }
                         </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">總配送天數</p>
+                        <tr className="hover:bg-slate-50">
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">總配送天數</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">{displayOnlineItem.ttl_worksday}</p>
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">{displayOnlineItem.ttl_worksday}</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 {parseInt(displayOnlineItem.ttl_worksday)>=5?
-                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
                                 }
                             </td>
-                            <td class="p-4 border-b border-slate-200"></td>
+                            <td className="p-4 border-b border-slate-200"></td>
                             {token==='admin'?'':                                   
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 <input type='checkbox' value='ttl_workday' onChange={toggleOnlineReportItem}></input>
                             </td>
                             }
                         </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">假日總配送天數</p>
+                        <tr className="hover:bg-slate-50">
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">假日總配送天數</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">{displayOnlineItem.ttl_workday_weekend}</p>
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">{displayOnlineItem.ttl_workday_weekend}</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 {parseInt(displayOnlineItem.ttl_workday_weekend)>=1?
-                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
                                 }
                             </td>
-                            <td class="p-4 border-b border-slate-200"></td>
+                            <td className="p-4 border-b border-slate-200"></td>
                             {token==='admin'?'':                                   
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 <input type='checkbox' value='ttl_workday_weekend' onChange={toggleOnlineReportItem}></input>
                             </td>
                             }
                         </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">推薦排序使用率</p>
+                        <tr className="hover:bg-slate-50">
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">推薦排序使用率</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">{parseFloat(displayOnlineItem.seq*100).toFixed(2)+'%'}</p>
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">{parseFloat(displayOnlineItem.seq*100).toFixed(2)+'%'}</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 {parseInt(displayOnlineItem.seq)>=0.9?
-                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
                                 }
                             </td>
-                            <td class="p-4 border-b border-slate-200"></td>
+                            <td className="p-4 border-b border-slate-200"></td>
                             {token==='admin'?'':                                   
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 <input type='checkbox' value='seq' onChange={toggleOnlineReportItem}></input>
                             </td>
                             }
                         </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">EPOD</p>
+                        <tr className="hover:bg-slate-50">
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">EPOD</p>
                             </td>
-                            <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">{displayOnlineItem.epod_lost}</p>
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">{displayOnlineItem.epod_lost}</p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
                                 {parseInt(displayOnlineItem.epod_lost)<=2?
-                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
                                 }
                             </td>
-                            <td class="p-4 border-b border-slate-200"></td>
+                            <td className="p-4 border-b border-slate-200"></td>
                             {token==='admin'?'':                                   
-                            <td class="p-4 border-b border-slate-200">
+                            <td className="p-4 border-b border-slate-200">
                                 <input type='checkbox' value='epod & lost' onChange={toggleOnlineReportItem}></input>
+                            </td>
+                            }
+                        </tr>
+                        <tr className="hover:bg-slate-50">
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">當周承攬完成比例</p>
+                            </td>
+                            <td className="p-4 border-b border-slate-200">
+                                <p className="block text-sm text-slate-800">{displayOnlineItem.uncleanCnt}</p>
+                            </td>
+                            <td className="p-4 border-b border-slate-200">
+                                {parseInt(displayOnlineItem.epod_lost)<=2?
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td className="p-4 border-b border-slate-200"></td>
+                            {token==='admin'?'':                                   
+                            <td className="p-4 border-b border-slate-200">
+                                <input type='checkbox' value='uncleanCnt' onChange={toggleOnlineReportItem}></input>
                             </td>
                             }
                         </tr>
                     </table>
                 </div>
             </div>:''
-            }
-            {isOnlineReport?'':
-            <div className={displayItem.sp2_1_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2'}>
-              <div className='flex justify-between pr-2'>    
-                  <p className='font-bold'>{displayItem.sp2_1}</p>
-              </div>
-              <div className='w-full overflow-scroll'>
-                  <table className="table-fixed w-full min-w-[730px] text-left mt-3">
-                      <tr>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">項目</p>
-                          </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">結果</p>
-                          </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
-                          </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
-                          </th>
-                          {token==='admin'?'':
-                              <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
-                          </th>
-                          }
-                      </tr>
-                      <tr class="hover:bg-slate-50">
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">Smart Inbound</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='smart_inbound' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr class="hover:bg-slate-50">
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">Appsheet滯留包裹</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800"></p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='Appsheet' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr class="hover:bg-slate-50">
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">EPOD</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">{displayItem.epod}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='EPOD' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr class="hover:bg-slate-50">
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">承攬時間</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='first_delivering_time' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr class="hover:bg-slate-50">
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800"><span className='font-bold'>當週</span>完成承攬任務天數比例</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800">{displayItem.appsheet}</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td class="p-4 border-b border-slate-200">
-                              <p class="block text-sm text-slate-800"></p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td class="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='work&clean' onChange={(e)=>resetReportItem(1, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                  </table>
-              </div>
-          </div>
+          }
+          {isOnlineReport?'':
+            <div className='mb-4'>
+                <Spreport sp_serve_type={displayItem.sp2_1_serve_type} sp_name={displayItem.sp2_1} sp_remaindelivering={displayItem.sp2_1_remaindelivering} 
+                sp_sop={displayItem.sp2_1_smart_inbound} sp_appsheet={displayItem.sp2_1_appsheet} sp_epod={displayItem.epod} num='1'/>
+            </div>
           }
           {displayItem.sp2_2==="-"?'':isOnlineReport?'':          
-              <div className={displayItem.sp2_2_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
-                  <p className='font-bold'>{displayItem.sp2_2}</p>
-              <div className='w-full overflow-scroll'>
-                  <table className="table-fixed w-full min-w-[730px] text-left mt-3">
-                      <tr>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">項目</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">結果</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
-                          </th>
-                          {token==='admin'?'':
-                              <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">我要回報</p>
-                          </th>
-                          }
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">Smart Inbound</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='smart_inbound' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">Appsheet滯留包裹</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.appsheet}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800"></p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='Appsheet' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">EPOD</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.epod}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='EPOD' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">承攬時間</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='first_delivering_time' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800"><span className='font-bold'>當週</span>完成承攬任務天數比例</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.appsheet}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800"></p>
-                          </td>
-                          {token==='admin'?'':                                   
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='work&clean' onChange={(e)=>resetReportItem(2, e.target.value)}></input>
-                          </td>
-                          }
-                      </tr>
-                  </table>
-                </div>
-              </div>
+            <div className='mb-4'>
+                <Spreport sp_serve_type={displayItem.sp2_2_serve_type} sp_name={displayItem.sp2_2} sp_remaindelivering={displayItem.sp2_2_remaindelivering} 
+                sp_sop={displayItem.sp2_2_smart_inbound} sp_appsheet={displayItem.sp2_2_appsheet} sp_epod={displayItem.epod} num='2'/>
+            </div>
           }
           {displayItem.sp2_3==="-"?'':isOnlineReport?'':                
-              <div className={displayItem.sp2_3_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
-                  <p className='font-bold'>{displayItem.sp2_2}</p>
-              <div className='w-full overflow-scroll'>
-                  <table className="table-fixed w-full min-w-[730px] text-left mt-3">
-                      <tr>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">項目</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">結果</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
-                          </th>
-                          <th className="p-4 border-b border-slate-300 bg-slate-50">
-                              <p className="block text-sm font-normal leading-none text-slate-500">我要回報</p>
-                          </th>
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">Smart Inbound</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='smart_inbound' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
-                          </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">Appsheet滯留包裹</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.appsheet}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800"></p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                            <input type='checkbox' value='Appsheet' onChange={(e)=>resetReportItem(3, e.target.value)}></input> 
-                          </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">EPOD</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.epod}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='EPOD' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
-                          </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">承攬時間</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.smart_inbound}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='first_delivering_time' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
-                          </td>
-                      </tr>
-                      <tr className="hover:bg-slate-50">
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800"><span className='font-bold'>當週</span>完成承攬任務天數比例</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800">{displayItem.appsheet}</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <p className="block text-sm text-slate-800"></p>
-                          </td>
-                          <td className="p-4 border-b border-slate-200">
-                              <input type='checkbox' value='work&clean' onChange={(e)=>resetReportItem(3, e.target.value)}></input>
-                          </td>
-                      </tr>
-                  </table>
-              </div>
-          </div>
+                <Spreport sp_serve_type={displayItem.sp2_3_serve_type} sp_name={displayItem.sp2_3} sp_remaindelivering={displayItem.sp2_3_remaindelivering} 
+                sp_sop={displayItem.sp2_3_smart_inbound} sp_appsheet={displayItem.sp2_3_appsheet} sp_epod={displayItem.epod} num='3'/>
           }
           <div>
             <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
-                <textarea id="comment" rows="4" onChange={(e)=>{setComment(e.target.value); console.log(comment)}} value={comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
+                <textarea id="comment" rows="4" onChange={(e)=>{setComment(e.target.value);}} value={comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
             </div>
             <div className="flex border gap-4 border-gray-200 flex-row p-2 items-center bg-gray-100 rounded-b-lg">
                 <label htmlFor='image1' className={!image1?'bg-white cursor-pointer rounded-sm p-6 border-4 border-dashed':'bg-white cursor-pointer rounded-smborder-4 border-2 rounded-md'}>
@@ -712,7 +378,7 @@ const VendorHomePage = () => {
              sp2_2={displayItem.sp2_2} sp2_2_serve_type={displayItem.sp2_2_serve_type} sp2_3={displayItem.sp2_3} sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering} sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering} 
              sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_1_delivered_cnt={displayItem.sp2_1_delivered_cnt} sp2_2_delivered_cnt={displayItem.sp2_2_delivered_cnt} sp2_3_delivered_cnt={displayItem.sp2_3_delivered_cnt} sp2_1_clened_ttl_cnt={displayItem.sp2_1_clened_ttl_cnt} 
              sp2_2_clened_ttl_cnt={displayItem.sp2_2_clened_ttl_cnt} sp2_3_clened_ttl_cnt={displayItem.sp2_3_clened_ttl_cnt} appsheet={displayItem.appsheet} sop={displayItem.smart_inbound} epod={displayItem.epod} status='submit' weeknum={displayItem.weeknum} ttl_delivered={displayOnlineItem.ttl_delivered} seq={displayOnlineItem.seq}
-             ttl_workday_weekend={displayOnlineItem.ttl_workday_weekend} ttl_worksday={displayOnlineItem.ttl_worksday} epod_lost={displayOnlineItem.epod_lost}/>
+             ttl_workday_weekend={displayOnlineItem.ttl_workday_weekend} ttl_worksday={displayOnlineItem.ttl_worksday} epod_lost={displayOnlineItem.epod_lost} week_report_status={displayOnlineItem.status}/>
             :''
         }
         <div className='w-[87%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>

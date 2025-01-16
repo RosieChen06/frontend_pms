@@ -9,10 +9,11 @@ import Detail from '../components/Detail';
 
 const Home = () => {
 
-    const {getDB, rider, data, state, setData, token, isShowAdminDetail, setIsShowAdminDetail, weekData, setWeekData} = useContext(AdminContext)
+    const {getDB, rider, data, state, token, isShowAdminDetail, setIsShowAdminDetail, weekData, setWeekData} = useContext(AdminContext)
     const [displayMainItem, setDisplayMainItem] =useState([])
 
     const filterdData = data.filter((item)=>(rider.filter((i)=>(i.name===item.user_name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.user_name !=='')
+    console.log(filterdData)
 
     const saveRecord = async (index, name, weeknum) => {
         const weekDataforSave = weekData.filter((item)=>(item.name===name && item.weeknum===weeknum))
@@ -44,6 +45,7 @@ const Home = () => {
             formData.append('seq', weekDataforSave[0].seq)
             formData.append('epod_lost', weekDataforSave[0].epod_lost)
             formData.append('weeknum', weekDataforSave[0].weeknum)
+            formData.append('uncleanCnt', weekDataforSave[0].uncleanCnt)
 
             const {data} = await axios.post('http://localhost:4000/api/admin/add-data',formData)
 
