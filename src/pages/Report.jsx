@@ -6,6 +6,7 @@ import { VscReport } from "react-icons/vsc";
 import { LuClipboardPenLine } from "react-icons/lu";
 import { BsPaperclip } from "react-icons/bs";
 import { FiUpload } from "react-icons/fi";
+import Reportsp from '../components/Reportsp';
 
 const Report = () => {
       const {getDB, rider, state, token} = useContext(AdminContext)
@@ -95,13 +96,15 @@ const Report = () => {
         console.log(error)
     }
 
-    // setImage1(false)
-    // setImage2(false)
-    // setImage3(false)
-    // setUploadImage1(false)
-    // setUploadImage2(false)
-    // setUploadImage3(false)
+    setImage1(false)
+    setImage2(false)
+    setImage3(false)
+    setUploadImage1(false)
+    setUploadImage2(false)
+    setUploadImage3(false)
 }
+
+console.log(filterdData)
 
   return (
     <div className='w-2/3 md:w-5/6 h-[88vh]'>
@@ -125,7 +128,7 @@ const Report = () => {
                   <p className='text-sm text-gray-700'>Date: {replyItem.date.slice(0,10)}</p>
               </div>
             </div>
-            <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
+            <div className="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
                 <textarea id="comment" rows="4" onChange={e=>setReplyItem(prev => ({...prev, comment: e.target.value}))} value={replyItem.comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
             </div>
             <div className="flex border gap-4 border-gray-200 flex-row p-2 items-center bg-gray-100 rounded-b-lg">
@@ -171,106 +174,37 @@ const Report = () => {
                   <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[1030px] text-left mt-3">
                       <tr>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">門市</p>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">門市</p>
                           </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">Smart Inbound SOP</p>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">應配貨量</p>
                           </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">Appsheet滯留包裹</p>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">異常件數</p>
                           </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">承攬上線時間</p>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">個人配送件數</p>
                           </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">當周承攬達標比例</p>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">Smart Inbound執行率</p>
                           </th>
-                          <th class="p-4 border-b border-slate-300 bg-slate-50">
-                              <p class="block text-sm font-normal leading-none text-slate-500">當周承攬達標比例</p>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">Appsheet滯留包裹</p>
+                          </th>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">承攬上線時間</p>
+                          </th>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">當周承攬達標比例</p>
+                          </th>
+                          <th className="p-4 border-b border-slate-300 bg-slate-50">
+                              <p className="block text-sm font-normal leading-none text-slate-500">EPOD</p>
                           </th>
                       </tr>
-                      {obj[index]['1'].length>0?                    
-                      <tr class="hover:bg-slate-50">
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{item.sp2_1}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['1'].includes('smart_inbound')?
-                              <p className={item.sp2_1_sop==='未達標'?"block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit":"block text-md px-3 bg-green-500 rounded-sm text-white w-fit h-fit"}>{item.sp2_1_sop==="未達標"?'x':'o'}</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['1'].includes('Appsheet')?
-                              <p className={item.sp2_1_appsheet==='未清空'?"block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit":"block text-md px-3 bg-green-500 rounded-sm text-white w-fit h-fit"}>{item.sp2_1_appsheet==="未清空"?'x':'o'}</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['1'].includes('attendance')?
-                              <p className={item.sp2_1_appsheet==='未達標'?"block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit":"block text-md px-3 bg-green-500 rounded-sm text-white w-fit h-fit"}>{item.sp2_1_attendance==="未達標"?'x':'o'}</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['1'].includes('work&clean')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['1'].includes('first_delivering_time')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                      </tr>:''
-                      }
-                      {obj[index]['2'].length>0?                    
-                      <tr class="hover:bg-slate-50">
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{item.sp2_2}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['2'].includes('smart_inbound')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['2'].includes('Appsheet')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['2'].includes('attendance')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['2'].includes('work&clean')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['2'].includes('first_delivering_time')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                      </tr>:''
-                      }
-                      {obj[index]['3'].length>0?                    
-                      <tr class="hover:bg-slate-50">
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{item.sp2_3}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['3'].includes('smart_inbound')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['3'].includes('Appsheet')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['3'].includes('attendance')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['3'].includes('work&clean')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {obj[index]['3'].includes('first_delivering_time')?
-                              <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-                        </td>
-                      </tr>:''
-                      }
+                      {obj[index]['1'].length>0?<Reportsp sp={item.sp2_1} obj={obj} index={index} num="1" appsheet={item.sp2_1_appsheet} smartinbound={item.sp2_1_sop} remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_remaindelivering}/>:''}
+                      {obj[index]['2'].length>0?<Reportsp sp={item.sp2_2} obj={obj} index={index} num="2" appsheet={item.sp2_2_appsheet} smartinbound={item.sp2_2_sop} remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_remaindelivering}/>:''}
+                      {obj[index]['3'].length>0?<Reportsp sp={item.sp2_3} obj={obj} index={index} num="3" appsheet={item.sp2_3_appsheet} smartinbound={item.sp2_3_sop} remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_remaindelivering}/>:''}
                     </table>
                   </div>
                   <div className='flex flex-row items-center gap-3'>

@@ -29,9 +29,6 @@ const Spreport = ({sp_serve_type, sp_name, sp_remaindelivering, sp_sop, sp_appsh
           setSp2_3_reportItem(prev =>[...prev, i])
         }
       }
-      console.log(sp2_1_reportItem)
-      console.log(sp2_2_reportItem)
-      console.log(sp2_3_reportItem)
     }
 
   return (

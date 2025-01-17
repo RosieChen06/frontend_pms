@@ -15,13 +15,14 @@ import Spreport from '../components/spReport';
 const VendorHomePage = () => {
 
     const {getDB, rider, state, token, getWeekDB, onlineData} = useContext(AdminContext)
-    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem} = useContext( UserContext)
+    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, setSp2_3_reportItem} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
     const [image3, setImage3] = useState(false)
     const [displayOnlineItem, setDisplayOnlineItem] = useState([])
     const [onlineReportItem, setOnlineReportItem] = useState([])
+
 
 
     const filterdData = rider.filter((item)=>(
@@ -87,48 +88,60 @@ const VendorHomePage = () => {
 
     const isReport = async (_id) => {
 
-        // if(reportItem['1'].length===0 && reportItem['2'].length===0 && reportItem['3'].length===0){
-        //     toast.error('請選擇回報項目')
-        //     return
-        // }
+        for(let i=0; i<=sp2_1_reportItem.length-1; i++){
+            reportItem['1'].push(sp2_1_reportItem[i])
+        }
+        for(let j=0; j<=sp2_2_reportItem.length-1; j++){
+            reportItem['2'].push(sp2_1_reportItem[j])
+        }
+        for(let k=0; k<=sp2_3_reportItem.length-1; k++){
+            reportItem['3'].push(sp2_3_reportItem[k])
+        }
 
-        // try{
-        //     const formData = new FormData()
-        //     formData.append('riderId', _id)
-        //     formData.append('status', 'report')
-        //     formData.append('reportItem', JSON.stringify(reportItem))
-        //     formData.append('comment', comment)
-        //     formData.append('image1', image1)
-        //     formData.append('image2', image2)
-        //     formData.append('image3', image3)
-        //     formData.append('reportdatetime', new Date())
-  
-        //     const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
-  
-        //     if(data.success){
-        //         setReportForm(false);
-        //         toast.success(data.message)
-        //         getDB()
-        //     }else{
-        //         toast.error(data.message)
-        //     }
-  
-        // }catch(error){
-        //     console.log(error)
-        // }
-        // setOnlineReportItem([])
-        // reportItem['1'].length = 0;
-        // reportItem['2'].length = 0;
-        // reportItem['3'].length = 0;
-        // reportItem['4'].length = 0;
-        // setComment('')
-        // setImage1(false)
-        // setImage2(false)
-        // setImage3(false)
+        if(reportItem['1'].length===0 && reportItem['2'].length===0 && reportItem['3'].length===0){
+            toast.error('請選擇回報項目')
+            return
+        }
 
-        console.log(sp2_1_reportItem) 
-        console.log(sp2_2_reportItem)
-        console.log(sp2_3_reportItem)
+        console.log(reportItem)
+
+        try{
+            const formData = new FormData()
+            formData.append('riderId', _id)
+            formData.append('status', 'report')
+            formData.append('reportItem', JSON.stringify(reportItem))
+            formData.append('comment', comment)
+            formData.append('image1', image1)
+            formData.append('image2', image2)
+            formData.append('image3', image3)
+            formData.append('reportdatetime', new Date())
+  
+            const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
+  
+            if(data.success){
+                setReportForm(false);
+                toast.success(data.message)
+                getDB()
+            }else{
+                toast.error(data.message)
+            }
+  
+        }catch(error){
+            console.log(error)
+        }
+        setOnlineReportItem([])
+        reportItem['1'].length = 0;
+        reportItem['2'].length = 0;
+        reportItem['3'].length = 0;
+        setComment('')
+        setImage1(false)
+        setImage2(false)
+        setImage3(false)
+        setSp2_1_reportItem([])
+        setSp2_2_reportItem([])
+        setSp2_3_reportItem([])
+        setReportForm(false)
+        console.log(reportItem)
     }
 
     const isCheck = async (_id) => {
