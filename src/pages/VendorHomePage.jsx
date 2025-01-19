@@ -79,7 +79,6 @@ const VendorHomePage = () => {
         reportItem['1'].length = 0;
         reportItem['2'].length = 0;
         reportItem['3'].length = 0;
-        reportItem['4'].length = 0;
         setComment('')
         setImage1(false)
         setImage2(false)
@@ -92,7 +91,7 @@ const VendorHomePage = () => {
             reportItem['1'].push(sp2_1_reportItem[i])
         }
         for(let j=0; j<=sp2_2_reportItem.length-1; j++){
-            reportItem['2'].push(sp2_1_reportItem[j])
+            reportItem['2'].push(sp2_2_reportItem[j])
         }
         for(let k=0; k<=sp2_3_reportItem.length-1; k++){
             reportItem['3'].push(sp2_3_reportItem[k])
@@ -102,8 +101,6 @@ const VendorHomePage = () => {
             toast.error('請選擇回報項目')
             return
         }
-
-        console.log(reportItem)
 
         try{
             const formData = new FormData()
@@ -347,22 +344,28 @@ const VendorHomePage = () => {
                 </div>
             </div>:''
           }
-          {isOnlineReport?'':
+        <Spreport sp2_1_serve_type={displayItem.sp2_1_serve_type} sp2_1_name={displayItem.sp2_1} sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering} sp2_1_onhold={displayItem.sp2_1_onhold} 
+        sp2_1_sop={displayItem.sp2_1_sop} sp2_1_appsheet={displayItem.sp2_1_appsheet} sp2_1_ttl_delivered={displayItem.sp2_1_ttl_delivered}
+        sp2_1_delivered={displayItem.sp2_1_delivered} sp2_1_lost_cnt={displayItem.lost_cnt.length}
+        sp2_2_serve_type={displayItem.sp2_2_serve_type} sp2_2_name={displayItem.sp2_2} sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering} sp2_2_onhold={displayItem.sp2_2_onhold} 
+        sp2_2_sop={displayItem.sp2_2_sop} sp2_2_appsheet={displayItem.sp2_2_appsheet} sp2_2_ttl_delivered={displayItem.sp2_2_ttl_delivered}
+        sp2_2_delivered={displayItem.sp2_2_delivered} sp2_2_lost_cnt={displayItem.lost_cnt.length}
+        sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_3_name={displayItem.sp2_3} sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_3_onhold={displayItem.sp2_3_onhold} 
+        sp2_3_sop={displayItem.sp2_3_sop} sp2_3_appsheet={displayItem.sp2_3_appsheet} sp2_3_ttl_delivered={displayItem.sp2_3_ttl_delivered}
+        sp2_3_delivered={displayItem.sp2_3_delivered} sp2_3_lost_cnt={displayItem.lost_cnt.length} sp_epod={displayItem.epod} sp_attendance={displayItem.sp2_attendance}/>
+
+          {/* {displayItem.sp2_2==="-"?'':isOnlineReport?'':          
             <div className='mb-4'>
-                <Spreport sp_serve_type={displayItem.sp2_1_serve_type} sp_name={displayItem.sp2_1} sp_remaindelivering={displayItem.sp2_1_remaindelivering} 
-                sp_sop={displayItem.sp2_1_smart_inbound} sp_appsheet={displayItem.sp2_1_appsheet} sp_epod={displayItem.epod} num='1'/>
-            </div>
-          }
-          {displayItem.sp2_2==="-"?'':isOnlineReport?'':          
-            <div className='mb-4'>
-                <Spreport sp_serve_type={displayItem.sp2_2_serve_type} sp_name={displayItem.sp2_2} sp_remaindelivering={displayItem.sp2_2_remaindelivering} 
-                sp_sop={displayItem.sp2_2_smart_inbound} sp_appsheet={displayItem.sp2_2_appsheet} sp_epod={displayItem.epod} num='2'/>
+                <Spreport sp_serve_type={displayItem.sp2_2_serve_type} sp_name={displayItem.sp2_2} sp_remaindelivering={displayItem.sp2_2_remaindelivering} sp_onhold={displayItem.sp2_2_onhold} 
+                sp_sop={displayItem.sp2_2_sop} sp_appsheet={displayItem.sp2_2_appsheet} sp_epod={displayItem.epod} num='2' sp_ttl_delivered={displayItem.sp2_2_ttl_delivered}
+                sp_delivered={displayItem.sp2_2_delivered} sp_lost_cnt={displayItem.lost_cnt.length} sp_attendance={displayItem.sp2_attendance}/>
             </div>
           }
           {displayItem.sp2_3==="-"?'':isOnlineReport?'':                
-                <Spreport sp_serve_type={displayItem.sp2_3_serve_type} sp_name={displayItem.sp2_3} sp_remaindelivering={displayItem.sp2_3_remaindelivering} 
-                sp_sop={displayItem.sp2_3_smart_inbound} sp_appsheet={displayItem.sp2_3_appsheet} sp_epod={displayItem.epod} num='3'/>
-          }
+                <Spreport sp_serve_type={displayItem.sp2_3_serve_type} sp_name={displayItem.sp2_3} sp_remaindelivering={displayItem.sp2_3_remaindelivering} sp_onhold={displayItem.sp2_3_onhold} 
+                sp_sop={displayItem.sp2_3_sop} sp_appsheet={displayItem.sp2_3_appsheet} sp_epod={displayItem.epod} num='3' sp_ttl_delivered={displayItem.sp2_3_ttl_delivered}
+                sp_delivered={displayItem.sp2_3_delivered} sp_lost_cnt={displayItem.lost_cnt.length} sp_attendance={displayItem.sp2_attendance}/>
+          } */}
           <div>
             <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
                 <textarea id="comment" rows="4" onChange={(e)=>{setComment(e.target.value);}} value={comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
@@ -387,11 +390,52 @@ const VendorHomePage = () => {
           </div>:''
         }
         {isShowDetail? 
-            <Detail token={token} name={displayItem.name} date={displayItem.date} is_garantee={displayItem.is_garantee} is_service_bonus={displayItem.is_service_bonus} is_online_bonus={displayItem.is_online_bonus} sp2_1={displayItem.sp2_1} sp2_1_serve_type={displayItem.sp2_1_serve_type}
-             sp2_2={displayItem.sp2_2} sp2_2_serve_type={displayItem.sp2_2_serve_type} sp2_3={displayItem.sp2_3} sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering} sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering} 
-             sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_1_delivered_cnt={displayItem.sp2_1_delivered_cnt} sp2_2_delivered_cnt={displayItem.sp2_2_delivered_cnt} sp2_3_delivered_cnt={displayItem.sp2_3_delivered_cnt} sp2_1_clened_ttl_cnt={displayItem.sp2_1_clened_ttl_cnt} 
-             sp2_2_clened_ttl_cnt={displayItem.sp2_2_clened_ttl_cnt} sp2_3_clened_ttl_cnt={displayItem.sp2_3_clened_ttl_cnt} appsheet={displayItem.appsheet} sop={displayItem.smart_inbound} epod={displayItem.epod} status='submit' weeknum={displayItem.weeknum} ttl_delivered={displayOnlineItem.ttl_delivered} seq={displayOnlineItem.seq}
-             ttl_workday_weekend={displayOnlineItem.ttl_workday_weekend} ttl_worksday={displayOnlineItem.ttl_worksday} epod_lost={displayOnlineItem.epod_lost} week_report_status={displayOnlineItem.status}/>
+            <Detail 
+            token={token}
+            name={displayItem.name}
+            date={displayItem.date}
+            is_garantee={displayItem.is_garantee}
+            sp2_1={displayItem.sp2_1}
+            sp2_1_is_servicce_bonus={displayItem.sp2_1_is_servicce_bonus}
+            sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering}
+            sp2_1_ttl_delivered={displayItem.sp2_1_ttl_delivered}
+            sp2_1_delivered={displayItem.sp2_1_delivered}
+            sp2_1_onhold={displayItem.sp2_1_onhold}
+            sp2_1_appsheet={displayItem.sp2_1_appsheet}
+            sp2_1_serve_type={displayItem.sp2_1_serve_type}
+            sp2_1_sop={displayItem.sp2_1_sop}
+            sp2_2={displayItem.sp2_2}
+            sp2_2_is_servicce_bonus={displayItem.sp2_2_is_servicce_bonus}
+            sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering}
+            sp2_2_ttl_delivered={displayItem.sp2_2_ttl_delivered}
+            sp2_2_delivered={displayItem.sp2_2_delivered}
+            sp2_2_onhold={displayItem.sp2_2_onhold}
+            sp2_2_appsheet={displayItem.sp2_2_appsheet}
+            sp2_2_serve_type={displayItem.sp2_2_serve_type}
+            sp2_2_sop={displayItem.sp2_2_sop}
+            sp2_3={displayItem.sp2_3}
+            sp2_3_is_servicce_bonus={displayItem.sp2_3_is_servicce_bonus}
+            sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering}
+            sp2_3_ttl_delivered={displayItem.sp2_3_ttl_delivered}
+            sp2_3_delivered={displayItem.sp2_3_delivered}
+            sp2_3_onhold={displayItem.sp2_3_onhold}
+            sp2_3_appsheet={displayItem.sp2_3_appsheet}
+            sp2_3_serve_type={displayItem.sp2_3_serve_type}
+            sp2_3_sop={displayItem.sp2_3_sop}
+            epod={displayItem.epod}
+            lost_cnt={displayItem.lost_cnt.length}
+            weeknum={displayItem.weeknum}
+            sp2_attendance={displayItem.sp2_attendance}
+            epod_lost={displayOnlineItem.epod_lost}
+            seq={displayOnlineItem.seq}
+            ttl_delivered={displayOnlineItem.ttl_delivered}
+            ttl_workday_weekend={displayOnlineItem.ttl_workday_weekend}
+            ttl_worksday={displayOnlineItem.ttl_worksday}
+            uncleanCnt={displayOnlineItem.uncleanCnt}
+            is_online_bonus={displayOnlineItem.is_online_bonus}
+            day_report_status='raw'
+            week_report_status='raw'
+        />
             :''
         }
         <div className='w-[87%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
@@ -402,11 +446,11 @@ const VendorHomePage = () => {
             <p>上線獎勵</p>
         </div>
         <div className='w-full overflow-scroll text-center'>
-            {
+        {
                 filterdData.map((item, index)=>(
-                <div key={index} className='flex flex-row items-center w-full'>
-                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} />
-                    <div className='flex flex-row gap-4 ml-6'>
+                <div key={index} className='flex flex-row items-center w-full justify-between'>
+                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
+                    <div className='flex flex-row gap-4'>
                         <button onClick={()=>displayDetail(index, item.name, item.weeknum)} className='bg-white p-3 rounded-full'><BiDetail /></button>
                         <button onClick={()=>isCheck(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
                     </div>

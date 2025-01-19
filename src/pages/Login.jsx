@@ -6,7 +6,7 @@ const Login = () => {
     const administrator = [
         {
             user: 'rosie.chenyy@shopee.com',
-            password: 'Qwtyz25731'
+            password: 'admin001'
         }
     ]
 
@@ -21,7 +21,7 @@ const Login = () => {
         }
     ]
 
-    const {setToken, userEmail, setUserEmail, data} = useContext(AdminContext)
+    const {setToken, userEmail, setUserEmail, setIsResolve} = useContext(AdminContext)
 
     const [userPassword, setUserPassword] = useState('')
 
@@ -33,12 +33,12 @@ const Login = () => {
 
         if(state==='Admin'){
 
-            if(administrator.map((item)=>{item.user===userEmail}).length>0 && userPassword==='Qwtyz25731'){
-                console.log('success')
+            if(administrator.map((item)=>{item.user===userEmail}).length>0 && userPassword==='admin001'){
                 sessionStorage.setItem('token','admin')
                 sessionStorage.setItem('useremail',userEmail)
                 setToken('admin')
-            }else if(administrator.map((item)=>{item.user===userEmail}).length>0 && userPassword!='Qwtyz25731'){
+                setIsResolve('report')
+            }else if(administrator.map((item)=>{item.user===userEmail}).length>0 && userPassword!='admin001'){
                 toast.error("Password Incorrect")
             }else{
                 toast.error("Access Denied")

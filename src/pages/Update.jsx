@@ -2,69 +2,49 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
+import { UserContext } from '../../context/UserContext'
 
 const Update = () => {
 
-    const {getDB, rider, state} = useContext(AdminContext)
+    const {getDB, rider, state, isEdit, setIsEdit, riderData, setRiderData} = useContext(AdminContext)
+    const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
-    const [isEdit, setIsEdit] = useState(false)
-    const [riderData, setRiderData] = useState({
-        riderId:'',
-        name: '',
-        date: '',
-        sp2_1: '',
-        sp2_1_appsheet: '',
-        sp2_1_epod: '',
-        sp2_1_sop:'',
-        sp2_2: '',
-        sp2_2_appsheet: '',
-        sp2_2_epod: '',
-        sp2_2_sop:'',
-        sp2_3: '',
-        sp2_3_appsheet: '',
-        sp2_3_epod: '',
-        sp2_3_sop:'',
-        sp2_attendance:'',
-        admincomment:'',
-        image:''
-    })
+    // const [reportSp2Item, setReportSp2Item] = useState(false)
+    // const reportDetail = []
 
-    const [reportSp2Item, setReportSp2Item] = useState(false)
-    const reportDetail = []
+    // const openEditForm = (id) => {
 
-    const openEditForm = (id) => {
+    //     const selectedData = ReportedData.filter((item)=>(
+    //         item._id===id
+    //     ))
 
-        const selectedData = ReportedData.filter((item)=>(
-            item._id===id
-        ))
+    //     reportDetail.push(JSON.parse(selectedData[0].reportItem))
+    //     setReportSp2Item(reportDetail[0])
 
-        reportDetail.push(JSON.parse(selectedData[0].reportItem))
-        setReportSp2Item(reportDetail[0])
-
-        setRiderData({
-            riderId: id,
-            name: selectedData[0].name,
-            date: selectedData[0].date,
-            sp2_1: selectedData[0].sp2_1,
-            sp2_1_appsheet: selectedData[0].sp2_1_appsheet,
-            sp2_1_epod: selectedData[0].sp2_1_epod,
-            sp2_1_sop: selectedData[0].sp2_1_sop,
-            sp2_2: selectedData[0].sp2_2,
-            sp2_2_appsheet: selectedData[0].sp2_2_appsheet,
-            sp2_2_epod: selectedData[0].sp2_2_epod,
-            sp2_2_sop: selectedData[0].sp2_2_sop,
-            sp2_3: selectedData[0].sp2_3,
-            sp2_3_appsheet: selectedData[0].sp2_3_appsheet,
-            sp2_3_epod: selectedData[0].sp2_3_epod,
-            sp2_3_sop: selectedData[0].sp2_3_sop,
-            sp2_attendance: selectedData[0].sp2_attendance,
-            admincomment:'',
-            image:selectedData[0].image
-        })
-        setIsEdit(true)
-        console.log(reportSp2Item['1'].includes('EPOD'))
-    }
+    //     setRiderData({
+    //         riderId: id,
+    //         name: selectedData[0].name,
+    //         date: selectedData[0].date,
+    //         sp2_1: selectedData[0].sp2_1,
+    //         sp2_1_appsheet: selectedData[0].sp2_1_appsheet,
+    //         sp2_1_epod: selectedData[0].sp2_1_epod,
+    //         sp2_1_sop: selectedData[0].sp2_1_sop,
+    //         sp2_2: selectedData[0].sp2_2,
+    //         sp2_2_appsheet: selectedData[0].sp2_2_appsheet,
+    //         sp2_2_epod: selectedData[0].sp2_2_epod,
+    //         sp2_2_sop: selectedData[0].sp2_2_sop,
+    //         sp2_3: selectedData[0].sp2_3,
+    //         sp2_3_appsheet: selectedData[0].sp2_3_appsheet,
+    //         sp2_3_epod: selectedData[0].sp2_3_epod,
+    //         sp2_3_sop: selectedData[0].sp2_3_sop,
+    //         sp2_attendance: selectedData[0].sp2_attendance,
+    //         admincomment:'',
+    //         image:selectedData[0].image
+    //     })
+    //     setIsEdit(true)
+    //     console.log(reportSp2Item['1'].includes('EPOD'))
+    // }
 
     const updateData = async (id) => {
         try{

@@ -14,11 +14,13 @@ const UserContextProvider = (props) =>{
     const [sp2_1_reportItem, setSp2_1_reportItem] = useState([])
     const [sp2_2_reportItem, setSp2_2_reportItem] = useState([])
     const [sp2_3_reportItem, setSp2_3_reportItem] = useState([])
+    const [reportSp2Item, setReportSp2Item] = useState(false)
 
 
     const value = {
         isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isShowConfirmDetail, setIsShowConfirmDetail,
-        isOnlineReport, setIsReportOnline, sp2_1_reportItem, setSp2_1_reportItem, sp2_2_reportItem, setSp2_2_reportItem, sp2_3_reportItem, setSp2_3_reportItem
+        isOnlineReport, setIsReportOnline, sp2_1_reportItem, setSp2_1_reportItem, sp2_2_reportItem, setSp2_2_reportItem, sp2_3_reportItem, setSp2_3_reportItem,
+        reportSp2Item, setReportSp2Item
     }
 
     return(

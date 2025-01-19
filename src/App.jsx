@@ -15,7 +15,6 @@ import Confirmed from './pages/Confirmed';
 function App() {
 
   const {token} = useContext(AdminContext)
-  console.log(token)
   return (
     <>
       <div>
@@ -29,7 +28,7 @@ function App() {
               <Sidebar />
               <Routes>
                   <Route path='/' element={<Home />} />
-                  <Route path='/admin-update' element={<Update />} />
+                  <Route path='/admin-update' element={<Report />} />
               </Routes>
           </div>
         </div>:token==='user'?

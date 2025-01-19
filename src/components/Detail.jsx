@@ -8,10 +8,10 @@ import { ImCross } from "react-icons/im";
 import { FaCheckDouble } from "react-icons/fa6";
 
 
-const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_delivered, sp2_1_delivered, sp2_1_onhold, sp2_1_appsheet,
-    sp2_1_serve_type, sp2_1_sop, sp2_2, sp2_2_remaindelivering, sp2_2_ttl_delivered, sp2_2_delivered, sp2_2_onhold, sp2_2_appsheet, sp2_2_serve_type, 
-    sp2_2_sop, sp2_3, sp2_3_remaindelivering, sp2_3_ttl_delivered, sp2_3_delivered, sp2_3_onhold, sp2_3_appsheet, sp2_3_serve_type, sp2_3_sop, epod, 
-    lost_cnt, weeknum, sp2_attendance, epod_lost, seq, ttl_delivered, ttl_workday_weekend,ttl_worksday, uncleanCnt, day_report_status, week_report_status}) => {
+const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus, sp2_1_remaindelivering, sp2_1_ttl_delivered, sp2_1_delivered, sp2_1_onhold, sp2_1_appsheet,
+    sp2_1_serve_type, sp2_1_sop, sp2_2, sp2_2_is_servicce_bonus, sp2_2_remaindelivering, sp2_2_ttl_delivered, sp2_2_delivered, sp2_2_onhold, sp2_2_appsheet, sp2_2_serve_type, 
+    sp2_2_sop, sp2_3, sp2_3_is_servicce_bonus, sp2_3_remaindelivering, sp2_3_ttl_delivered, sp2_3_delivered, sp2_3_onhold, sp2_3_appsheet, sp2_3_serve_type, sp2_3_sop, epod, 
+    lost_cnt, weeknum, sp2_attendance, epod_lost, seq, ttl_delivered, ttl_workday_weekend,ttl_worksday, uncleanCnt, is_online_bonus, day_report_status, week_report_status}) => {
   
     const {setIsShowDetail, setReportForm, setIsShowConfirmDetail, setIsReportOnline} = useContext(UserContext)
     const {setIsShowAdminDetail} = useContext(AdminContext)
@@ -28,7 +28,7 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
             <div className='flex justify-between'>
                 <p className='text-sm text-gray-700'>Date: {new Date(date).getFullYear()}/{new Date(date).getMonth()+1}/{new Date(date).getDay()}</p>
                 <div className='text-sm flex flex-row gap-6 mr-5'>
-                    <p className={name==="o"?'border-l-4 border-green-400 pl-2':'border-l-4 border-red-600 pl-2'}>保底獎勵</p>
+                    <p className={is_garantee==='未達標'?'border-l-4 border-red-600 pl-2':'border-l-4 border-green-400 pl-2'}>保底獎勵</p>
                 </div>
             </div>
         </div>
@@ -36,8 +36,9 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
             <div className='border-l-4 mb-4 border-[#004e76] pl-4 rounded-lg bg-white p-2'>
                 <div className='flex justify-between pr-2'>
                     <p className='font-bold'>本周配送狀況</p>
-                    {parseInt(ttl_delivered)<400?<p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>:parseInt(ttl_worksday)<5?<p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>:parseInt(ttl_workday_weekend)<1?<p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>:parseInt(seq)<0.9?<p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>:parseInt(epod_lost)>2?<p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>:
-                        <p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>
+                    {is_online_bonus==='未達標'?
+                        <p className='border-l-4 border-red-600 pl-2'>上線獎勵</p>:
+                        <p className='border-l-4 border-green-400 pl-2'>上線獎勵</p>
                     }
                 </div>
                 <table className="table-fixed w-full min-w-[730px] text-left mt-3">
@@ -57,7 +58,7 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
                         <th class="p-4 border-b border-slate-300 bg-slate-50">
                             <p class="block text-sm font-normal leading-none text-slate-500">EPOD&遺失包裹累計</p>
                         </th>
-                        {token==='admin'?'':week_report_status==='confirm'?'':
+                        {token==='admin'?'':day_report_status==='confirm'?'':
                             <th class="p-4 border-b border-slate-300 bg-slate-50">
                             <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
                         </th>
@@ -79,7 +80,7 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
                         <td class="p-4 border-b border-slate-200">
                             <p class="block text-sm text-slate-800">{epod_lost}</p>
                         </td>
-                        {token==='admin'?'':week_report_status==='confirm'?'':                                
+                        {token==='admin'?'':day_report_status==='confirm'?'':                                
                         <td class="p-4 border-b border-slate-200">
                             <p class="block text-sm text-slate-800"></p>
                         </td>
@@ -133,7 +134,7 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
             <div className={sp2_1_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2'}>
                 <div className='flex justify-between pr-2'>    
                     <p className='font-bold'>{sp2_1}</p>
-                    <p className={name==="o"?'border-l-4 border-green-400 pl-2':name==="△"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
+                    <p className={sp2_1_is_servicce_bonus==="達標"?'border-l-4 border-green-400 pl-2':sp2_1_is_servicce_bonus==="部分達標"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
                 </div>
                 <p className='text-sm font-semibold mt-4'>1. 門市清空</p>
                 <div className='w-full overflow-scroll'>
@@ -325,7 +326,10 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                {parseInt(epod)===0?
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
+                                    <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
+                                }
                             </td>
                             {token==='admin'?'':day_report_status==='confirm'?'':                                   
                             <td class="p-4 border-b border-slate-200">
@@ -423,7 +427,7 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
                             <td class="p-4 border-b border-slate-200">
                                 <p class="block text-sm text-slate-800"></p>
                             </td>
-                            {token==='admin'?'':week_report_status==='confirm'?'':                                   
+                            {token==='admin'?'':day_report_status==='confirm'?'':                                   
                             <td class="p-4 border-b border-slate-200">
                             {week_report_status==='report'?
                                 <div className='flex flex-row gap-1'>
@@ -440,7 +444,10 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
             </div>
             {sp2_2==="-"?'':           
                 <div className={sp2_2_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
-                    <p className='font-bold'>{sp2_2}</p>
+                    <div className='flex justify-between pr-2'>    
+                        <p className='font-bold'>{sp2_2}</p>
+                        <p className={sp2_2_is_servicce_bonus==="達標"?'border-l-4 border-green-400 pl-2':sp2_2_is_servicce_bonus==="部分達標"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
+                    </div>
                     <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[730px] text-left mt-3">
                         <tr>
@@ -715,7 +722,7 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
                             <td className="p-4 border-b border-slate-200">
                                 <p className="block text-sm text-slate-800"></p>
                             </td>
-                            {token==='admin'?'':week_report_status==='confirm'?'':                                   
+                            {token==='admin'?'':day_report_status==='confirm'?'':                                   
                             <td className="p-4 border-b border-slate-200">
                             {week_report_status==='report'?
                                 <div className='flex flex-row gap-1'>
@@ -733,7 +740,10 @@ const Detail = ({token, name, date, sp2_1, sp2_1_remaindelivering, sp2_1_ttl_del
             }
             {sp2_3==="-"?'':           
                 <div className={sp2_3_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2 mt-4':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2 mt-4'}>
-                    <p className='font-bold'>{sp2_3}</p>
+                    <div className='flex justify-between pr-2'>    
+                        <p className='font-bold'>{sp2_3}</p>
+                        <p className={sp2_3_is_servicce_bonus==="達標"?'border-l-4 border-green-400 pl-2':sp2_3_is_servicce_bonus==="部分達標"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
+                    </div>
                     <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>
                     <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[730px] text-left mt-3">

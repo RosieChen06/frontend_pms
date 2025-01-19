@@ -1,7 +1,8 @@
 import React from 'react'
 
 const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_delivering, delivered, ttl_delivered}) => {
-    console.log(num)
+
+    console.log(obj)
   return (
         <tr className="hover:bg-slate-50">
             <td className="p-4 border-b border-slate-200">
@@ -14,23 +15,25 @@ const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_deliverin
                 }
             </td>
             <td className="p-4 border-b border-slate-200">
-                {obj[index][num].includes('onhold')?
-                    <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
-            </td>
-            <td className="p-4 border-b border-slate-200">
-                {!obj[index][num].includes('remain_delivering')?'':parseInt(remain_delivering)>parseInt(delivered)?
+                {!obj[index][num].includes('onhold')?'':parseInt(remain_delivering)>parseInt(delivered)?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:
                     <p className="block text-md px-3 bg-green-600 rounded-sm text-white w-fit h-fit">o</p>
                 }
             </td>
             <td className="p-4 border-b border-slate-200">
-                {!obj[index][num].includes('smart_inbound')?'':smartinbound==='未達標'?
+                {!obj[index][num].includes('delivered_cnt')?'':parseInt(remain_delivering)>parseInt(delivered)?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:
                     <p className="block text-md px-3 bg-green-600 rounded-sm text-white w-fit h-fit">o</p>
                 }
             </td>
             <td className="p-4 border-b border-slate-200">
-                {!obj[index][num].includes('Appsheet')?'':appsheet==='未清空'?
+                {!obj[index][num].includes('smart_inbound')?'':smartinbound!=1?
+                    <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:
+                    <p className="block text-md px-3 bg-green-600 rounded-sm text-white w-fit h-fit">o</p>
+                }
+            </td>
+            <td className="p-4 border-b border-slate-200">
+                {!obj[index][num].includes('Appsheet')?'':appsheet>0?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:
                     <p className="block text-md px-3 bg-green-600 rounded-sm text-white w-fit h-fit">o</p>
                 }
