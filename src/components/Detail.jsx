@@ -267,17 +267,17 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                             </td>
                             <td class="p-4 border-b border-slate-200">
                                 {sp2_1_sop==='-'?<p>-</p>:
-                                    <p className="block text-sm text-slate-800">{parseFloat(sp2_1_sop*100).toFixed(2)+'%'}</p>
+                                    <p className="block text-sm text-slate-800">{sp2_1_sop}</p>
                                 }
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                {sp2_1_sop==="-"?<p>-</p>:sp2_1_sop=1?
+                                {sp2_1_sop==="-"?<p>-</p>:sp2_1_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                {sp2_1_sop==="-"?<p>-</p>:sp2_1_sop=1?
+                                {sp2_1_sop==="-"?<p>-</p>:sp2_1_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -301,7 +301,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p class="block text-sm text-slate-800"></p>
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                {sp2_1_appsheet==="-"?<p></p>:sp2_1_appsheet===0?
+                                {sp2_1_appsheet==="-"?<p></p>:sp2_1_appsheet==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -320,13 +320,13 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p class="block text-sm text-slate-800">{epod}</p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(epod)===0?
+                                {epod==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(epod)===0?
+                                {epod==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -562,17 +562,17 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                             </td>
                             <td className="p-4 border-b border-slate-200">
                                 {sp2_2_sop==='-'?<p>-</p>:
-                                    <p className="block text-sm text-slate-800">{parseFloat(sp2_2_sop*100).toFixed(2)+'%'}</p>
+                                    <p className="block text-sm text-slate-800">{sp2_2_sop}</p>
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {sp2_2_sop==="-"?<p></p>:sp2_2_sop=1?
+                                {sp2_2_sop==="-"?<p></p>:sp2_2_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {sp2_2_sop==="-"?<p></p>:sp2_2_sop=1?
+                                {sp2_2_sop==="-"?<p></p>:sp2_2_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -596,7 +596,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800"></p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {sp2_2_appsheet==="-"?<p></p>:sp2_2_appsheet===0?
+                                {sp2_2_appsheet==="-"?<p></p>:sp2_2_appsheet==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -615,13 +615,13 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800">{epod}</p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(epod)===0?
+                                {epod==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(epod)===0?
+                                {epod==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -849,17 +849,17 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                             </td>
                             <td className="p-4 border-b border-slate-200">
                                 {sp2_3_sop==='-'?<p>-</p>:
-                                    <p className="block text-sm text-slate-800">{parseFloat(sp2_3_sop*100).toFixed(2)+'%'}</p>
+                                    <p className="block text-sm text-slate-800">{sp2_3_sop}</p>
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {sp2_3_sop==="-"?<p>-</p>:sp2_3_sop=1?
+                                {sp2_3_sop==="-"?<p>-</p>:sp2_3_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {sp2_3_sop==="-"?<p>-</p>:sp2_3_sop=1?
+                                {sp2_3_sop==="-"?<p>-</p>:sp2_3_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -881,7 +881,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800"></p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {sp2_3_appsheet==="-"?<p></p>:sp2_3_appsheet===0?
+                                {sp2_3_appsheet==="-"?<p></p>:sp2_3_appsheet==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
@@ -898,7 +898,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800">{epod}</p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(epod)===0?
+                                {epod==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }

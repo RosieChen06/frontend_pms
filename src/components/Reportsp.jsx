@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_delivering, delivered, ttl_delivered}) => {
+const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_delivering, delivered, ttl_delivered, attendance, epod, comment}) => {
 
     console.log(obj)
   return (
@@ -27,19 +27,19 @@ const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_deliverin
                 }
             </td>
             <td className="p-4 border-b border-slate-200">
-                {!obj[index][num].includes('smart_inbound')?'':smartinbound!=1?
+                {!obj[index][num].includes('smart_inbound')?'':smartinbound==='未達標'?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:
                     <p className="block text-md px-3 bg-green-600 rounded-sm text-white w-fit h-fit">o</p>
                 }
             </td>
             <td className="p-4 border-b border-slate-200">
-                {!obj[index][num].includes('Appsheet')?'':appsheet>0?
+                {!obj[index][num].includes('Appsheet')?'':appsheet==='未達標'?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:
                     <p className="block text-md px-3 bg-green-600 rounded-sm text-white w-fit h-fit">o</p>
                 }
             </td>
             <td className="p-4 border-b border-slate-200">
-                {obj[index][num].includes('attendance')?
+                {!obj[index][num].includes('attendance')?'':attendance==='未達標'?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
             </td>
             <td className="p-4 border-b border-slate-200">
@@ -47,7 +47,7 @@ const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_deliverin
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
             </td>
             <td className="p-4 border-b border-slate-200">
-                {obj[index][num].includes('EPOD')?
+                {!obj[index][num].includes('EPOD')?'':epod==="未達標"?
                     <p className="block text-md px-3 bg-pink-800 rounded-sm text-white w-fit h-fit">x</p>:''}
             </td>
         </tr>

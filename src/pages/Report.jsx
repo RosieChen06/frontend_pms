@@ -11,7 +11,7 @@ import { UserContext } from '../../context/UserContext';
 import Update from './Update';
 
 const Report = () => {
-      const {getDB, rider, state, onlineData, token, isEdit, setIsEdit, riderData, setRiderData, isResolve, setIsResolve} = useContext(AdminContext)
+      const {getDB, rider, state, onlineData, token, isEdit, setIsEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit} = useContext(AdminContext)
       const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
@@ -22,11 +22,8 @@ const Report = () => {
       const [replyItem, setReplyItem] = useState([])
       const [isReply, setIsReply] = useState(false)
 
-      const filterdData = rider.filter((item)=>(
-        item.status === isResolve
-      ))
 
-      const filterdWeekData = onlineData.filter((item)=>(
+      const filterdData = rider.filter((item)=>(
         item.status === isResolve
       ))
 
@@ -37,14 +34,13 @@ const Report = () => {
           obj.push(test)
       }
 
-      const changeReportStatus = async (_id, status, reply) => {
+      const changeReportStatus = async (_id, status, reply, type) => {
         try{
             const formData = new FormData()
             formData.append('riderId', _id)
             formData.append('status', status)
-  
+            formData.append('type', type)
             const {data} = await axios.post('http://localhost:4000/api/user/confirm-data',formData)
-  
             if(data.success){
                 toast.success(reply)
                 getDB()
@@ -110,8 +106,6 @@ const Report = () => {
     setUploadImage3(false)
 }
 
-console.log(filterdWeekData)
-
 const ReportedData = rider.filter((item)=>(item.status==='report'))
 const reportDetail = []
 
@@ -129,33 +123,72 @@ const openEditForm = (id) => {
       name: selectedData[0].name,
       date: selectedData[0].date,
       sp2_1: selectedData[0].sp2_1,
+      sp2_1_remaindelivering: selectedData[0].sp2_1_remaindelivering,
+      sp2_1_onhold: selectedData[0].sp2_1_onhold,
+      sp2_1_delivered: selectedData[0].sp2_1_delivered,
+      sp2_1_serve_type: selectedData[0].sp2_1_serve_type,
       sp2_1_appsheet: selectedData[0].sp2_1_appsheet,
-      sp2_1_epod: selectedData[0].sp2_1_epod,
       sp2_1_sop: selectedData[0].sp2_1_sop,
       sp2_2: selectedData[0].sp2_2,
+      sp2_2_remaindelivering: selectedData[0].sp2_2_remaindelivering,
+      sp2_2_onhold: selectedData[0].sp2_2_onhold,
+      sp2_2_delivered: selectedData[0].sp2_2_delivered,
+      sp2_2_serve_type: selectedData[0].sp2_2_serve_type,
       sp2_2_appsheet: selectedData[0].sp2_2_appsheet,
-      sp2_2_epod: selectedData[0].sp2_2_epod,
       sp2_2_sop: selectedData[0].sp2_2_sop,
       sp2_3: selectedData[0].sp2_3,
+      sp2_3_remaindelivering: selectedData[0].sp2_3_remaindelivering,
+      sp2_3_onhold: selectedData[0].sp2_3_onhold,
+      sp2_3_delivered: selectedData[0].sp2_3_delivered,
+      sp2_3_serve_type: selectedData[0].sp2_3_serve_type,
       sp2_3_appsheet: selectedData[0].sp2_3_appsheet,
-      sp2_3_epod: selectedData[0].sp2_3_epod,
       sp2_3_sop: selectedData[0].sp2_3_sop,
       sp2_attendance: selectedData[0].sp2_attendance,
-      admincomment:'',
-      image:selectedData[0].image
+      admincomment:selectedData[0].admincomment,
+      image:selectedData[0].image,
+      lost_cnt: selectedData[0].lost_cnt,
+      epod: selectedData[0].epod,
   })
   setIsEdit(true)
+  console.log(selectedData[0])
+}
+
+const filterdWeekData = onlineData.filter((item)=>(
+  item.status === isResolve
+))
+
+const openWeekEditForm = (id) => {
+
+  const selectedData = filterdWeekData.filter((item)=>(
+      item._id===id
+  ))
+
+  setRiderWeekData({
+    riderId: selectedData[0].riderId,
+    name: selectedData[0].name,
+    weeknum: selectedData[0].weeknum,
+    uncleanCnt: selectedData[0].uncleanCnt,
+    comment: selectedData[0].comment,
+    reportItem: selectedData[0].reportItem,
+    ttl_delivered: selectedData[0].ttl_delivered,
+    ttl_worksday_weekend: selectedData[0].ttl_worksday_weekend,
+    seq: selectedData[0].seq,
+    epod_lost: selectedData[0].epod_lost,
+  })
+  // setIsWeekEdit(true)
+  console.log(riderWeekData)
 }
 
   return (
     <div className='w-2/3 md:w-5/6 h-[88vh]'>
-      {isEdit?<Update />:''}
+      {token==='user'?'':isEdit?<Update />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
         <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理</p>
         <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復</p>
       </div>}
-      <div className='w-full flex-wrap-reverse h-[76vh] px-4 overflow-scroll'>
+      {isEdit?'':isWeekEdit?'':
+        <div className={token==='admin'?'w-full flex-wrap-reverse h-[85vh] px-4 overflow-scroll':'w-full flex-wrap-reverse h-[77vh] px-4 overflow-scroll'}>
         {isReply?
           <div className='absolute bg-white w-[82%] h-[76vh] rounded-lg p-2'>
             <div className='border-l-2 border-gray-300 pl-4'>
@@ -203,10 +236,10 @@ const openEditForm = (id) => {
                     </div>
                     {token==='admin'?
                     <button onClick={()=>openEditForm(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
-                    <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報')}>取消回報</button>:
+                    <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報', "day")}>取消回報</button>:
                     <div className='flex flex-row gap-4'>
                       <button className='p-2 px-4 bg-red-200 rounded-md' onClick={()=>showReportForm(index)}>回復</button>
-                      <button className='p-2 px-4 bg-green-200 rounded-md' onClick={()=>changeReportStatus(item._id, 'confirm', '資料已確認')}>已確認</button>
+                      <button className='p-2 px-4 bg-green-200 rounded-md' onClick={()=>changeReportStatus(item._id, 'confirm', '資料已確認',"day")}>已確認</button>
                     </div>
                     }
                   </div>
@@ -249,15 +282,19 @@ const openEditForm = (id) => {
                       {obj[index]['1'].length>0?
                       <Reportsp sp={item.sp2_1} obj={obj} index={index} 
                       num="1" appsheet={item.sp2_1_appsheet} smartinbound={item.sp2_1_sop} 
-                      remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_delivered}
+                      remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_delivered} attendance={item.sp2_attendance}
+                      epod={item.epod} comment={item.comment}
                       />:''}
                       {obj[index]['2'].length>0?<Reportsp sp={item.sp2_2} obj={obj} index={index} num="2" 
                       appsheet={item.sp2_2_appsheet} smartinbound={item.sp2_2_sop} 
-                      remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_delivered}
+                      remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_delivered} attendance={item.sp2_attendance}
+                      epod={item.epod} comment={item.comment}
                       />:''}
                       {obj[index]['3'].length>0?<Reportsp sp={item.sp2_3} obj={obj} index={index} num="3" 
                       appsheet={item.sp2_3_appsheet} smartinbound={item.sp2_3_sop} 
-                      remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_delivered}/>:''}
+                      remain_delivering={item.sp2_1_remaindelivering} delivered={item.sp2_1_delivered} attendance={item.sp2_attendance}
+                      epod={item.epod} comment={item.comment}
+                      />:''}
                     </table>
                   </div>
                   <div className='flex flex-row items-center gap-3'>
@@ -286,15 +323,15 @@ const openEditForm = (id) => {
                 <div>
                   <div className='flex flex-row justify-between'>
                     <div className='border-l-4 border-[#004e76] pl-4'>
-                      <p>{item.weeknum}</p>
+                      <p>第{item.weeknum}週</p>
                       <p>{item.name}</p>
                     </div>
                     {token==='admin'?
-                    <button onClick={()=>openEditForm(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
-                    <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報')}>取消回報</button>:
+                    <button onClick={()=>openWeekEditForm(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
+                    <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報',"week")}>取消回報</button>:
                     <div className='flex flex-row gap-4'>
                       <button className='p-2 px-4 bg-red-200 rounded-md' onClick={()=>showReportForm(index)}>回復</button>
-                      <button className='p-2 px-4 bg-green-200 rounded-md' onClick={()=>changeReportStatus(item._id, 'confirm', '資料已確認')}>已確認</button>
+                      <button className='p-2 px-4 bg-green-200 rounded-md' onClick={()=>changeReportStatus(item._id, 'confirm', '資料已確認',"week")}>已確認</button>
                     </div>
                     }
                   </div>
@@ -385,6 +422,7 @@ const openEditForm = (id) => {
           ))
         }
       </div>
+      }
     </div>
   )
 }

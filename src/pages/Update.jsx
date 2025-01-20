@@ -6,62 +6,38 @@ import { UserContext } from '../../context/UserContext'
 
 const Update = () => {
 
-    const {getDB, rider, state, isEdit, setIsEdit, riderData, setRiderData} = useContext(AdminContext)
+    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData} = useContext(AdminContext)
     const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
-    // const [reportSp2Item, setReportSp2Item] = useState(false)
-    // const reportDetail = []
-
-    // const openEditForm = (id) => {
-
-    //     const selectedData = ReportedData.filter((item)=>(
-    //         item._id===id
-    //     ))
-
-    //     reportDetail.push(JSON.parse(selectedData[0].reportItem))
-    //     setReportSp2Item(reportDetail[0])
-
-    //     setRiderData({
-    //         riderId: id,
-    //         name: selectedData[0].name,
-    //         date: selectedData[0].date,
-    //         sp2_1: selectedData[0].sp2_1,
-    //         sp2_1_appsheet: selectedData[0].sp2_1_appsheet,
-    //         sp2_1_epod: selectedData[0].sp2_1_epod,
-    //         sp2_1_sop: selectedData[0].sp2_1_sop,
-    //         sp2_2: selectedData[0].sp2_2,
-    //         sp2_2_appsheet: selectedData[0].sp2_2_appsheet,
-    //         sp2_2_epod: selectedData[0].sp2_2_epod,
-    //         sp2_2_sop: selectedData[0].sp2_2_sop,
-    //         sp2_3: selectedData[0].sp2_3,
-    //         sp2_3_appsheet: selectedData[0].sp2_3_appsheet,
-    //         sp2_3_epod: selectedData[0].sp2_3_epod,
-    //         sp2_3_sop: selectedData[0].sp2_3_sop,
-    //         sp2_attendance: selectedData[0].sp2_attendance,
-    //         admincomment:'',
-    //         image:selectedData[0].image
-    //     })
-    //     setIsEdit(true)
-    //     console.log(reportSp2Item['1'].includes('EPOD'))
-    // }
+    console.log(riderData)
 
     const updateData = async (id) => {
         try{
             const formData = new FormData()
             formData.append('riderId', id)
+            formData.append('sp2_1_remaindelivering', riderData.sp2_1_remaindelivering)
+            formData.append('sp2_1_onhold', riderData.sp2_1_onhold)
+            formData.append('sp2_1_delivered', riderData.sp2_1_delivered)
+            formData.append('sp2_1_serve_type', riderData.sp2_1_serve_type)
             formData.append('sp2_1_appsheet', riderData.sp2_1_appsheet)
-            formData.append('sp2_1_epod', riderData.sp2_1_epod)
             formData.append('sp2_1_sop', riderData.sp2_1_sop)
+            formData.append('sp2_2_remaindelivering', riderData.sp2_2_remaindelivering)
+            formData.append('sp2_2_onhold', riderData.sp2_2_onhold)
+            formData.append('sp2_2_delivered', riderData.sp2_2_delivered)
+            formData.append('sp2_2_serve_type', riderData.sp2_2_serve_type)
             formData.append('sp2_2_appsheet', riderData.sp2_2_appsheet)
-            formData.append('sp2_2_epod', riderData.sp2_2_epod)
             formData.append('sp2_2_sop', riderData.sp2_2_sop)
+            formData.append('sp2_3_remaindelivering', riderData.sp2_3_remaindelivering)
+            formData.append('sp2_3_onhold', riderData.sp2_3_onhold)
+            formData.append('sp2_3_delivered', riderData.sp2_3_delivered)
+            formData.append('sp2_3_serve_type', riderData.sp2_3_serve_type)
             formData.append('sp2_3_appsheet', riderData.sp2_3_appsheet)
-            formData.append('sp2_3_epod', riderData.sp2_3_epod)
             formData.append('sp2_3_sop', riderData.sp2_3_sop)
             formData.append('sp2_attendance', riderData.sp2_attendance)
             formData.append('admincomment', riderData.admincomment)
             formData.append('status', "resolve")
+            formData.append('epod', riderData.epod)
 
             const {data} = await axios.post('http://localhost:4000/api/admin/update-data',formData)
 
@@ -123,17 +99,72 @@ const Update = () => {
                 }
             </div>
         {
+            riderWeekData && isWeekEdit?
+            <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll'>
+                <p>success</p>
+            </div>:''
+        }
+        {
             riderData && isEdit?
             
                 <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll'>
                     <div className='w-full'>
-                        <div className='flex flex-row justify-end items-center w-full'>
-                            <button onClick={()=>setIsEdit(false)} className='mr-5 px-6 py-2 bg-yellow-200 rounded-sm'>Cancel</button>
-                            <button onClick={()=>updateData(riderData.riderId)} className='mr-5 px-6 py-2 bg-green-200 rounded-sm'>Update</button>
-                        </div>
                         <div className='w-full mt-4'>
-                            <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
+                            <div className='pr-6 mb-12 flex flex-row gap-4 justify-between bg-slate-50'>
+                                <div className='w-full flex flex-row justify-center items-center'>   
+                                    <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                                        <p className='text-sm'>騎手姓名</p>
+                                        <p className='text-lg font-extrabold'>{riderData.name}</p>
+                                    </div>
+                                    <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                                        <p className='text-sm'>配送日期</p>
+                                        <p className='text-lg font-extrabold'>{riderData.date}</p>
+                                    </div>
+                                    <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                                        <p className='text-sm hover:text-white'>保底獎勵</p>
+                                        <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={riderData.is_garantee} onChange={e=>setRiderData(prev =>({...prev, is_garantee: e.target.value}))}>
+                                            <option value='達標'>達標</option>
+                                            <option value='未達標'>未達標</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className='flex flex-row justify-end items-center w-full'>
+                                    <button onClick={()=>setIsEdit(false)} className=' px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                                    <button onClick={()=>updateData(riderData.riderId)} className=' px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                                </div>
+                            </div>
+                            <div className='w-full flex pr-5 justify-between items-center'>
+                                <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
+                                <div className='flex flex-row gap-4 items-center justify-center'>
+                                    <p>服務獎勵</p>
+                                    <select className=' border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.is_garantee} onChange={e=>setRiderData(prev =>({...prev, is_garantee: e.target.value}))}>
+                                        <option value='達標'>達標</option>
+                                        <option value='未達標'>未達標</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div className='flex flex-wrap gap-x-24 gap-y-12 w-full mt-12'>
+                                <div className='w-full max-w-96'> 
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('remain_delivering')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>門市應配貨量</p>
+                                    </div>
+                                    <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_remaindelivering} onChange={e=>setRiderData(prev =>({...prev, sp2_1_remaindelivering: e.target.value}))}></input>
+                                </div>
+                                <div className='w-full max-w-96'> 
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('onhold')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>門市異常貨量</p>
+                                    </div>
+                                    <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_onhold} onChange={e=>setRiderData(prev =>({...prev, sp2_1_onhold: e.target.value}))}></input>
+                                </div>
+                                <div className='w-full max-w-96'> 
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('delivered_cnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>個人配送貨量</p>
+                                    </div>
+                                    <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_1_delivered: e.target.value}))}></input>
+                                </div>
                                 <div className='w-full max-w-96'> 
                                     <div className='flex flex-row items-center mb-4 gap-3'>
                                         {reportSp2Item['1'].includes('smart_inbound')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
@@ -159,19 +190,9 @@ const Update = () => {
                                         {reportSp2Item['1'].includes('EPOD')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                         <p className='text-sm text-gray-700'>EPOD執行率</p>
                                     </div>
-                                    <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                    <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.epod} onChange={e=>setRiderData(prev =>({...prev, epod: e.target.value}))}>
                                         <option value='達標'>達標</option>
                                         <option value='未達標'>未達標</option>
-                                    </select>
-                                </div>
-                                <div className='w-full max-w-96'>
-                                    <div className='flex flex-row items-center mb-4 gap-3'>
-                                        {reportSp2Item['1'].includes('work&clean')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
-                                        <p className='text-sm text-gray-700'>當周承攬達標比例</p>
-                                    </div>
-                                    <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
-                                        <option value='>=70%'>&gt;=70%</option>
-                                        <option value='<70%'>&lt;70%</option>
                                     </select>
                                 </div>
                                 <div className='w-full max-w-96'>
@@ -179,10 +200,17 @@ const Update = () => {
                                         {reportSp2Item['1'].includes('first_delivering_time')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                         <p className='text-sm text-gray-700'>承攬時間</p>
                                     </div>
-                                    <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                    <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_attendance} onChange={e=>setRiderData(prev =>({...prev, sp2_attendance: e.target.value}))}>
                                         <option value='達標'>達標</option>
                                         <option value='未達標'>未達標</option>
                                     </select>
+                                </div>
+                                <div className='w-full max-w-96'> 
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('lost')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>遺失包裹數量</p>
+                                    </div>
+                                    <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.lost_cnt.length} onChange={e=>setRiderData(prev =>({...prev, lost_cnt: e.target.value}))}></input>
                                 </div>
                             </div>
                         </div>
@@ -191,14 +219,44 @@ const Update = () => {
                         <div className='w-full'>
                             <hr className='w-full mt-8'/>
                             <div className='w-full mt-8'>
-                                <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_2}</h1>
+                                <div className='w-full flex pr-5 justify-between items-center'>
+                                    <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_2}</h1>
+                                    <div className='flex flex-row gap-4 items-center justify-center'>
+                                        <p>服務獎勵</p>
+                                        <select className=' border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.is_garantee} onChange={e=>setRiderData(prev =>({...prev, is_garantee: e.target.value}))}>
+                                            <option value='達標'>達標</option>
+                                            <option value='未達標'>未達標</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div className='flex flex-wrap gap-x-24 gap-y-12 w-full overflow-scroll mt-12'>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('remain_delivering')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>門市應配貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_remaindelivering} onChange={e=>setRiderData(prev =>({...prev, sp2_2_remaindelivering: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('onhold')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>門市異常貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_onhold} onChange={e=>setRiderData(prev =>({...prev, sp2_2_onhold: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('delivered_cnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>個人配送貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_2_delivered: e.target.value}))}></input>
+                                    </div>
                                     <div className='w-full max-w-96'> 
                                         <div className='flex flex-row items-center mb-4 gap-3'>
                                             {reportSp2Item['2'].includes('smart_inbound')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>SMART INBOUND執行率</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_2_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
@@ -208,9 +266,9 @@ const Update = () => {
                                             {reportSp2Item['2'].includes('Appsheet')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>APPSHEET清空滯留包裹</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_1_appsheet: e.target.value}))}>
-                                            <option value='清空'>清空</option>
-                                            <option value='未清空'>未清空</option>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_2_appsheet: e.target.value}))}>
+                                            <option value='達標'>達標</option>
+                                            <option value='未達標'>未達標</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
@@ -218,19 +276,9 @@ const Update = () => {
                                             {reportSp2Item['2'].includes('EPOD')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>EPOD執行率</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.epod} onChange={e=>setRiderData(prev =>({...prev, epod: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
-                                        </select>
-                                    </div>
-                                    <div className='w-full max-w-96'>
-                                        <div className='flex flex-row items-center mb-4 gap-3'>
-                                            {reportSp2Item['2'].includes('work&clean')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
-                                            <p className='text-sm text-gray-700'>當周承攬達標比例</p>
-                                        </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
-                                            <option value='>=70%'>&gt;=70%</option>
-                                            <option value='<70%'>&lt;70%</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
@@ -238,10 +286,17 @@ const Update = () => {
                                             {reportSp2Item['2'].includes('first_delivering_time')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>承攬時間</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_attendance} onChange={e=>setRiderData(prev =>({...prev, sp2_attendance: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['2'].includes('lost')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>遺失包裹數量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.lost_cnt.length} onChange={e=>setRiderData(prev =>({...prev, lost_cnt: e.target.value}))}></input>
                                     </div>
                                 </div>
                             </div>
@@ -255,14 +310,44 @@ const Update = () => {
                                 <button onClick={()=>setIsEdit(false)} className='bg-green-100 p-3 round-lg cursor-pointer'>Cancel</button>
                             </div>
                             <div className='w-full'>
-                                <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
+                                <div className='w-full flex pr-5 justify-between items-center'>
+                                    <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_3}</h1>
+                                    <div className='flex flex-row gap-4 items-center justify-center'>
+                                        <p>服務獎勵</p>
+                                        <select className=' border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.is_garantee} onChange={e=>setRiderData(prev =>({...prev, is_garantee: e.target.value}))}>
+                                            <option value='達標'>達標</option>
+                                            <option value='未達標'>未達標</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div className='flex flex-wrap gap-x-24 gap-y-12 w-full overflow-scroll mt-12'>
+                                <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('remain_delivering')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>門市應配貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_remaindelivering} onChange={e=>setRiderData(prev =>({...prev, sp2_3_remaindelivering: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('onhold')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>門市異常貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_onhold} onChange={e=>setRiderData(prev =>({...prev, sp2_3_onhold: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('delivered_cnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>個人配送貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_3_delivered: e.target.value}))}></input>
+                                    </div>
                                     <div className='w-full max-w-96'> 
                                         <div className='flex flex-row items-center mb-4 gap-3'>
                                             {reportSp2Item['3'].includes('smart_inbound')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>SMART INBOUND執行率</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_sop} onChange={e=>setRiderData(prev =>({...prev, sp2_3_sop: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
@@ -272,26 +357,16 @@ const Update = () => {
                                             {reportSp2Item['3'].includes('Appsheet')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>APPSHEET清空滯留包裹</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_1_appsheet: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_appsheet} onChange={e=>setRiderData(prev =>({...prev, sp2_3_appsheet: e.target.value}))}>
                                             <option value='清空'>清空</option>
                                             <option value='未清空'>未清空</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
                                         <p className='text-sm mb-4 text-gray-700'>EPOD執行率</p>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.epod} onChange={e=>setRiderData(prev =>({...prev, epod: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
-                                        </select>
-                                    </div>
-                                    <div className='w-full max-w-96'>
-                                        <div className='flex flex-row items-center mb-4 gap-3'>
-                                            {reportSp2Item['3'].includes('work&clean')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
-                                            <p className='text-sm text-gray-700'>當周承攬達標比例</p>
-                                        </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
-                                            <option value='>=70%'>&gt;=70%</option>
-                                            <option value='<70%'>&lt;70%</option>
                                         </select>
                                     </div>
                                     <div className='w-full max-w-96'>
@@ -299,10 +374,17 @@ const Update = () => {
                                             {reportSp2Item['3'].includes('first_delivering_time')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>承攬時間</p>
                                         </div>
-                                        <select className='w-full border-gray-300 py-1 pl-1 rounded-md border-2' type='text' value={riderData.sp2_1_epod} onChange={e=>setRiderData(prev =>({...prev, sp2_1_sop: e.target.value}))}>
+                                        <select className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_attendance} onChange={e=>setRiderData(prev =>({...prev, sp2_attendance: e.target.value}))}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                         </select>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('lost')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>遺失包裹數量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.lost_cnt.length} onChange={e=>setRiderData(prev =>({...prev, lost_cnt: e.target.value}))}></input>
                                     </div>
                                 </div>
                             </div>

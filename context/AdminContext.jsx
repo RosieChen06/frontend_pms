@@ -15,26 +15,51 @@ const AdminContextProvider = (props) =>{
     const [isShowAdminDetail, setIsShowAdminDetail] = useState(false)
     const [onlineData, setOnlineData] = useState([])
     const [isEdit, setIsEdit] = useState(false)
+    const [isWeekEdit, setIsWeekEdit] = useState(false)
     const [isResolve, setIsResolve] = useState('report')
     const [riderData, setRiderData] = useState({
-        riderId:'',
+        riderId: '',
         name: '',
         date: '',
         sp2_1: '',
+        sp2_1_remaindelivering: '',
+        sp2_1_onhold: '',
+        sp2_1_delivered: '',
+        sp2_1_serve_type: '',
         sp2_1_appsheet: '',
-        sp2_1_epod: '',
-        sp2_1_sop:'',
+        sp2_1_sop: '',
         sp2_2: '',
+        sp2_2_remaindelivering: '',
+        sp2_2_onhold: '',
+        sp2_2_delivered: '',
+        sp2_2_serve_type: '',
         sp2_2_appsheet: '',
-        sp2_2_epod: '',
-        sp2_2_sop:'',
+        sp2_2_sop: '',
         sp2_3: '',
+        sp2_3_remaindelivering: '',
+        sp2_3_onhold: '',
+        sp2_3_delivered: '',
+        sp2_3_serve_type: '',
         sp2_3_appsheet: '',
-        sp2_3_epod: '',
-        sp2_3_sop:'',
-        sp2_attendance:'',
+        sp2_3_sop: '',
+        sp2_attendance: '',
         admincomment:'',
-        image:''
+        image:'',
+        lost_cnt: '',
+        epod: '',
+    })
+
+    const [riderWeekData, setRiderWeekData] = useState({
+        riderId: '',
+        name: '',
+        weeknum: '',
+        uncleanCnt: '',
+        comment: '',
+        reportItem: '',
+        ttl_delivered: '',
+        ttl_worksday_weekend: '',
+        seq: '',
+        epod_lost: '',
     })
 
     const getDB = async () => {
@@ -87,7 +112,12 @@ const AdminContextProvider = (props) =>{
     },[rider])
 
     const value = {
-        getDB, rider, data, state, setData, setToken, token, userEmail, setUserEmail, isShowAdminDetail, setIsShowAdminDetail, weekData, setWeekData, getWeekDB, onlineData, setOnlineData,isEdit, setIsEdit,riderData, setRiderData, isResolve, setIsResolve
+        getDB, rider, data, state, setData, 
+        setToken, token, userEmail, 
+        setUserEmail, isShowAdminDetail, setIsShowAdminDetail, 
+        weekData, setWeekData, getWeekDB, onlineData, setOnlineData,
+        isEdit, setIsEdit,riderData, setRiderData, isResolve, setIsResolve,
+        riderWeekData, setRiderWeekData,isWeekEdit, setIsWeekEdit
     }
 
     return(

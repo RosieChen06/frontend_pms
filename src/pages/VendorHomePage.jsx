@@ -438,7 +438,7 @@ const VendorHomePage = () => {
         />
             :''
         }
-        <div className='w-[87%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
+        <div className='w-[91%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
             <p>Date</p>
             <p>Name</p>
             <p>保底獎勵</p>
@@ -449,7 +449,9 @@ const VendorHomePage = () => {
         {
                 filterdData.map((item, index)=>(
                 <div key={index} className='flex flex-row items-center w-full justify-between'>
-                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
+                    <div className='w-[91%]'>
+                        <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
+                    </div>
                     <div className='flex flex-row gap-4'>
                         <button onClick={()=>displayDetail(index, item.name, item.weeknum)} className='bg-white p-3 rounded-full'><BiDetail /></button>
                         <button onClick={()=>isCheck(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
