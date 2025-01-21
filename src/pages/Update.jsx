@@ -6,7 +6,7 @@ import { UserContext } from '../../context/UserContext'
 
 const Update = () => {
 
-    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData} = useContext(AdminContext)
+    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
     const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
@@ -101,7 +101,82 @@ const Update = () => {
         {
             riderWeekData && isWeekEdit?
             <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll'>
-                <p>success</p>
+                <div className='pr-6 mb-12 flex w-full flex-row gap-4 justify-between bg-slate-50'>
+                    <div className='w-full flex flex-row justify-center items-center'>   
+                        <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                            <p className='text-sm'>騎手姓名</p>
+                            <p className='text-lg font-extrabold'>{riderWeekData.name}</p>
+                        </div>
+                        <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                            <p className='text-sm'>配送週數</p>
+                            <p className='text-lg font-extrabold'>{riderWeekData.weeknum}</p>
+                        </div>
+                        <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                            <p className='text-sm hover:text-white'>上線獎勵</p>
+                            <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={riderData.is_garantee} onChange={e=>setRiderData(prev =>({...prev, is_garantee: e.target.value}))}>
+                                <option value='達標'>達標</option>
+                                <option value='未達標'>未達標</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className='flex flex-row justify-end items-center w-full'>
+                        <button onClick={()=>setIsEdit(false)} className=' px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                        <button onClick={()=>updateData(riderWeekData.riderId)} className=' px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                    </div>
+                </div>
+                <h1 className='w-full border-l-4 pl-4 text-lg font-bold border-[#004e76]'>當周表現</h1>
+                <div className='flex flex-wrap gap-x-24 gap-y-12 w-full mt-12'>
+                    <div className='w-full max-w-96'> 
+                        <div className='flex flex-row items-center mb-4 gap-3'>
+                            {riderWeekData.reportItem.includes('ttl_delivered')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                            <p className='text-sm text-gray-700'>總配送貨量</p>
+                        </div>
+                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.ttl_delivered} onChange={e=>setRiderWeekData(prev =>({...prev, ttl_delivered: e.target.value}))}></input>
+                    </div>
+                    <div className='w-full max-w-96'> 
+                        <div className='flex flex-row items-center mb-4 gap-3'>
+                            {riderWeekData.reportItem.includes('ttl_workday')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                            <p className='text-sm text-gray-700'>總配送天數</p>
+                        </div>
+                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.ttl_worksday} onChange={e=>setRiderWeekData(prev =>({...prev, ttl_worksday: e.target.value}))}></input>
+                    </div>
+                    <div className='w-full max-w-96'> 
+                        <div className='flex flex-row items-center mb-4 gap-3'>
+                            {riderWeekData.reportItem.includes('ttl_workday_weekend')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                            <p className='text-sm text-gray-700'>假日配送天數</p>
+                        </div>
+                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.ttl_workday_weekend} onChange={e=>setRiderWeekData(prev =>({...prev, ttl_workday_weekend: e.target.value}))}></input>
+                    </div>
+                    <div className='w-full max-w-96'> 
+                        <div className='flex flex-row items-center mb-4 gap-3'>
+                            {riderWeekData.reportItem.includes('epod & lost')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                            <p className='text-sm text-gray-700'>epod累計不佳次數</p>
+                        </div>
+                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.epod_lost} onChange={e=>setRiderWeekData(prev =>({...prev, epod_lost: e.target.value}))}></input>
+                    </div>
+                    <div className='w-full max-w-96'> 
+                        <div className='flex flex-row items-center mb-4 gap-3'>
+                            {riderWeekData.reportItem.includes('seq')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                            <p className='text-sm text-gray-700'>推薦排序使用率</p>
+                        </div>
+                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.seq} onChange={e=>setRiderWeekData(prev =>({...prev, seq: e.target.value}))}></input>
+                    </div>
+                </div>
+                <h1 className='w-full mt-16 border-l-4 pl-4 text-lg font-bold border-[#004e76]'>當周表現</h1>
+                <div className='flex flex-wrap gap-x-24 gap-y-12 w-full mt-12'>
+                    <div className='w-full max-w-96'> 
+                        <div className='flex flex-row items-center mb-4 gap-3'>
+                            {riderWeekData.reportItem.includes('uncleanCnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                            <p className='text-sm text-gray-700'>當周承攬完成比例</p>
+                        </div>
+                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.ttl_delivered} onChange={e=>setRiderWeekData(prev =>({...prev, ttl_delivered: e.target.value}))}></input>
+                    </div>
+                    {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum)).map((item, index)=>(
+                        <div>
+                            <p>{item.weeknum}</p>
+                        </div>
+                    ))}
+                </div>
             </div>:''
         }
         {

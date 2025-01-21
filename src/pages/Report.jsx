@@ -164,19 +164,20 @@ const openWeekEditForm = (id) => {
   ))
 
   setRiderWeekData({
-    riderId: selectedData[0].riderId,
+    riderId: selectedData[0]._id,
     name: selectedData[0].name,
     weeknum: selectedData[0].weeknum,
     uncleanCnt: selectedData[0].uncleanCnt,
     comment: selectedData[0].comment,
     reportItem: selectedData[0].reportItem,
     ttl_delivered: selectedData[0].ttl_delivered,
-    ttl_worksday_weekend: selectedData[0].ttl_worksday_weekend,
+    ttl_workday_weekend: selectedData[0].ttl_workday_weekend,
+    ttl_worksday: selectedData[0].ttl_worksday,
     seq: selectedData[0].seq,
     epod_lost: selectedData[0].epod_lost,
+    
   })
-  // setIsWeekEdit(true)
-  console.log(riderWeekData)
+  setIsWeekEdit(true)
 }
 
   return (
