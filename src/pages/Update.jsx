@@ -171,7 +171,7 @@ const Update = () => {
                         </div>
                         <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.ttl_delivered} onChange={e=>setRiderWeekData(prev =>({...prev, ttl_delivered: e.target.value}))}></input>
                     </div>
-                    {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum)).map((item, index)=>(
+                    {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).map((item, index)=>(
                         <div>
                             <p>{item.weeknum}</p>
                         </div>
