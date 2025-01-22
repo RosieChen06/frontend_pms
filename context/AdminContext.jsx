@@ -62,6 +62,8 @@ const AdminContextProvider = (props) =>{
         epod_lost: '',
     })
 
+        const [isSpQualify, setSpIsQualify] = useState({})
+
     const getDB = async () => {
         try{
             const {data} = await axios.get('http://localhost:4000/api/admin/all-rider')
@@ -117,7 +119,8 @@ const AdminContextProvider = (props) =>{
         setUserEmail, isShowAdminDetail, setIsShowAdminDetail, 
         weekData, setWeekData, getWeekDB, onlineData, setOnlineData,
         isEdit, setIsEdit,riderData, setRiderData, isResolve, setIsResolve,
-        riderWeekData, setRiderWeekData,isWeekEdit, setIsWeekEdit
+        riderWeekData, setRiderWeekData,isWeekEdit, setIsWeekEdit,
+        isSpQualify, setSpIsQualify
     }
 
     return(

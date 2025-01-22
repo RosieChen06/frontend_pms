@@ -3,14 +3,16 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
 import { UserContext } from '../../context/UserContext'
+import { ImCross } from "react-icons/im";
+import { FaCheck } from "react-icons/fa";
 
 const Update = () => {
 
-    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
+    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isSp1Qualify, setSp1IsQualify, isSp2Qualify, setSp2IsQualify, isSp3Qualify, setSp3IsQualify} = useContext(AdminContext)
     const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
-    console.log(riderData)
+    const [id, setId] = useState([])
 
     const updateData = async (id) => {
         try{
@@ -171,9 +173,177 @@ const Update = () => {
                         </div>
                         <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderWeekData.ttl_delivered} onChange={e=>setRiderWeekData(prev =>({...prev, ttl_delivered: e.target.value}))}></input>
                     </div>
-                    {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).map((item, index)=>(
-                        <div>
-                            <p>{item.weeknum}</p>
+                </div>
+                <div className='flex flex-col gap-x-24 gap-y-12 w-full mt-8'>
+                    {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum)).map((item, index)=>(
+                        <div key={index}>
+                            <div className='flex flex-row gap-16 p-4 w-full bg-red-100'>
+                                <p>{item.date}</p>
+                                <p>{item.sp2_1}</p>
+                                <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={sp2IsQualify.sp2_1_serveice_bonus} onChange={e=>setSp1IsQualify(prev =>({...prev, sp2_1_serveice_bonus: e.target.value}))}>
+                                    <option value='達標'>達標</option>
+                                    <option value='未達標'>未達標</option>
+                                </select>
+                                <p>{item.sp2_2}</p>
+                                <p>{item.sp2_3}</p>
+                            </div>
+                            <div className='w-full overflow-scroll'>
+                                <table className="table-fixed w-full min-w-[1250px] text-left mt-3">
+                                    <tr className='min-w-[1730px]'>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">門市</p>
+                                        </th>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">門市清空</p>
+                                        </th>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">Smart Inbound執行率</p>
+                                        </th>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">Appsheet滯留包裹</p>
+                                        </th>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">承攬上線時間</p>
+                                        </th>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">EPOD</p>
+                                        </th>
+                                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                                            <p className="block text-sm font-normal leading-none text-slate-500">遺失包裹</p>
+                                        </th>
+                                    </tr>
+                                    <tr className="hover:bg-slate-50">
+                                        <td className="p-4 border-b border-slate-200 flex flex-row gap-2 items-center">
+                                            <p className={item.sp2_1_serve_type==="指定"?'w-2 h-2 rounded-full bg-green-600':'w-2 h-2 rounded-full bg-yellow-400'}></p>
+                                            <p className="block text-sm text-slate-800">{item.sp2_1}</p>
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {parseInt(item.sp2_1_ttl_delivered)>=parseInt(item.sp2_1_remaindelivering)+parseInt(item.sp2_1_onhold)?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_1_sop==="-"? '': item.sp2_1_sop==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_1_serve_type==="指定"?'':item.sp2_1_appsheet==="-"? '': item.sp2_1_appsheet==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_1_serve_type==="支援"?'':item.sp2_attendance==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_epod==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.lost_cnt.length===0?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                    </tr>
+                                    {item.sp2_2==="-"?'':
+                                    <tr className="hover:bg-slate-50">
+                                        <td className="p-4 border-b border-slate-200 flex flex-row gap-2 items-center">
+                                            <p className={item.sp2_2_serve_type==="指定"?'w-2 h-2 rounded-full bg-green-600':'w-2 h-2 rounded-full bg-yellow-400'}></p>
+                                            <p className="block text-sm text-slate-800">{item.sp2_2}</p>
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {parseInt(item.sp2_2_ttl_delivered)>=parseInt(item.sp2_2_remaindelivering)+parseInt(item.sp2_2_onhold)?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_2_sop==="-"? '': item.sp2_2_sop==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_2_serve_type==="指定"?'':item.sp2_2_appsheet==="-"? '': item.sp2_2_appsheet==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_2_serve_type==="支援"?'':item.sp2_attendance==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_epod==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.lost_cnt.length===0?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                    {item.sp2_3==="-"?'':
+                                        <tr className="hover:bg-slate-50">
+                                            <td className="p-4 border-b border-slate-200 flex flex-row gap-2 items-center">
+                                                <p className={item.sp2_3_serve_type==="指定"?'w-2 h-2 rounded-full bg-green-600':'w-2 h-2 rounded-full bg-yellow-400'}></p>
+                                                <p className="block text-sm text-slate-800">{item.sp2_3}</p>
+                                            </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {parseInt(item.sp2_3_ttl_delivered)>=parseInt(item.sp2_3_remaindelivering)+parseInt(item.sp2_3_onhold)?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_3_sop==="-"? '': item.sp2_3_sop==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_3_serve_type==="指定"?'':item.sp2_3_appsheet==="-"? '': item.sp2_3_appsheet==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_3_serve_type==="支援"?'':item.sp2_attendance==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.sp2_epod==="達標"?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                        <td className="p-4 border-b border-slate-200">
+                                            {item.lost_cnt.length===0?
+                                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
+                                                <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                </table>
+                            </div>
                         </div>
                     ))}
                 </div>

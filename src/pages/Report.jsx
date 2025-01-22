@@ -11,7 +11,7 @@ import { UserContext } from '../../context/UserContext';
 import Update from './Update';
 
 const Report = () => {
-      const {getDB, rider, state, onlineData, token, isEdit, setIsEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit} = useContext(AdminContext)
+      const {getDB, rider, state, onlineData, token, isEdit, setIsEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify} = useContext(AdminContext)
       const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
@@ -21,6 +21,7 @@ const Report = () => {
       const [uploadUrl3, setUploadUrl3] = useState(false)
       const [replyItem, setReplyItem] = useState([])
       const [isReply, setIsReply] = useState(false)
+      
 
 
       const filterdData = rider.filter((item)=>(
@@ -157,11 +158,33 @@ const filterdWeekData = onlineData.filter((item)=>(
   item.status === isResolve
 ))
 
-const openWeekEditForm = (id) => {
+const openWeekEditForm = (id, name, weeknum) => {
 
   const selectedData = filterdWeekData.filter((item)=>(
       item._id===id
   ))
+
+  const selectDayData = rider.filter((item)=>(
+      item.name===name && item.weeknum===weeknum
+  ))
+
+  for(let i=0; i<=selectDayData.length-1; i++){
+    if(selectDayData[0]){
+
+      setSpIsQualify({...isSpQualify, day: {
+        id: selectDayData[0]._id,
+        is_garantee: selectDayData[0].is_garantee,
+        sp2_1_serveice_bonus: selectDayData[0].sp2_1_is_servicce_bonus,
+        sp2_2_serveice_bonus: selectDayData[0].sp2_2_is_servicce_bonus,
+        sp2_3_serveice_bonus: selectDayData[0].sp2_3_is_servicce_bonus,
+        },
+      })
+    }
+  }
+
+
+  console.log(isSpQualify)
+
 
   setRiderWeekData({
     riderId: selectedData[0]._id,
@@ -177,7 +200,7 @@ const openWeekEditForm = (id) => {
     epod_lost: selectedData[0].epod_lost,
     
   })
-  setIsWeekEdit(true)
+  // setIsWeekEdit(true)
 }
 
   return (
@@ -328,7 +351,7 @@ const openWeekEditForm = (id) => {
                       <p>{item.name}</p>
                     </div>
                     {token==='admin'?
-                    <button onClick={()=>openWeekEditForm(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
+                    <button onClick={()=>openWeekEditForm(item._id, item.name, item.weeknum)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
                     <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報',"week")}>取消回報</button>:
                     <div className='flex flex-row gap-4'>
                       <button className='p-2 px-4 bg-red-200 rounded-md' onClick={()=>showReportForm(index)}>回復</button>
