@@ -8,7 +8,7 @@ import { FaCheck } from "react-icons/fa";
 
 const Update = () => {
 
-    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isSp1Qualify, setSp1IsQualify, isSp2Qualify, setSp2IsQualify, isSp3Qualify, setSp3IsQualify} = useContext(AdminContext)
+    const {getDB, rider, state, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isSpQualify, setSpIsQualify} = useContext(AdminContext)
     const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
@@ -65,6 +65,10 @@ const Update = () => {
         let test = test1.concat(test2).concat(test3);
         test.filter((item, index) => test.indexOf(item) !== index);
         obj.push(test)
+    }
+
+    const adjustQualification = (value, index) => {
+        console.log(isSpQualify)
     }
 
   return state && (
@@ -180,7 +184,7 @@ const Update = () => {
                             <div className='flex flex-row gap-16 p-4 w-full bg-red-100'>
                                 <p>{item.date}</p>
                                 <p>{item.sp2_1}</p>
-                                <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={sp2IsQualify.sp2_1_serveice_bonus} onChange={e=>setSp1IsQualify(prev =>({...prev, sp2_1_serveice_bonus: e.target.value}))}>
+                                <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={isSpQualify[index].sp2_1_serveice_bonus} onChange={(e)=>adjustQualification(e.target.value, index)}>
                                     <option value='達標'>達標</option>
                                     <option value='未達標'>未達標</option>
                                 </select>

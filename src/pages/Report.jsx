@@ -168,23 +168,24 @@ const openWeekEditForm = (id, name, weeknum) => {
       item.name===name && item.weeknum===weeknum
   ))
 
-  for(let i=0; i<=selectDayData.length-1; i++){
-    if(selectDayData[0]){
 
-      setSpIsQualify({...isSpQualify, day: {
-        id: selectDayData[0]._id,
-        is_garantee: selectDayData[0].is_garantee,
-        sp2_1_serveice_bonus: selectDayData[0].sp2_1_is_servicce_bonus,
-        sp2_2_serveice_bonus: selectDayData[0].sp2_2_is_servicce_bonus,
-        sp2_3_serveice_bonus: selectDayData[0].sp2_3_is_servicce_bonus,
-        },
-      })
+  console.log(selectDayData)
+
+  const tempArray = []
+
+  for(let i=0;i<selectDayData.length;i++){
+    const getallData={
+      id: selectDayData[i]._id,
+      is_garantee: selectDayData[i].is_garantee,
+      sp2_1_serveice_bonus: selectDayData[i].sp2_1_is_servicce_bonus,
+      sp2_2_serveice_bonus: selectDayData[i].sp2_2_is_servicce_bonus,
+      sp2_3_serveice_bonus: selectDayData[i].sp2_3_is_servicce_bonus,
     }
+    tempArray.push(getallData)
   }
-
+  setSpIsQualify(tempArray);
 
   console.log(isSpQualify)
-
 
   setRiderWeekData({
     riderId: selectedData[0]._id,
@@ -200,7 +201,7 @@ const openWeekEditForm = (id, name, weeknum) => {
     epod_lost: selectedData[0].epod_lost,
     
   })
-  // setIsWeekEdit(true)
+  setIsWeekEdit(true)
 }
 
   return (

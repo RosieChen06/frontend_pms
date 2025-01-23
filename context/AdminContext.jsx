@@ -62,7 +62,7 @@ const AdminContextProvider = (props) =>{
         epod_lost: '',
     })
 
-        const [isSpQualify, setSpIsQualify] = useState({})
+        const [isSpQualify, setSpIsQualify] = useState(false)
 
     const getDB = async () => {
         try{
