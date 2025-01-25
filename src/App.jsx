@@ -11,6 +11,7 @@ import Report from './pages/Report';
 import { AdminContext } from '../context/AdminContext';
 import VendorHomePage from './pages/VendorHomePage';
 import Confirmed from './pages/Confirmed';
+import MissingParcel from './pages/MissingParcel';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
               <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/admin-update' element={<Report />} />
+                  <Route path='/missing-parcel' element={<MissingParcel />} />
               </Routes>
           </div>
         </div>:token==='user'?

@@ -229,7 +229,10 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800"></p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>
+                                {parseInt(sp2_1_ttl_delivered)>=parseInt(sp2_1_remaindelivering)-parseInt(sp2_1_onhold)?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
+                                }
                             </td>
                             {token==='admin'?'':day_report_status==='confirm'?'':                                   
                             <td class="p-4 border-b border-slate-200">

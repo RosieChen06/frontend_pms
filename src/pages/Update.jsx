@@ -627,7 +627,7 @@ const Update = () => {
                                             </th>
                                         </tr>
                                         <tr className="hover:bg-slate-50">
-                                            <td className="p-4 border-b border-slate-200 flex flex-row gap-2 items-center">
+                                            <td className="p-5 border-b border-slate-200 flex flex-row items-center gap-2">
                                                 <p className={item.sp2_1_serve_type==="指定"?'w-2 h-2 rounded-full bg-green-600':'w-2 h-2 rounded-full bg-yellow-400'}></p>
                                                 <p className="block text-sm text-slate-800">{item.sp2_1}</p>
                                             </td>
@@ -670,7 +670,7 @@ const Update = () => {
                                         </tr>
                                         {item.sp2_2==="-"?'':
                                         <tr className="hover:bg-slate-50">
-                                            <td className="p-4 border-b border-slate-200 flex flex-row gap-2 items-center">
+                                            <td className="p-5 border-b border-slate-200 flex flex-row items-center gap-2">
                                                 <p className={item.sp2_2_serve_type==="指定"?'w-2 h-2 rounded-full bg-green-600':'w-2 h-2 rounded-full bg-yellow-400'}></p>
                                                 <p className="block text-sm text-slate-800">{item.sp2_2}</p>
                                             </td>
@@ -714,7 +714,7 @@ const Update = () => {
                                         }
                                         {item.sp2_3==="-"?'':
                                             <tr className="hover:bg-slate-50">
-                                                <td className="p-4 border-b border-slate-200 flex flex-row gap-2 items-center">
+                                                <td className="p-5 border-b border-slate-200 flex flex-row items-center gap-2">
                                                     <p className={item.sp2_3_serve_type==="指定"?'w-2 h-2 rounded-full bg-green-600':'w-2 h-2 rounded-full bg-yellow-400'}></p>
                                                     <p className="block text-sm text-slate-800">{item.sp2_3}</p>
                                                 </td>

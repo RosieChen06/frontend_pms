@@ -74,8 +74,6 @@ const Report = () => {
       setSeletedData(filterdWeekData.filter((item)=>(item._id===_id)))
     }
 
-    console.log(replyWeekItem)
-
     if(!image1){
       setUploadUrl1(seletedData[0].image[0])
     }

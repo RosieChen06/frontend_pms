@@ -7,6 +7,7 @@ import { AdminContext } from '../../context/AdminContext';
 import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineFactCheck } from "react-icons/md";
 import { VscReport } from "react-icons/vsc";
+import { LuClipboardPenLine } from "react-icons/lu";
 
 const Sidebar = () => {
 
@@ -22,6 +23,10 @@ const Sidebar = () => {
             <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
                 <TbMessageReport className='text-lg'/>
                 <p>Report & Update</p>
+            </NavLink>
+            <NavLink to={'/missing-parcel'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+                <LuClipboardPenLine className='text-lg'/>
+                <p>Lost Registration</p>
             </NavLink>
             <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute cursor-pointer flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full hover:bg-white hover:text-red-600 hover:font-bold'>
               <CiLogout className='text-lg'/>
