@@ -18,7 +18,7 @@ const VendorHomePage = () => {
     const {getDB, rider, state, token} = useContext(AdminContext)
     const {isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
-        setSp2_3_reportItem, dayList,setDayList, riderList, setRiderList, riderFilterPreview, setRiderFilterPreview, dateFilterPreview, setDateFilterPreview, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter} = useContext( UserContext)
+        setSp2_3_reportItem, dayList,setDayList, riderList, setRiderList, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
@@ -27,6 +27,8 @@ const VendorHomePage = () => {
     const [filterSubmitData, setFilterSubmitData] = useState([])
     const [dateSubmitFilterConfirm, setDateSubmitFilterConfirm] = useState([])
     const [riderSubmitFilterConfirm, setRiderSubmitFilterConfirm] = useState([])
+    const [dateFilterPreview, setDateFilterPreview] = useState([])
+    const [riderFilterPreview, setRiderFilterPreview] = useState([])
 
     const dataList = () => {
         if(riderSubmitFilterConfirm.length === 0 && dateSubmitFilterConfirm.length === 0){
@@ -177,7 +179,8 @@ const VendorHomePage = () => {
         </div>
         {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'submit'
-          ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm}/>:''}
+          ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm} status='submit'
+          setDateFilterPreview={setDateFilterPreview} dateFilterPreview={dateFilterPreview} setRiderFilterPreview={setRiderFilterPreview} riderFilterPreview={riderFilterPreview} />:''}
         {
           reportForm?
           <div className='absolute bg-white w-[80%] h-[86%] rounded-lg p-2 mt-3'>
@@ -442,7 +445,7 @@ const VendorHomePage = () => {
                 filterSubmitData.map((item, index)=>(
                 <div key={index} className='flex flex-row items-center w-full justify-between'>
                     <div className='w-full'>
-                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='submit'/>
+                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} filterdData={filterSubmitData} status='submit'/>
                     </div>
                 </div> 
                 ))

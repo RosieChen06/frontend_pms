@@ -7,19 +7,16 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import { FaRegSave } from "react-icons/fa";
 
-const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index, id, weeknum, status}) => {
+const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData}) => {
 
   const {getDB, data, rider, onlineData, displayMainItem, setDisplayMainItem, displayOnlineMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
   const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail} = useContext(UserContext)
-
-  const filterdData = rider.filter((item)=>(
-    item.status === 'submit'
-  ))
   
   const displayDetail = (index, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
         item.name===name && item.weeknum===weeknum
     ))
+    console.log(index)
     setDisplayItem(filterdData[index])
     setDisplayOnlineItem(online_bonus_data[0])
     setIsShowDetail(true)
@@ -45,15 +42,11 @@ const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index
     }
   }
 
-  const filterdConfirmData = rider.filter((item)=>(
-    item.status === 'confirm'
-  ))
-
   const displayConfirmDetail = (index, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
       item.name===name && item.weeknum===weeknum
     ))
-    setDisplayConfirmItem(filterdConfirmData[index])
+    setDisplayConfirmItem(filterdData[index])
     setDisplayConfirmOnlineItem(online_bonus_data[0])
     setIsShowConfirmDetail(true)
 }

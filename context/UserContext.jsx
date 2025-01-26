@@ -20,17 +20,19 @@ const UserContextProvider = (props) =>{
     const [displayConfirmOnlineItem, setDisplayConfirmOnlineItem] = useState([])
     const [riderList, setRiderList] = useState(false)
     const [dayList, setDayList] = useState(false)
-    const [dateFilterPreview, setDateFilterPreview] = useState([])
-    const [riderFilterPreview, setRiderFilterPreview] = useState([])
     const [submitDataFilter, setSubmitDataFilter] = useState(false)
     const [isSubmitFilter, setSubmitFilter] = useState(false)
+    const [riderConfirmList, setRiderConfirmList] = useState(false)
+    const [dayConfirmList, setDayConfirmList] = useState(false)
+    const [filterConfirmData, setFilterConfirmData] = useState([])
+    const [isConfirmFilter, setConfirmFilter] = useState(false)
 
     const value = {
         isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isShowConfirmDetail, setIsShowConfirmDetail,
         isOnlineReport, setIsReportOnline, sp2_1_reportItem, setSp2_1_reportItem, sp2_2_reportItem, setSp2_2_reportItem, sp2_3_reportItem, setSp2_3_reportItem,
         reportSp2Item, setReportSp2Item, displayOnlineItem, setDisplayOnlineItem, displayConfirmItem, setDisplayConfirmItem,
-        displayConfirmOnlineItem, setDisplayConfirmOnlineItem, riderList, setRiderList, dayList, setDayList, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter,
-        dateFilterPreview, setDateFilterPreview, riderFilterPreview, setRiderFilterPreview
+        displayConfirmOnlineItem, setDisplayConfirmOnlineItem, riderList, setRiderList, dayList, setDayList, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter, isConfirmFilter, setConfirmFilter, dayConfirmList, setDayConfirmList,
+        riderConfirmList, setRiderConfirmList, filterConfirmData, setFilterConfirmData
     }
 
     return(

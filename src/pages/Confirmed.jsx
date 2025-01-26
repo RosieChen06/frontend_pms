@@ -1,19 +1,62 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import List from '../components/List'
-import { BiDetail } from "react-icons/bi";
 import { UserContext } from '../../context/UserContext';
 import Detail from '../components/Detail';
+import Filter from '../components/Filter';
+import { FaFilter } from "react-icons/fa6";
 
 const Confirmed = () => {
 
     const {rider, token} = useContext(AdminContext)
+    const [filterConfirmData, setFilterConfirmData] = useState([])
+    const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
+    const [riderConfirmFilterPreview, setRiderConfirmFilterPreview] = useState([])
+
+    const dataList = () => {
+        if(riderConfirmFilterConfirm.length === 0 && dateConfirmFilterConfirm.length === 0){
+            let newData = rider.filter((item)=>(
+                item.status === 'confirm'
+            ))
+            setFilterConfirmData(newData)
+        }else if(riderConfirmFilterConfirm.length === 0){
+            let newData = rider.filter((item)=>(
+                item.status === 'confirm' && dateConfirmFilterConfirm.includes(item.date)
+              ))
+            setFilterConfirmData(newData)
+        }else if(dateConfirmFilterConfirm.length === 0){
+            let newData = rider.filter((item)=>(
+                item.status === 'confirm' && riderConfirmFilterConfirm.includes(item.name)
+              ))
+            setFilterConfirmData(newData)
+        }else{
+            let newData = rider.filter((item)=>(
+                item.status === 'confirm' && riderConfirmFilterConfirm.includes(item.name) && dateConfirmFilterConfirm.includes(item.date)
+            ))
+            setFilterConfirmData(newData)
+        }
+    }
+
+    useEffect(()=>{
+        dataList()
+    }, [rider])
+
     const filterdData = rider.filter((item)=>(
       item.status === 'confirm'
     ))
-    const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem} = useContext( UserContext)
+    const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem, isConfirmFilter, setConfirmFilter} = useContext( UserContext)
+    const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
+    const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
   return (
     <div className='w-2/3 md:w-5/6 h-[88vh] ml-4'>
+      <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
+          <FaFilter />
+          <button onClick={()=>setConfirmFilter(true)}>篩選</button>
+      </div>
+      {isConfirmFilter?<Filter filterData={rider.filter((item)=>(
+            item.status === 'confirm'
+          ))} status='confirm' setRiderConfirmFilterConfirm={setRiderConfirmFilterConfirm} setDateConfirmFilterConfirm={setDateConfirmFilterConfirm} dateConfirmFilterPreview={dateConfirmFilterPreview} setDateConfirmFilterPreview={setDateConfirmFilterPreview} 
+          setRiderConfirmFilterPreview={setRiderConfirmFilterPreview} riderConfirmFilterPreview={riderConfirmFilterPreview}/>:''}
         {isShowConfirmDetail? 
             <Detail 
             token={token}
@@ -72,10 +115,10 @@ const Confirmed = () => {
         </div>
         <div className='w-[99%] overflow-scroll text-center'>
             {
-                filterdData.map((item, index)=>(
+                filterConfirmData.map((item, index)=>(
                   <div key={index} className='flex flex-row items-center w-full justify-between'>
                     <div className='w-full'>
-                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm'/>
+                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
                     </div>
                   </div> 
                 ))
