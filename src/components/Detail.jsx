@@ -26,7 +26,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
             </div>
             <p className='mt-4 text-sm text-gray-700'>Rider Name: {name}</p>
             <div className='flex justify-between'>
-                <p className='text-sm text-gray-700'>Date: {new Date(date).getFullYear()}/{new Date(date).getMonth()+1}/{new Date(date).getDay()}</p>
+                <p className='text-sm text-gray-700'>Date: {date}</p>
                 <div className='text-sm flex flex-row gap-6 mr-5'>
                     <p className={is_garantee==='未達標'?'border-l-4 border-red-600 pl-2':'border-l-4 border-green-400 pl-2'}>保底獎勵</p>
                 </div>

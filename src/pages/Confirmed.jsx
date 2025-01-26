@@ -7,25 +7,11 @@ import Detail from '../components/Detail';
 
 const Confirmed = () => {
 
-    const {rider, token, onlineData} = useContext(AdminContext)
+    const {rider, token} = useContext(AdminContext)
     const filterdData = rider.filter((item)=>(
-      item.status === 'confirmed'
+      item.status === 'confirm'
     ))
-    const {isShowConfirmDetail, setIsShowConfirmDetail} = useContext( UserContext)
-    const [displayConfirmItem, setDisplayConfirmItem] = useState([])
-    const [displayConfirmOnlineItem, setDisplayConfirmOnlineItem] = useState([])
-
-    const displayDetail = (index, name, weeknum) =>{
-      let online_bonus_data = onlineData.filter((item)=>(
-        item.name===name && item.weeknum===weeknum
-      ))
-      setDisplayConfirmItem(filterdData[index])
-      setDisplayConfirmOnlineItem(online_bonus_data[0])
-      setIsShowConfirmDetail(true)
-  }
-
-  console.log(displayConfirmOnlineItem)
-
+    const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem} = useContext( UserContext)
   return (
     <div className='w-2/3 md:w-5/6 h-[88vh] ml-4'>
         {isShowConfirmDetail? 
@@ -76,28 +62,22 @@ const Confirmed = () => {
             />
             :''
         }
-        <div className='w-[91%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
-            <p>Date</p>
-            <p>Name</p>
+        <div className='w-[99%] grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
+            <p>日期</p>
+            <p>騎手</p>
             <p>保底獎勵</p>
             <p>服務獎勵</p>
             <p>上線獎勵</p>
+            <p>選項</p>
         </div>
-        <div className='w-full overflow-scroll text-center'>
+        <div className='w-[99%] overflow-scroll text-center'>
             {
                 filterdData.map((item, index)=>(
-                <div key={index} className='flex flex-row'>
-                  <div key={index} className='w-[91%] grid grid-cols-5 bg-white p-3 mb-4 mr-8'>
-                      <p>{item.date.slice(0,10)}</p>
-                      <p>{item.name}</p>
-                      <p>{item.is_garantee}</p>
-                      <p>{item.is_service_bonus}</p>
-                      <p>{item.is_online_bonus}</p>
-                  </div>
-                  <div className='flex flex-row'>
-                    <button onClick={()=>displayDetail(index, item.name, item.weeknum)} className='bg-white p-3 rounded-full w-11 h-11 flex justify-center items-center'><BiDetail /></button>
-                  </div>
-                </div>
+                  <div key={index} className='flex flex-row items-center w-full justify-between'>
+                    <div className='w-full'>
+                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm'/>
+                    </div>
+                  </div> 
                 ))
             }
         </div>

@@ -177,7 +177,6 @@ const openEditForm = (id, name, weeknum) => {
   const selectedWeekData = onlineData.filter((item)=>(
     item.name===name && item.weeknum===weeknum
   ))
-  console.log(selectedWeekData)
 
   setRiderWeekData({
     riderId: selectedWeekData[0]._id,
@@ -273,8 +272,8 @@ const openWeekEditForm = (id, name, weeknum) => {
       {token==='user'?'':isEdit?<Update />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
-        <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理</p>
-        <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復</p>
+          <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{filterdData.length + onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
+        <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復<span className={isResolve==='resolve'?'ml-3 rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{filterdData.length + onlineData.filter((item)=>(item.status === 'resolve')).length}</span></p>
       </div>}
       {isEdit?'':isWeekEdit?'':
         <div className={token==='admin'?'w-full flex-wrap-reverse h-[85vh] px-4 overflow-scroll':'w-full flex-wrap-reverse h-[77vh] px-4 overflow-scroll'}>

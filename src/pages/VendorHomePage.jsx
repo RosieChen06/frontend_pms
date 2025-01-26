@@ -2,32 +2,61 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
-import { BiDetail } from "react-icons/bi";
 import { FaCheck } from "react-icons/fa";
-import { MdOutlineFactCheck } from "react-icons/md";
 import { FiUpload } from "react-icons/fi";
 import List from '../components/List';
 import Detail from '../components/Detail';
 import { UserContext } from '../../context/UserContext';
 import { ImCross } from "react-icons/im";
 import Spreport from '../components/spReport';
+import { FaFilter } from "react-icons/fa6";
+import { IoSearchOutline } from "react-icons/io5";
+import Filter from '../components/Filter';
 
 const VendorHomePage = () => {
 
-    const {getDB, rider, state, token, getWeekDB, onlineData} = useContext(AdminContext)
-    const {isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, setSp2_3_reportItem} = useContext( UserContext)
+    const {getDB, rider, state, token} = useContext(AdminContext)
+    const {isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
+        sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
+        setSp2_3_reportItem, dayList,setDayList, riderList, setRiderList, riderFilterPreview, setRiderFilterPreview, dateFilterPreview, setDateFilterPreview, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
     const [image3, setImage3] = useState(false)
-    const [displayOnlineItem, setDisplayOnlineItem] = useState([])
     const [onlineReportItem, setOnlineReportItem] = useState([])
+    const [filterSubmitData, setFilterSubmitData] = useState([])
+    const [dateSubmitFilterConfirm, setDateSubmitFilterConfirm] = useState([])
+    const [riderSubmitFilterConfirm, setRiderSubmitFilterConfirm] = useState([])
 
+    const dataList = () => {
+        if(riderSubmitFilterConfirm.length === 0 && dateSubmitFilterConfirm.length === 0){
+            let newData = rider.filter((item)=>(
+                item.status === 'submit'
+            ))
+            setFilterSubmitData(newData)
+        }else if(riderSubmitFilterConfirm.length === 0){
+            let newData = rider.filter((item)=>(
+                item.status === 'submit' && dateSubmitFilterConfirm.includes(item.date)
+              ))
+            setFilterSubmitData(newData)
+        }else if(dateSubmitFilterConfirm.length === 0){
+            let newData = rider.filter((item)=>(
+                item.status === 'submit' && riderSubmitFilterConfirm.includes(item.name)
+              ))
+            setFilterSubmitData(newData)
+        }else{
+            let newData = rider.filter((item)=>(
+                item.status === 'submit' && riderSubmitFilterConfirm.includes(item.name) && dateSubmitFilterConfirm.includes(item.date)
+            ))
+            setFilterSubmitData(newData)
+        }
+    }
 
+    useEffect(()=>{
+        dataList()
+    }, [rider])
 
-    const filterdData = rider.filter((item)=>(
-      item.status === 'submit'
-    ))
+    console.log()
 
     const reportItem = {
         '1':[],
@@ -35,15 +64,6 @@ const VendorHomePage = () => {
         '3':[],
       }
     
-
-    const displayDetail = (index, name, weeknum) =>{
-        let online_bonus_data = onlineData.filter((item)=>(
-            item.name===name && item.weeknum===weeknum
-        ))
-        setDisplayItem(filterdData[index])
-        setDisplayOnlineItem(online_bonus_data[0])
-        setIsShowDetail(true)
-    }
 
     const isReportOnline = async (_id) => {
 
@@ -141,26 +161,6 @@ const VendorHomePage = () => {
         console.log(reportItem)
     }
 
-    const isCheck = async (_id) => {
-      try{
-          const formData = new FormData()
-          formData.append('riderId', _id)
-          formData.append('status', 'confirmed')
-
-          const {data} = await axios.post('http://localhost:4000/api/user/confirm-data',formData)
-
-          if(data.success){
-              toast.success(data.message)
-              getDB()
-          }else{
-              toast.error(data.message)
-          }
-
-      }catch(error){
-          console.log(error)
-      }
-  }
-
   const toggleOnlineReportItem = (e) => {
     if(onlineReportItem.includes(e.target.value)){
         setOnlineReportItem(prev=> prev.filter((item)=> item !== e.target.value))
@@ -171,9 +171,13 @@ const VendorHomePage = () => {
 
   return state && (
     <div className='flex flex-col pl-4 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
-        <div>
-
+        <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
+            <FaFilter />
+            <button onClick={()=>setSubmitFilter(true)}>篩選</button>
         </div>
+        {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
+            item.status === 'submit'
+          ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm}/>:''}
         {
           reportForm?
           <div className='absolute bg-white w-[80%] h-[86%] rounded-lg p-2 mt-3'>
@@ -353,19 +357,6 @@ const VendorHomePage = () => {
         sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_3_name={displayItem.sp2_3} sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_3_onhold={displayItem.sp2_3_onhold} 
         sp2_3_sop={displayItem.sp2_3_sop} sp2_3_appsheet={displayItem.sp2_3_appsheet} sp2_3_ttl_delivered={displayItem.sp2_3_ttl_delivered}
         sp2_3_delivered={displayItem.sp2_3_delivered} sp2_3_lost_cnt={displayItem.lost_cnt.length} sp_epod={displayItem.epod} sp_attendance={displayItem.sp2_attendance}/>
-
-          {/* {displayItem.sp2_2==="-"?'':isOnlineReport?'':          
-            <div className='mb-4'>
-                <Spreport sp_serve_type={displayItem.sp2_2_serve_type} sp_name={displayItem.sp2_2} sp_remaindelivering={displayItem.sp2_2_remaindelivering} sp_onhold={displayItem.sp2_2_onhold} 
-                sp_sop={displayItem.sp2_2_sop} sp_appsheet={displayItem.sp2_2_appsheet} sp_epod={displayItem.epod} num='2' sp_ttl_delivered={displayItem.sp2_2_ttl_delivered}
-                sp_delivered={displayItem.sp2_2_delivered} sp_lost_cnt={displayItem.lost_cnt.length} sp_attendance={displayItem.sp2_attendance}/>
-            </div>
-          }
-          {displayItem.sp2_3==="-"?'':isOnlineReport?'':                
-                <Spreport sp_serve_type={displayItem.sp2_3_serve_type} sp_name={displayItem.sp2_3} sp_remaindelivering={displayItem.sp2_3_remaindelivering} sp_onhold={displayItem.sp2_3_onhold} 
-                sp_sop={displayItem.sp2_3_sop} sp_appsheet={displayItem.sp2_3_appsheet} sp_epod={displayItem.epod} num='3' sp_ttl_delivered={displayItem.sp2_3_ttl_delivered}
-                sp_delivered={displayItem.sp2_3_delivered} sp_lost_cnt={displayItem.lost_cnt.length} sp_attendance={displayItem.sp2_attendance}/>
-          } */}
           <div>
             <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
                 <textarea id="comment" rows="4" onChange={(e)=>{setComment(e.target.value);}} value={comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
@@ -438,23 +429,20 @@ const VendorHomePage = () => {
         />
             :''
         }
-        <div className='w-[91%] grid grid-cols-5 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
+        <div className='w-full grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
             <p>Date</p>
             <p>Name</p>
             <p>保底獎勵</p>
             <p>服務獎勵</p>
             <p>上線獎勵</p>
+            <p>選項</p>
         </div>
         <div className='w-full overflow-scroll text-center'>
         {
-                filterdData.map((item, index)=>(
+                filterSubmitData.map((item, index)=>(
                 <div key={index} className='flex flex-row items-center w-full justify-between'>
-                    <div className='w-[91%]'>
-                        <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus}/>
-                    </div>
-                    <div className='flex flex-row gap-4'>
-                        <button onClick={()=>displayDetail(index, item.name, item.weeknum)} className='bg-white p-3 rounded-full'><BiDetail /></button>
-                        <button onClick={()=>isCheck(item._id)} className='bg-white p-3 rounded-full'><MdOutlineFactCheck /></button>
+                    <div className='w-full'>
+                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='submit'/>
                     </div>
                 </div> 
                 ))

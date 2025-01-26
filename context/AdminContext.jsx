@@ -62,7 +62,9 @@ const AdminContextProvider = (props) =>{
         epod_lost: '',
     })
 
-        const [isSpQualify, setSpIsQualify] = useState(false)
+    const [isSpQualify, setSpIsQualify] = useState(false)
+    const [displayMainItem, setDisplayMainItem] =useState([])
+    const [displayOnlineMainItem, setDisplayOnlineMainItem] =useState([])
 
     const getDB = async () => {
         try{
@@ -120,7 +122,8 @@ const AdminContextProvider = (props) =>{
         weekData, setWeekData, getWeekDB, onlineData, setOnlineData,
         isEdit, setIsEdit,riderData, setRiderData, isResolve, setIsResolve,
         riderWeekData, setRiderWeekData,isWeekEdit, setIsWeekEdit,
-        isSpQualify, setSpIsQualify
+        isSpQualify, setSpIsQualify, displayMainItem, setDisplayMainItem,
+        displayOnlineMainItem, setDisplayOnlineMainItem
     }
 
     return(
