@@ -4,20 +4,58 @@ import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
 import List from '../components/List';
 import Detail from '../components/Detail';
+import { FaFilter } from "react-icons/fa6";
+import Filter from '../components/Filter';
 
 const Home = () => {
 
     const {rider, data, state, token, isShowAdminDetail, setIsShowAdminDetail, weekData, displayMainItem, setDisplayMainItem,
-        displayOnlineMainItem} = useContext(AdminContext)
-    console.log(displayMainItem)
+        displayOnlineMainItem, isRawFilter, setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)   
+    const [dateRawFilterPreview, setDateRawFilterPreview] = useState([])
+    const [riderRawFilterPreview, setRiderRawFilterPreview] = useState([])
+    const [dateRawFilterConfirm, setDateRawFilterConfirm] = useState([])
+    const [riderRawFilterConfirm, setRiderRawFilterConfirm] = useState([])
+    const [filterRawData, setFilterRawData] = useState([])
 
     const filterdData = data.filter((item)=>(rider.filter((i)=>(i.name===item.name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.name !=='')
 
-  return state && (
-    <div className='flex flex-col pl-8 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
-        <div>
+    const dataList = () => {
+            if(riderRawFilterConfirm.length === 0 && dateRawFilterConfirm.length === 0){
+                let newData = filterdData
+                setFilterRawData(newData)
+            }else if(riderRawFilterConfirm.length === 0){
+                let newData = filterdData.filter((item)=>(
+                    dateRawFilterConfirm.includes(item.date)
+                  ))
+                setFilterRawData(newData)
+            }else if(dateRawFilterConfirm.length === 0){
+                let newData = filterdData.filter((item)=>(
+                    riderRawFilterConfirm.includes(item.name)
+                  ))
+                setFilterRawData(newData)
+            }else{
+                let newData = filterdData.filter((item)=>(
+                    riderRawFilterConfirm.includes(item.name) && dateRawFilterConfirm.includes(item.date)
+                ))
+                setFilterRawData(newData)
+            }
+        }
+    
+        useEffect(()=>{
+            dataList()
+        }, [dateRawFilterConfirm, riderRawFilterConfirm, rider])
 
+        console.log(dateRawFilterPreview)
+  
+    return state && (
+    <div className='flex flex-col pl-8 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
+        <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
+            <FaFilter />
+            <button onClick={()=>setRawFilter(true)}>篩選</button>
         </div>
+        {isRawFilter?<Filter filterData={filterdData} status='raw' setDateRawFilterPreview={setDateRawFilterPreview} dateRawFilterPreview={dateRawFilterPreview} 
+        setRiderRawFilterPreview={setRiderRawFilterPreview} riderRawFilterPreview={riderRawFilterPreview} setDateRawFilterConfirm={setDateRawFilterConfirm}
+        setRiderRawFilterConfirm={setRiderRawFilterConfirm} />:''}
         {isShowAdminDetail? 
             <Detail 
                 token={token}
@@ -77,10 +115,10 @@ const Home = () => {
         </div>
         <div className='w-full overflow-scroll text-center'>
             {
-                filterdData.map((item, index)=>(
+                filterRawData.map((item, index)=>(
                 <div key={index} className='flex flex-row items-center w-full justify-between'>
                 <div className='w-full'>
-                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='raw'/>
+                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='raw' filterdData={filterRawData} />
                 </div>
                 </div> 
                 ))

@@ -10,7 +10,6 @@ import { UserContext } from '../../context/UserContext';
 import { ImCross } from "react-icons/im";
 import Spreport from '../components/spReport';
 import { FaFilter } from "react-icons/fa6";
-import { IoSearchOutline } from "react-icons/io5";
 import Filter from '../components/Filter';
 
 const VendorHomePage = () => {
@@ -57,8 +56,6 @@ const VendorHomePage = () => {
     useEffect(()=>{
         dataList()
     }, [rider])
-
-    console.log()
 
     const reportItem = {
         '1':[],

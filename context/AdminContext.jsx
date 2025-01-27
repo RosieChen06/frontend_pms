@@ -65,6 +65,9 @@ const AdminContextProvider = (props) =>{
     const [isSpQualify, setSpIsQualify] = useState(false)
     const [displayMainItem, setDisplayMainItem] =useState([])
     const [displayOnlineMainItem, setDisplayOnlineMainItem] =useState([])
+    const [isRawFilter, setRawFilter] = useState(false)
+    const [riderRawList, setRiderRawList] = useState(false)
+    const [dayRawList, setDayRawList] = useState(false)
 
     const getDB = async () => {
         try{
@@ -123,7 +126,8 @@ const AdminContextProvider = (props) =>{
         isEdit, setIsEdit,riderData, setRiderData, isResolve, setIsResolve,
         riderWeekData, setRiderWeekData,isWeekEdit, setIsWeekEdit,
         isSpQualify, setSpIsQualify, displayMainItem, setDisplayMainItem,
-        displayOnlineMainItem, setDisplayOnlineMainItem
+        displayOnlineMainItem, setDisplayOnlineMainItem, isRawFilter, setRawFilter,
+        riderRawList, setRiderRawList, dayRawList, setDayRawList
     }
 
     return(

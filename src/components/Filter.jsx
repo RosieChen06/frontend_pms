@@ -6,13 +6,16 @@ import { AdminContext } from '../../context/AdminContext';
 
 const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterConfirm, status,
     setDateFilterPreview, dateFilterPreview, setRiderFilterPreview, riderFilterPreview, setDateConfirmFilterPreview, 
-    dateConfirmFilterPreview, setRiderConfirmFilterPreview, riderConfirmFilterPreview, setRiderConfirmFilterConfirm, setDateConfirmFilterConfirm
+    dateConfirmFilterPreview, setRiderConfirmFilterPreview, riderConfirmFilterPreview, setRiderConfirmFilterConfirm, 
+    setDateConfirmFilterConfirm, setDateRawFilterPreview, dateRawFilterPreview, setRiderRawFilterPreview, 
+    riderRawFilterPreview, setDateRawFilterConfirm, setRiderRawFilterConfirm
 }) => {
 
-    const {rider} = useContext(AdminContext)
     const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter
         , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter
     } = useContext(UserContext)
+
+    const {setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
 
     const getFilterList = (type, status) => {
     const riderlist = []
@@ -32,6 +35,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         setRiderList(riderresult)
     }else if(status==='confirm'){
         setRiderConfirmList(riderresult)
+    }else{
+        setRiderRawList(riderresult)
     }
 
     let dateresult = datelist.filter(function(element, index, arr){
@@ -42,6 +47,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         setDayList(dateresult)
     }else if(status==='confirm'){
         setDayConfirmList(dateresult)
+    }else{
+        setDayRawList(dateresult)
     }
 
     if(type==='dateAllCheck'){
@@ -50,7 +57,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             return
         }else if(status==='confirm'){
             setDateConfirmFilterPreview(dateresult)
-            console.log('success')
+            return
+        }else{
+            setDateRawFilterPreview(dateresult)
             return
         }
     }
@@ -61,6 +70,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }else if(status==='confirm'){
             setDateConfirmFilterPreview([])
             return
+        }else{
+            setDateRawFilterPreview([])
+            return
         }
     }
     if(type==='riderAllCheck'){
@@ -70,6 +82,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }else if(status==='confirm'){
             setRiderConfirmFilterPreview(riderresult)
             return
+        }else{
+            setRiderRawFilterPreview(riderresult)
+            return
         }
     }
     if(type==='riderAllCancel'){
@@ -78,6 +93,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             return 
         }else if(status==='confirm'){
             setRiderConfirmFilterPreview([])
+            return
+        }else{
+            setRiderRawFilterPreview([])
             return
         }
     }
@@ -100,6 +118,12 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             }else{
                 setDateConfirmFilterPreview(prev =>[...prev, date])
             }
+        }else{
+            if(dateRawFilterPreview.includes(date)){
+                setDateRawFilterPreview(prev=> prev.filter((item)=> item !== date))
+            }else{
+                setDateRawFilterPreview(prev =>[...prev, date])
+            }
         }
     }
 
@@ -115,6 +139,12 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 setRiderConfirmFilterPreview(prev=> prev.filter((item)=> item !== rider))
             }else{
                 setRiderConfirmFilterPreview(prev =>[...prev, rider])
+            }
+        }else{
+            if(riderRawFilterPreview.includes(rider)){
+                setRiderRawFilterPreview(prev=> prev.filter((item)=> item !== rider))
+            }else{
+                setRiderRawFilterPreview(prev =>[...prev, rider])
             }
         }
     }
@@ -135,6 +165,14 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 setDateConfirmFilterConfirm(dateConfirmFilterPreview)
                 setRiderConfirmFilterConfirm(riderConfirmFilterPreview)
                 setConfirmFilter(false)
+            }
+        }else{
+            if(riderRawFilterPreview.length === 0 && dateRawFilterPreview.length === 0){
+                toast.error('請選擇篩選項目')
+            }else{
+                setDateRawFilterConfirm(dateRawFilterPreview)
+                setRiderRawFilterConfirm(riderRawFilterPreview)
+                setRawFilter(false)
             }
         }
     }
@@ -169,6 +207,16 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 ))}
             </div>:''
             }
+            {status!=='raw'?'':dayRawList?
+                <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
+                {dayRawList.map((item)=>(
+                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
+                        <p className={dateRawFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{new Date(item).toLocaleDateString()}</p>
+                        {dateRawFilterPreview.includes(item)?<FaCheck />:''}
+                    </div>
+                ))}
+            </div>:''
+            }
         </div>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
             <p className='mb-2'>騎手姓名</p>
@@ -193,6 +241,15 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                     <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
                         <p className={riderConfirmFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
                         {riderConfirmFilterPreview.includes(item)?<FaCheck />:''}
+                    </div>
+                ))}
+            </div>:''}
+            {status!=='raw'?'':riderRawList?
+            <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
+                {riderRawList.map((item)=>(
+                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
+                        <p className={riderRawFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
+                        {riderRawFilterPreview.includes(item)?<FaCheck />:''}
                     </div>
                 ))}
             </div>:''}
