@@ -8,6 +8,7 @@ import { TbReportSearch } from "react-icons/tb";
 import { MdOutlineFactCheck } from "react-icons/md";
 import { VscReport } from "react-icons/vsc";
 import { LuClipboardPenLine } from "react-icons/lu";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 
 const Sidebar = () => {
 
@@ -29,7 +30,7 @@ const Sidebar = () => {
                 <p>Lost Registration</p>
             </NavLink>
             <NavLink to={'/maintenance'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
-                <LuClipboardPenLine className='text-lg'/>
+                <MdOutlineDeleteOutline className='text-xl'/>
                 <p>Delete</p>
             </NavLink>
             <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute cursor-pointer flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full hover:bg-white hover:text-red-600 hover:font-bold'>

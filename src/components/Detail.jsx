@@ -274,13 +274,13 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 }
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                {sp2_1_sop==="-"?<p>-</p>:sp2_1_sop==='達標'?
+                                {sp2_1_sop==="-"?<p></p>:sp2_1_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                {sp2_1_sop==="-"?<p>-</p>:sp2_1_sop==='達標'?
+                                {sp2_1_sop==="-"?<p></p>:sp2_1_sop==='達標'?
                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />服務獎勵</p>:
                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />服務獎勵</p>
                                 }
