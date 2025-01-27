@@ -56,7 +56,7 @@ const Confirmed = () => {
       {isConfirmFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'confirm'
           ))} status='confirm' setRiderConfirmFilterConfirm={setRiderConfirmFilterConfirm} setDateConfirmFilterConfirm={setDateConfirmFilterConfirm} dateConfirmFilterPreview={dateConfirmFilterPreview} setDateConfirmFilterPreview={setDateConfirmFilterPreview} 
-          setRiderConfirmFilterPreview={setRiderConfirmFilterPreview} riderConfirmFilterPreview={riderConfirmFilterPreview}/>:''}
+          setRiderConfirmFilterPreview={setRiderConfirmFilterPreview} riderConfirmFilterPreview={riderConfirmFilterPreview} dateConfirmFilterConfirm={dateConfirmFilterConfirm} riderConfirmFilterConfirm={riderConfirmFilterConfirm}/>:''}
         {isShowConfirmDetail? 
             <Detail 
             token={token}

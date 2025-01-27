@@ -12,6 +12,7 @@ import { AdminContext } from '../context/AdminContext';
 import VendorHomePage from './pages/VendorHomePage';
 import Confirmed from './pages/Confirmed';
 import MissingParcel from './pages/MissingParcel';
+import Delete from './pages/Delete';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
                   <Route path='/' element={<Home />} />
                   <Route path='/admin-update' element={<Report />} />
                   <Route path='/missing-parcel' element={<MissingParcel />} />
+                  <Route path='/maintenance' element={<Delete />} />
               </Routes>
           </div>
         </div>:token==='user'?

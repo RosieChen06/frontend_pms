@@ -177,7 +177,8 @@ const VendorHomePage = () => {
         {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'submit'
           ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm} status='submit'
-          setDateFilterPreview={setDateFilterPreview} dateFilterPreview={dateFilterPreview} setRiderFilterPreview={setRiderFilterPreview} riderFilterPreview={riderFilterPreview} />:''}
+          setDateFilterPreview={setDateFilterPreview} dateFilterPreview={dateFilterPreview} setRiderFilterPreview={setRiderFilterPreview} riderFilterPreview={riderFilterPreview}
+          dateSubmitFilterConfirm={dateSubmitFilterConfirm} riderSubmitFilterConfirm={riderSubmitFilterConfirm} />:''}
         {
           reportForm?
           <div className='absolute bg-white w-[80%] h-[86%] rounded-lg p-2 mt-3'>

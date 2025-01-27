@@ -55,8 +55,8 @@ const Home = () => {
         </div>
         {isRawFilter?<Filter filterData={filterdData} status='raw' setDateRawFilterPreview={setDateRawFilterPreview} dateRawFilterPreview={dateRawFilterPreview} 
         setRiderRawFilterPreview={setRiderRawFilterPreview} riderRawFilterPreview={riderRawFilterPreview} setDateRawFilterConfirm={setDateRawFilterConfirm}
-        setRiderRawFilterConfirm={setRiderRawFilterConfirm} />:''}
-        {isShowAdminDetail? 
+        setRiderRawFilterConfirm={setRiderRawFilterConfirm} dateRawFilterConfirm={dateRawFilterConfirm} riderRawFilterConfirm={riderRawFilterConfirm}/>:''}
+        {isShowAdminDetail?
             <Detail 
                 token={token}
                 name={displayMainItem.name}

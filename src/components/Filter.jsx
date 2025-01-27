@@ -8,7 +8,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     setDateFilterPreview, dateFilterPreview, setRiderFilterPreview, riderFilterPreview, setDateConfirmFilterPreview, 
     dateConfirmFilterPreview, setRiderConfirmFilterPreview, riderConfirmFilterPreview, setRiderConfirmFilterConfirm, 
     setDateConfirmFilterConfirm, setDateRawFilterPreview, dateRawFilterPreview, setRiderRawFilterPreview, 
-    riderRawFilterPreview, setDateRawFilterConfirm, setRiderRawFilterConfirm
+    riderRawFilterPreview, setDateRawFilterConfirm, setRiderRawFilterConfirm, dateSubmitFilterConfirm, riderSubmitFilterConfirm,
+    dateConfirmFilterConfirm, riderConfirmFilterConfirm, dateRawFilterConfirm, riderRawFilterConfirm
 }) => {
 
     const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter
@@ -177,6 +178,22 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
+    const cancelEvent = () => {
+        if(status==='submit'){
+            setSubmitFilter(false)
+            setDateFilterPreview(dateSubmitFilterConfirm)
+            setRiderFilterPreview(riderSubmitFilterConfirm)
+        }else if(status==='confirm'){
+            setConfirmFilter(false)
+            setDateConfirmFilterPreview(dateConfirmFilterConfirm)
+            setRiderConfirmFilterPreview(riderConfirmFilterConfirm)
+        }else{
+            setRawFilter(false)
+            setDateRawFilterPreview(dateRawFilterConfirm)
+            setRiderRawFilterPreview(riderRawFilterConfirm)
+        }
+    }
+
   return (
     <div className='absolute bg-white w-[63%] md:w-[81%] h-[78%] flex flex-row top-32 rounded-lg p-2 mt-3 ml-0 gap-4'>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
@@ -256,7 +273,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         </div>
         <div className='flex flex-col rounded-md p-2 w-1/3'>
             <button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty(status)}>確認篩選</button>
-            <button className='mb-2 w-full bg-white p-2 rounded-sm text-[#004e76] border-[#004e76] border-2 hover:text-white hover:border-red-600 hover:bg-red-600' onClick={()=>{setSubmitFilter(false); setConfirmFilter(false)}}>取消篩選</button>
+            <button className='mb-2 w-full bg-white p-2 rounded-sm text-[#004e76] border-[#004e76] border-2 hover:text-white hover:border-red-600 hover:bg-red-600' onClick={()=>cancelEvent(status)}>取消篩選</button>
         </div>
     </div>
   )

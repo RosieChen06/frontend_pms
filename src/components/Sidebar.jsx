@@ -28,6 +28,10 @@ const Sidebar = () => {
                 <LuClipboardPenLine className='text-lg'/>
                 <p>Lost Registration</p>
             </NavLink>
+            <NavLink to={'/maintenance'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+                <LuClipboardPenLine className='text-lg'/>
+                <p>Delete</p>
+            </NavLink>
             <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute cursor-pointer flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full hover:bg-white hover:text-red-600 hover:font-bold'>
               <CiLogout className='text-lg'/>
               <button>Logout</button>
