@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Calendar } from 'primereact/calendar';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css'
@@ -12,15 +11,20 @@ import { BiEdit } from "react-icons/bi";
 import Detail from '../components/Detail';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs';
 
 const Delete = () => {
 
     const {rider, onlineData, isShowData, setIsShowData, getDB, getWeekDB} = useContext(AdminContext)
-    const [startDate, setStartDate] = useState(null)
+    const [startDate, setStartDate] = useState(dayjs(Date()))
     const [endDate, setEndDate] = useState(null)
     const [maxDate, setMaxDate] = useState('')
     const [minDate, setMinDate] = useState('')
     const [isShow, setIsShow] = useState(true)
+    const [editId, setEditId] = useState('')
     const [editItem, setEditItem] = useState('')
 
     const findMinDate = () => {
@@ -63,7 +67,6 @@ const Delete = () => {
         setSelectedWeekData(selectedWeekData[0])
         setIsShowData(true)
     }
-    console.log(selectedData)
 
     const [isWarning, setIsWarning] = useState(false)
 
@@ -105,8 +108,39 @@ const Delete = () => {
         }catch(error){
             console.log(error)
         }
-        
     }
+
+    const updateStatus = async(value) => {
+        setEditItem(value)
+        try{
+            const formData = new FormData()
+            formData.append('riderId', editId)
+            formData.append('status', value)
+            const {data} = await axios.post('http://localhost:4000/api/admin/update-status',formData)
+            if(data.success){
+                toast.success(data.message)
+                setEditId('')
+                getDB()
+            }else{
+                toast.error(data.message)
+            }
+
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    const editForm = (id, status) => {
+        if(editId===id){
+            setEditId('')
+            setEditItem('item.status')
+        }else{
+            setEditId(id); 
+            setEditItem(status)
+        }
+    }
+
+    console.log(startDate)
 
   return (
     <div className=' bg-white w-[80%] h-[96%] rounded-lg p-2 mt-3 ml-4'> 
@@ -165,24 +199,30 @@ const Delete = () => {
                 <div className='h-1/6 flex flex-row w-full gap-4'>
                     <div className='flex flex-col gap-2 w-1/4'>
                         <p>Start From</p>
-                        <Calendar className='border-2 border-gray-200 p-1 rounded-lg outline-none' dateFormat="yy/mm/dd" minDate={minDate} maxDate={maxDate} value={startDate} onChange={(e) => setStartDate(e.value)}></Calendar>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker className='w-full' value={startDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(e)=>setStartDate(e.target.value)}/>
+                        </LocalizationProvider>
                     </div>
                     <div className='flex flex-col gap-2 w-1/4'>
                         <p>End At</p>
-                        <Calendar className='border-2 border-gray-200 p-1 rounded-lg outline-none' dateFormat="yy/mm/dd" minDate={minDate} maxDate={maxDate} value={endDate} onChange={(e) => setEndDate(e.value)}></Calendar>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker className='w-full' value={endDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(e)=>setEndDate(e.target.value)}/>
+                        </LocalizationProvider>
                     </div>
                     <div className='flex flex-col gap-2 w-1/4'>
                         <p>Data Status</p>
-                        <select className='border-2 border-gray-200 p-1 rounded-lg outline-none'>
+                        <select className='border-[1px] border-[#c4c4c4] p-1 rounded-sm h-[61%] outline-none'>
                             <option>Submit</option>
                             <option>Reported</option>
                             <option>Resolve</option>
                             <option>Confirm</option>
                         </select>
                     </div>
-                    <button className='bg-[#004e76] w-1/4 text-white h-2/3 rounded-sm'>Search</button>
+                    <div className='flex items-end w-1/4'>
+                        <button className='bg-[#004e76] w-full mb-1 text-white h-[61%] rounded-sm'>Search</button>
+                    </div>
                 </div>
-                <div className='h-[65%] flex justify-center items-center'>
+                <div className='h-[65%] flex justify-center items-center mt-2'>
                     {!isShow?
                         <GrDocumentExcel className='text-[24px] text-gray-300'/>:
                         <div className='w-full h-full overflow-scroll'>
@@ -220,11 +260,11 @@ const Delete = () => {
                                             <p className="block text-sm text-slate-800">{item.name}</p>
                                         </td>
                                         <td className="p-4 border-b border-slate-200">
-                                            {editItem!==item._id?
+                                            {editId!==item._id?
                                             <div className='flex flex-row items-center justify-center'>
                                                 <p className={item.status==='submit'?"text-sm w-fit px-4 bg-yellow-400 p-1 rounded-full text-white":item.status==='confirm'?"text-sm w-fit px-4 bg-green-600 text-white p-1 rounded-full":item.status==='resolve'?"text-sm w-fit px-4 bg-blue-600 text-white p-1 rounded-full":"text-sm w-fit px-4 bg-red-600 text-white p-1 rounded-full"}>{item.status}</p>
                                             </div>:
-                                            <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={item.status}>
+                                            <select className=' border-gray-300 py-1 pl-1 rounded-md border-2 hover:text-black' type='text' value={editItem} onChange={(e)=>updateStatus(e.target.value)}>
                                                 <option value='submit'>Submit</option>
                                                 <option value='report'>Report</option>
                                                 <option value='resolve'>Resolve</option>
@@ -235,7 +275,7 @@ const Delete = () => {
                                         <td className="p-4 border-b border-slate-200">
                                             <div className='flex flex-row items-center justify-center'>
                                                 <button onClick={()=>getDetail(item._id, item.name, item.weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
-                                                <button onClick={()=>setEditItem(item._id)} className='bg-white p-3 border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><BiEdit /></button>
+                                                <button onClick={()=>editForm(item._id, item.status)} className='bg-white p-3 border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><BiEdit /></button>
                                                 <button onClick={()=>{getId(item._id, item.name, item.weeknum, 'outer'); setSelectedData(rider.filter((i)=>(item.name===i.name && item.date===i.date)))}} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-red-600 hover:text-white hover:border-red-600'><MdDeleteOutline /></button>
                                             </div>
                                         </td>
