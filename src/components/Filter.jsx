@@ -195,7 +195,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     }
 
   return (
-    <div className='absolute bg-white w-[63%] md:w-[81%] h-[78%] flex flex-row top-32 rounded-lg p-2 mt-3 ml-0 gap-4'>
+    <div className='absolute w-[80%] bg-white h-[84%] rounded-lg p-2 flex flex-row gap-4'>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
             <p className='mb-2'>配送日期</p>
             <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期'></input>

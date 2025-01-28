@@ -169,11 +169,12 @@ const VendorHomePage = () => {
   }
 
   return state && (
-    <div className='flex flex-col pl-4 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
+    <div className='w-[80%] h-[96%] rounded-lg p-2 ml-4'> 
+        {isShowDetail?'':isSubmitFilter?'':
         <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
             <FaFilter />
             <button onClick={()=>setSubmitFilter(true)}>篩選</button>
-        </div>
+        </div>}
         {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'submit'
           ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm} status='submit'

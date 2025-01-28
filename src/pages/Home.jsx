@@ -125,12 +125,14 @@ const Home = () => {
       }
   
     return state && (
-    <div className='flex flex-col pl-8 w-2/3 md:w-5/6 pr-4 h-full overflow-hidden'>  
+    <div className='w-[80%] h-[96%] rounded-lg p-2 ml-4'> 
         <div className='w-fit flex justify-end mt-3 flex-row items-center gap-2'>
+            {isShowAdminDetail?'':isRawFilter?'':
             <div className='flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md'>
                 <FaFilter />
                 <button onClick={()=>setRawFilter(true)}>篩選</button>
-            </div>
+            </div>}
+            {isShowAdminDetail?'':isRawFilter?'':
             <div>
                 {!isMassiveUpload?
                 <div className='flex flex-row gap-2 items-center p-2 bg-blue-600 text-white rounded-md'>
@@ -152,6 +154,7 @@ const Home = () => {
                 </div>
                 }
             </div>
+        }
         </div>
         {isRawFilter?<Filter filterData={filterdData} status='raw' setDateRawFilterPreview={setDateRawFilterPreview} dateRawFilterPreview={dateRawFilterPreview} 
         setRiderRawFilterPreview={setRiderRawFilterPreview} riderRawFilterPreview={riderRawFilterPreview} setDateRawFilterConfirm={setDateRawFilterConfirm}
