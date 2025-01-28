@@ -11,7 +11,7 @@ import { UserContext } from '../../context/UserContext';
 import Update from './Update';
 
 const Report = () => {
-      const {getDB, rider, onlineData, token, isEdit, setIsEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify} = useContext(AdminContext)
+      const {getDB, rider, onlineData, token, isEdit, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, setIsEdit} = useContext(AdminContext)
       const {setReportSp2Item} = useContext(UserContext)
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
@@ -121,11 +121,13 @@ const Report = () => {
 }
 
 const ReportedData = rider.filter((item)=>(item.status==='report'))
-const reportDetail = []
+console.log(riderData)
 
-const openEditForm = (id, name, weeknum) => {
+const openEditForm = async(id, name, weeknum) => {
 
-  const selectedData = ReportedData.filter((item)=>(
+  const reportDetail = []
+
+  const selectedData = await ReportedData.filter((item)=>(
       item._id===id
   ))
 
@@ -174,9 +176,13 @@ const openEditForm = (id, name, weeknum) => {
       weeknum: selectedData[0].weeknum
   })
 
-  const selectedWeekData = onlineData.filter((item)=>(
+  console.log(riderData)
+
+  const selectedWeekData = await onlineData.filter((item)=>(
     item.name===name && item.weeknum===weeknum
   ))
+
+  console.log(selectedWeekData)
 
   setRiderWeekData({
     riderId: selectedWeekData[0]._id,
@@ -194,7 +200,9 @@ const openEditForm = (id, name, weeknum) => {
     image: selectedWeekData[0].image,
     admincomment: selectedWeekData[0].admincomment
   })
-  const selectDayData = rider.filter((item)=>(
+
+  console.log(riderWeekData)
+  const selectDayData = await rider.filter((item)=>(
     item.name===name && item.weeknum===weeknum && item.date !== selectedData[0].date
 ))
 
@@ -210,9 +218,10 @@ const openEditForm = (id, name, weeknum) => {
     }
     tempArray.push(getallData)
   }
+  console.log(tempArray)
   setSpIsQualify(tempArray);
-  console.log(isSpQualify)
   setIsEdit(true)
+  console.log(isSpQualify)
 }
 
 const filterdWeekData = onlineData.filter((item)=>(
@@ -221,6 +230,8 @@ const filterdWeekData = onlineData.filter((item)=>(
 
 const openWeekEditForm = (id, name, weeknum) => {
 
+  console.log('week')
+
   const selectedData = filterdWeekData.filter((item)=>(
       item._id===id
   ))
@@ -228,9 +239,6 @@ const openWeekEditForm = (id, name, weeknum) => {
   const selectDayData = rider.filter((item)=>(
       item.name===name && item.weeknum===weeknum
   ))
-
-
-  console.log(selectDayData)
 
   const tempArray = []
 
@@ -269,7 +277,7 @@ const openWeekEditForm = (id, name, weeknum) => {
 
   return (
     <div className='w-2/3 md:w-5/6 h-[88vh]'>
-      {token==='user'?'':isEdit?<Update />:isWeekEdit?<Update />:''}
+      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
           <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{filterdData.length + onlineData.filter((item)=>(item.status === 'report')).length}</span></p>

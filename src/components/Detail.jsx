@@ -14,15 +14,15 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
     lost_cnt, weeknum, sp2_attendance, epod_lost, seq, ttl_delivered, ttl_workday_weekend,ttl_worksday, uncleanCnt, is_online_bonus, day_report_status, week_report_status}) => {
   
     const {setIsShowDetail, setReportForm, setIsShowConfirmDetail, setIsReportOnline} = useContext(UserContext)
-    const {setIsShowAdminDetail} = useContext(AdminContext)
+    const {setIsShowAdminDetail, isShowData, setIsShowData} = useContext(AdminContext)
 
 
     return (
-    <div className='absolute bg-white w-[81%] h-[86%] rounded-lg p-2 mt-3 ml-0'> 
+    <div className='absolute bg-white w-[79%] h-[83%] rounded-lg p-2 ml-0'> 
         <div className='border-l-2 border-gray-300 pl-4'>
             <div className='flex justify-between'>
                 <p className='text-lg font-bold'>Detail</p>
-                <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false); setIsShowAdminDetail(false); setIsReportOnline(false);}}><IoClose /></button>  
+                <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false); setIsShowAdminDetail(false); setIsReportOnline(false); setIsShowData(false);}}><IoClose /></button>  
             </div>
             <p className='mt-4 text-sm text-gray-700'>Rider Name: {name}</p>
             <div className='flex justify-between'>

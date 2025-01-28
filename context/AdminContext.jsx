@@ -17,57 +17,15 @@ const AdminContextProvider = (props) =>{
     const [isEdit, setIsEdit] = useState(false)
     const [isWeekEdit, setIsWeekEdit] = useState(false)
     const [isResolve, setIsResolve] = useState('report')
-    const [riderData, setRiderData] = useState({
-        riderId: '',
-        name: '',
-        date: '',
-        sp2_1: '',
-        sp2_1_remaindelivering: '',
-        sp2_1_onhold: '',
-        sp2_1_delivered: '',
-        sp2_1_serve_type: '',
-        sp2_1_appsheet: '',
-        sp2_1_sop: '',
-        sp2_2: '',
-        sp2_2_remaindelivering: '',
-        sp2_2_onhold: '',
-        sp2_2_delivered: '',
-        sp2_2_serve_type: '',
-        sp2_2_appsheet: '',
-        sp2_2_sop: '',
-        sp2_3: '',
-        sp2_3_remaindelivering: '',
-        sp2_3_onhold: '',
-        sp2_3_delivered: '',
-        sp2_3_serve_type: '',
-        sp2_3_appsheet: '',
-        sp2_3_sop: '',
-        sp2_attendance: '',
-        admincomment:'',
-        image:'',
-        lost_cnt: '',
-        epod: '',
-    })
-
-    const [riderWeekData, setRiderWeekData] = useState({
-        riderId: '',
-        name: '',
-        weeknum: '',
-        uncleanCnt: '',
-        comment: '',
-        reportItem: '',
-        ttl_delivered: '',
-        ttl_worksday_weekend: '',
-        seq: '',
-        epod_lost: '',
-    })
-
+    const [riderData, setRiderData] = useState(false)
+    const [riderWeekData, setRiderWeekData] = useState(false)
     const [isSpQualify, setSpIsQualify] = useState(false)
     const [displayMainItem, setDisplayMainItem] =useState([])
     const [displayOnlineMainItem, setDisplayOnlineMainItem] =useState([])
     const [isRawFilter, setRawFilter] = useState(false)
     const [riderRawList, setRiderRawList] = useState(false)
     const [dayRawList, setDayRawList] = useState(false)
+    const [isShowData, setIsShowData] = useState(false)
 
     const getDB = async () => {
         try{
@@ -120,14 +78,14 @@ const AdminContextProvider = (props) =>{
 
     const value = {
         getDB, rider, data, state, setData, 
-        setToken, token, userEmail, 
+        setToken, token, userEmail, riderData, setRiderData, riderWeekData, setRiderWeekData,
         setUserEmail, isShowAdminDetail, setIsShowAdminDetail, 
         weekData, setWeekData, getWeekDB, onlineData, setOnlineData,
-        isEdit, setIsEdit,riderData, setRiderData, isResolve, setIsResolve,
-        riderWeekData, setRiderWeekData,isWeekEdit, setIsWeekEdit,
+        isEdit, setIsEdit, isResolve, setIsResolve,isWeekEdit, setIsWeekEdit,
         isSpQualify, setSpIsQualify, displayMainItem, setDisplayMainItem,
         displayOnlineMainItem, setDisplayOnlineMainItem, isRawFilter, setRawFilter,
-        riderRawList, setRiderRawList, dayRawList, setDayRawList
+        riderRawList, setRiderRawList, dayRawList, setDayRawList, isShowData, setIsShowData,
+        
     }
 
     return(

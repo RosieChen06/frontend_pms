@@ -9,7 +9,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 
 const Update = () => {
 
-    const {getDB, rider, state, onlineData, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, riderData, setRiderData, riderWeekData, setRiderWeekData, isSpQualify, setSpIsQualify} = useContext(AdminContext)
+    const {getDB, rider, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
     const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
@@ -113,7 +113,9 @@ const Update = () => {
         }
     }
 
-  return state && (
+    console.log(rider.filter((i)=>(i.weeknum===riderWeekData.weeknum && i.date !==riderData.date)))
+
+  return riderData && (
         <div className='flex flex-col gap-3 pl-12 w-2/3 md:w-5/6 mt-4'>  
             <div className='flex flex-row gap-2 items-center h-[3vh]'>
                 <h1 className='text-[#004e76] font-extrabold'>All Report</h1>
@@ -140,7 +142,7 @@ const Update = () => {
                             <div>
                                 <p><a href={item.image[0]} target="_blank">{item.image.length} file attached</a></p>
                             </div>
-                            <button onClick={()=>openEditForm(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>
+                            <button onClick={()=>console.log(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>
                         </div>
                     </div> 
                     ))
@@ -242,7 +244,7 @@ const Update = () => {
             </div>:''
         }
         {
-            riderData && isEdit?
+            riderData && riderWeekData&& isSpQualify && isEdit?
             
                 <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll'>
                     <div className='w-full'>
@@ -561,7 +563,7 @@ const Update = () => {
                     {!dayAdjustment?'':
                     <div ref={myRef} className='flex flex-col gap-x-24 gap-y-8 w-full mt-8'>
                         <h1 className='border-l-4 pl-4 text-lg font-bold border-orange-400 '>當周配送表現調整</h1>
-                        {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum && i.date !==riderData.date)).map((item, index)=>(
+                        {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum && i.date !==riderData.date && i.name===riderData.name)).map((item, index)=>(
                             <div key={index}>
                                 <div className='flex flex-row w-full bg-slate-50 rounded-md items-center justify-start'>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>

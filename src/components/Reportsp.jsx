@@ -2,7 +2,6 @@ import React from 'react'
 
 const Reportsp = ({sp, obj, index, num, appsheet, smartinbound, remain_delivering, delivered, ttl_delivered, attendance, epod, comment}) => {
 
-    console.log(obj)
   return (
         <tr className="hover:bg-slate-50">
             <td className="p-4 border-b border-slate-200">
