@@ -20,12 +20,25 @@ const Delete = () => {
 
     const {rider, onlineData, isShowData, setIsShowData, getDB, getWeekDB} = useContext(AdminContext)
     const [startDate, setStartDate] = useState(dayjs(Date()))
-    const [endDate, setEndDate] = useState(null)
+    const [endDate, setEndDate] = useState(dayjs(Date()))
     const [maxDate, setMaxDate] = useState('')
     const [minDate, setMinDate] = useState('')
     const [isShow, setIsShow] = useState(true)
     const [editId, setEditId] = useState('')
     const [editItem, setEditItem] = useState('')
+    const [searchStatus ,setSearchStatus] = useState('confirm')
+    const [filteredData, setFilteredData] = useState([])
+
+    const filterData = () => {
+        // if(endDate>=startDate){
+        //     toast.error("Please enter valid date range")
+        // }
+        const data = rider.filter((item)=>(
+            startDate.$d<=new Date(item.date) && endDate.$d>=new Date(item.date) && searchStatus===item.status
+        ))
+
+        setFilteredData(data)
+    }
 
     const findMinDate = () => {
         let datelist = []
@@ -43,6 +56,7 @@ const Delete = () => {
 
     useEffect(()=>{
         findMinDate()
+        filterData()
     },[rider])
 
     const [first, setFirst] = useState(0);
@@ -61,7 +75,7 @@ const Delete = () => {
         if(isWarning){
             return
         }
-        const selectedData = rider.filter((item)=>(item._id===id))
+        const selectedData = filteredData.filter((item)=>(item._id===id))
         const selectedWeekData = onlineData.filter((item)=>(item.name===name && item.weeknum===weeknum))
         setSelectedData(selectedData[0])
         setSelectedWeekData(selectedWeekData[0])
@@ -140,10 +154,8 @@ const Delete = () => {
         }
     }
 
-    console.log(startDate)
-
   return (
-    <div className=' bg-white w-[80%] h-[96%] rounded-lg p-2 mt-3 ml-4'> 
+    <div className='bg-white w-[80%] h-[96%] rounded-lg p-2 mt-3 ml-4'> 
         {
             isShowData?
             <Detail
@@ -200,26 +212,26 @@ const Delete = () => {
                     <div className='flex flex-col gap-2 w-1/4'>
                         <p>Start From</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker className='w-full' value={startDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(e)=>setStartDate(e.target.value)}/>
+                            <DatePicker className='w-full' value={startDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(newValue)=>setStartDate(newValue)}/>
                         </LocalizationProvider>
                     </div>
                     <div className='flex flex-col gap-2 w-1/4'>
                         <p>End At</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker className='w-full' value={endDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(e)=>setEndDate(e.target.value)}/>
+                            <DatePicker className='w-full' value={endDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(newValue)=>setEndDate(newValue)}/>
                         </LocalizationProvider>
                     </div>
                     <div className='flex flex-col gap-2 w-1/4'>
                         <p>Data Status</p>
-                        <select className='border-[1px] border-[#c4c4c4] p-1 rounded-sm h-[61%] outline-none'>
-                            <option>Submit</option>
-                            <option>Reported</option>
-                            <option>Resolve</option>
-                            <option>Confirm</option>
+                        <select className='border-[1px] border-[#c4c4c4] p-1 rounded-sm h-[61%] outline-none' value={searchStatus} onChange={(e)=>setSearchStatus(e.target.value)}>
+                            <option>submit</option>
+                            <option>report</option>
+                            <option>resolve</option>
+                            <option>confirm</option>
                         </select>
                     </div>
                     <div className='flex items-end w-1/4'>
-                        <button className='bg-[#004e76] w-full mb-1 text-white h-[61%] rounded-sm'>Search</button>
+                        <button onClick={()=>filterData()} className='bg-[#004e76] w-full mb-1 text-white h-[61%] rounded-sm'>Search</button>
                     </div>
                 </div>
                 <div className='h-[65%] flex justify-center items-center mt-2'>
@@ -251,7 +263,7 @@ const Delete = () => {
                                         <p className="block text-sm font-normal leading-none text-slate-500">Action</p>
                                     </th>
                                 </tr>
-                                {rider.slice(first,first+rows).map((item, index)=>(
+                                {filteredData.slice(first,first+rows).map((item, index)=>(
                                     <tr className="hover:bg-slate-50">
                                         <td className="p-4 border-b border-slate-200">
                                             <p className="block text-sm text-slate-800">{item.date}</p>
@@ -276,7 +288,7 @@ const Delete = () => {
                                             <div className='flex flex-row items-center justify-center'>
                                                 <button onClick={()=>getDetail(item._id, item.name, item.weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
                                                 <button onClick={()=>editForm(item._id, item.status)} className='bg-white p-3 border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><BiEdit /></button>
-                                                <button onClick={()=>{getId(item._id, item.name, item.weeknum, 'outer'); setSelectedData(rider.filter((i)=>(item.name===i.name && item.date===i.date)))}} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-red-600 hover:text-white hover:border-red-600'><MdDeleteOutline /></button>
+                                                <button onClick={()=>{getId(item._id, item.name, item.weeknum, 'outer'); setSelectedData(filteredData.filter((i)=>(item.name===i.name && item.date===i.date)))}} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-red-600 hover:text-white hover:border-red-600'><MdDeleteOutline /></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -287,7 +299,7 @@ const Delete = () => {
                     }
                 </div>
                 <div className='h-[15%] flex flex-row w-full gap-4 justify-center items-center'>
-                    <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={rider.length} rowsPerPageOptions={[5, 10, 15]} onPageChange={onPageChange} />
+                    <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={filteredData.length} rowsPerPageOptions={[5, 10, 15]} onPageChange={onPageChange} />
                 </div>
             </div>
         }
