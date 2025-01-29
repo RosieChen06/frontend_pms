@@ -34,7 +34,7 @@ const Delete = () => {
         //     toast.error("Please enter valid date range")
         // }
         const data = rider.filter((item)=>(
-            startDate.$d<=new Date(item.date) && endDate.$d>=new Date(item.date) && searchStatus===item.status
+            new Date(startDate.$d.setHours(0, 0, 0, 0))<=new Date(item.date) && new Date(endDate.$d.setHours(0, 0, 0, 0))>=new Date(item.date) && searchStatus===item.status
         ))
 
         setFilteredData(data)
@@ -209,19 +209,19 @@ const Delete = () => {
         {isShowData?'':
             <div className='h-full'>
                 <div className='h-1/6 flex flex-row w-full gap-4'>
-                    <div className='flex flex-col gap-2 w-1/4'>
+                    <div className='flex flex-col gap-2 w-1/3'>
                         <p>Start From</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker className='w-full' value={startDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(newValue)=>setStartDate(newValue)}/>
                         </LocalizationProvider>
                     </div>
-                    <div className='flex flex-col gap-2 w-1/4'>
+                    <div className='flex flex-col gap-2 w-1/3'>
                         <p>End At</p>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker className='w-full' value={endDate} format="YYYY/MM/DD" minDate={dayjs(minDate)} maxDate={dayjs(maxDate)} onChange={(newValue)=>setEndDate(newValue)}/>
                         </LocalizationProvider>
                     </div>
-                    <div className='flex flex-col gap-2 w-1/4'>
+                    <div className='flex flex-col gap-2 w-1/3'>
                         <p>Data Status</p>
                         <select className='border-[1px] border-[#c4c4c4] p-1 rounded-sm h-[61%] outline-none' value={searchStatus} onChange={(e)=>setSearchStatus(e.target.value)}>
                             <option>submit</option>
@@ -229,9 +229,6 @@ const Delete = () => {
                             <option>resolve</option>
                             <option>confirm</option>
                         </select>
-                    </div>
-                    <div className='flex items-end w-1/4'>
-                        <button onClick={()=>filterData()} className='bg-[#004e76] w-full mb-1 text-white h-[61%] rounded-sm'>Search</button>
                     </div>
                 </div>
                 <div className='h-[65%] flex justify-center items-center mt-2'>
