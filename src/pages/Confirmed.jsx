@@ -9,6 +9,7 @@ import { FaFilter } from "react-icons/fa6";
 const Confirmed = () => {
 
     const {rider, token} = useContext(AdminContext)
+    const {setDateInput, setRiderInput} = useContext(UserContext)
     const [filterConfirmData, setFilterConfirmData] = useState([])
     const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
     const [riderConfirmFilterPreview, setRiderConfirmFilterPreview] = useState([])
@@ -52,7 +53,7 @@ const Confirmed = () => {
       {isShowConfirmDetail?'':isConfirmFilter?'':
       <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
           <FaFilter />
-          <button onClick={()=>setConfirmFilter(true)}>篩選</button>
+          <button onClick={()=>{setConfirmFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
       </div>
       }
       {isConfirmFilter?<Filter filterData={rider.filter((item)=>(

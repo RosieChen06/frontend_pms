@@ -17,7 +17,7 @@ const VendorHomePage = () => {
     const {getDB, rider, state, token} = useContext(AdminContext)
     const {isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
-        setSp2_3_reportItem, dayList,setDayList, riderList, setRiderList, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter} = useContext( UserContext)
+        setSp2_3_reportItem, dayList,setDayList, riderList, setRiderList, submitDataFilter, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
@@ -173,7 +173,7 @@ const VendorHomePage = () => {
         {isShowDetail?'':isSubmitFilter?'':
         <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
             <FaFilter />
-            <button onClick={()=>setSubmitFilter(true)}>篩選</button>
+            <button onClick={()=>{setSubmitFilter(true);setDateInput(''); setRiderInput('')}}>篩選</button>
         </div>}
         {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'submit'

@@ -12,21 +12,63 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     dateConfirmFilterConfirm, riderConfirmFilterConfirm, dateRawFilterConfirm, riderRawFilterConfirm
 }) => {
 
-    const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter
+    const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter, dateInput, setDateInput, riderInput, setRiderInput
         , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter
     } = useContext(UserContext)
-
     const {setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
+    const [advancedFilter, setAdvancedFilter] = useState([])
 
+    console.log(riderInput)
+    
     const getFilterList = (type, status) => {
     const riderlist = []
     const datelist = []
 
-    for(let i=0; i<filterData.length; i++){
-        let name = filterData[i].name
-        let date = filterData[i].date
-        riderlist.push(name)
-        datelist.push(date)
+    if(dateInput!==''||riderInput!==''){
+        if(dateInput!=='' && riderInput!==''){
+            if(status==='raw'){
+                const advancedFilter = filterData.filter((item)=>(
+                    new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.rider.startsWith(riderInput)
+                ))
+                setAdvancedFilter(advancedFilter)
+            }else{
+                const advancedFilter = filterData.filter((item)=>(
+                    item.date.startsWith(dateInput) && item.rider.startsWith(riderInput)
+                ))
+                setAdvancedFilter(advancedFilter)
+            }
+        }else if(dateInput!==''){
+            if(status==='raw'){
+                const advancedFilter = filterData.filter((item)=>(
+                    new Date(item.date).toLocaleDateString().startsWith(dateInput)
+                ))
+                setAdvancedFilter(advancedFilter)
+            }else{
+                const advancedFilter = filterData.filter((item)=>(
+                    item.date.startsWith(dateInput)
+                ))
+                setAdvancedFilter(advancedFilter)
+            }
+        }else{
+            const advancedFilter = filterData.filter((item)=>(
+                item.name.startsWith(riderInput)
+            ))
+            setAdvancedFilter(advancedFilter)
+        }
+
+        for(let i=0; i<advancedFilter.length; i++){
+            let name = advancedFilter[i].name
+            let date = advancedFilter[i].date
+            riderlist.push(name)
+            datelist.push(date)
+        }
+    }else{
+        for(let i=0; i<filterData.length; i++){
+            let name = filterData[i].name
+            let date = filterData[i].date
+            riderlist.push(name)
+            datelist.push(date)
+        }
     }
     let riderresult = riderlist.filter(function(element, index, arr){
     return arr.indexOf(element) === index;
@@ -103,8 +145,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     }
 
     useEffect(()=>{
-    getFilterList('na', status)
-    },[filterData])
+        getFilterList('na', status)
+    },[filterData, dateInput, riderInput])
 
     const dateSelect = (date, status) =>{
         if(status==='submit'){
@@ -198,7 +240,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     <div className='absolute w-[80%] bg-white h-[84%] rounded-lg p-2 flex flex-row gap-4'>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
             <p className='mb-2'>配送日期</p>
-            <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期'></input>
+            <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期' value={dateInput} onChange={(e)=>setDateInput(e.target.value)}></input>
             <hr />
             <div className='flex flex-row mt-3 gap-3'>
                 <button className='text-xs p-1 px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('dateAllCheck', status)}>全選</button>
@@ -237,7 +279,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         </div>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
             <p className='mb-2'>騎手姓名</p>
-            <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手'></input>
+            <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手' value={riderInput} onChange={(e)=>setRiderInput(e.target.value)}></input>
             <hr />
             <div className='flex flex-row mt-3 gap-3'>
                 <button className='text-xs p-1 px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('riderAllCheck', status)}>全選</button>

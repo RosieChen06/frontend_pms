@@ -9,11 +9,13 @@ import Filter from '../components/Filter';
 import { MdOutlineAdsClick } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { UserContext } from '../../context/UserContext';
 
 const Home = () => {
 
     const {rider, data, state, token, isShowAdminDetail, displayMainItem, 
-        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB} = useContext(AdminContext)   
+        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB} = useContext(AdminContext)  
+    const {setDateInput, setRiderInput} = useContext(UserContext) 
     const [dateRawFilterPreview, setDateRawFilterPreview] = useState([])
     const [riderRawFilterPreview, setRiderRawFilterPreview] = useState([])
     const [dateRawFilterConfirm, setDateRawFilterConfirm] = useState([])
@@ -130,7 +132,7 @@ const Home = () => {
             {isShowAdminDetail?'':isRawFilter?'':
             <div className='flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md'>
                 <FaFilter />
-                <button onClick={()=>setRawFilter(true)}>篩選</button>
+                <button onClick={()=>{setRawFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
             </div>}
             {isShowAdminDetail?'':isRawFilter?'':
             <div>
