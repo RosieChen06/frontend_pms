@@ -127,7 +127,7 @@ const Home = () => {
       }
   
     return state && (
-    <div className='w-[80%] h-[96%] rounded-lg p-2 ml-4'> 
+    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 ml-0 sm:ml-4'> 
         <div className='w-fit flex justify-end mt-3 flex-row items-center gap-2'>
             {isShowAdminDetail?'':isRawFilter?'':
             <div className='flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md'>

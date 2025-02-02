@@ -169,8 +169,8 @@ const VendorHomePage = () => {
   }
 
   return state && (
-    <div className='w-[80%] h-[96%] rounded-lg p-2 ml-4'> 
-        {isShowDetail?'':isSubmitFilter?'':
+    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 ml-0 sm:ml-4'> 
+        {isShowDetail?'':isSubmitFilter?'':reportForm?'':
         <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
             <FaFilter />
             <button onClick={()=>{setSubmitFilter(true);setDateInput(''); setRiderInput('')}}>篩選</button>
@@ -182,7 +182,7 @@ const VendorHomePage = () => {
           dateSubmitFilterConfirm={dateSubmitFilterConfirm} riderSubmitFilterConfirm={riderSubmitFilterConfirm} />:''}
         {
           reportForm?
-          <div className='absolute bg-white w-[80%] h-[86%] rounded-lg p-2 mt-3'>
+          <div className='absolute bg-white w-full sm:w-[80%] h-[83%] rounded-lg p-2 mt-3'>
             <div className='border-l-2 border-gray-300 pl-4'>
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回報</p>
@@ -206,6 +206,7 @@ const VendorHomePage = () => {
                 <div className='flex justify-between pr-2'>    
                   <p className='font-bold'>當周表現</p>
                 </div>
+                <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[730px] text-left mt-3">
                         <tr>
                             <th className="p-4 border-b border-slate-300 bg-slate-50">
@@ -347,6 +348,7 @@ const VendorHomePage = () => {
                             }
                         </tr>
                     </table>
+                </div>
                 </div>
             </div>:''
           }

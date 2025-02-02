@@ -155,7 +155,7 @@ const Delete = () => {
     }
 
   return (
-    <div className='bg-white w-[80%] h-[96%] rounded-lg p-2 mt-3 ml-4'> 
+    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 sm:ml-4 bg-white mt-4'> 
         {
             isShowData?
             <Detail

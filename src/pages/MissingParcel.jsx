@@ -185,9 +185,9 @@ const MissingParcel = () => {
     }
 
   return (
-    <div className=' bg-white w-[80%] h-[96%] rounded-lg p-2 mt-3 ml-4 overflow-scroll'>
-        <div className='flex flex-row gap-8 justify-between'>
-            <div className='flex flex-row gap-8'>
+    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 sm:ml-4 bg-white mt-4 overflow-scroll'>
+        <div className='flex flex-col sm:flex-row gap-8 justify-between'>
+            <div className='flex flex-col sm:flex-row gap-4'>
                 <div className='flex flex-col gap-2'>
                     <p>日期</p>
                     <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={date} onChange={e=>setDate(e.target.value)}></input>
@@ -202,8 +202,8 @@ const MissingParcel = () => {
                 </div>
             </div>
             <div className='flex gap-4'>
-                <button className='bg-green-600 h-full text-white w-36 rounded-md' onClick={()=>setItem('add')}>Add</button>
-                <button className='bg-red-600 h-full text-white w-36 rounded-md' onClick={()=>setItem('remove')}>Remove</button>
+                <button className='bg-green-600 h-full w-1/2 text-white sm:w-36 rounded-md p-4' onClick={()=>setItem('add')}>Add</button>
+                <button className='bg-red-600 h-full w-1/2 text-white sm:w-36 rounded-md p-4' onClick={()=>setItem('remove')}>Remove</button>
             </div>
         </div>
         {!dayDetail?'':!weekDetail?'':
@@ -220,7 +220,7 @@ const MissingParcel = () => {
                 </div>
                 <h1 className='border-l-4 pl-4 text-lg font-bold border-[#004e76] '>當日配送表現</h1>
                 <div>
-                    <div className='flex flex-row w-full bg-slate-50 rounded-md items-center justify-start'>
+                    <div className='flex flex-row w-full bg-slate-50 rounded-md items-center justify-start overflow-scroll'>
                         <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                             <p className='text-xs'>配送日期</p>
                             <p className='py-1 rounded-md'>{dayDetail.date}</p>

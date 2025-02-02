@@ -12,13 +12,11 @@ const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index
 
   const {getDB, onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
   const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail} = useContext(UserContext)
-  
 
   const displayDetail = (index, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
         item.name===name && item.weeknum===weeknum
     ))
-    console.log(index)
     setDisplayItem(filterdData[index])
     setDisplayOnlineItem(online_bonus_data[0])
     setIsShowDetail(true)

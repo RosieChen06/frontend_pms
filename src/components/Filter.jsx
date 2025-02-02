@@ -237,14 +237,14 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     }
 
   return (
-    <div className='absolute w-[80%] bg-white h-[84%] rounded-lg p-2 flex flex-row gap-4'>
+    <div className='w-full bg-white h-full rounded-lg p-2 flex flex-row gap-4'>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
             <p className='mb-2'>配送日期</p>
-            <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期' value={dateInput} onChange={(e)=>setDateInput(e.target.value)}></input>
+            <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期' value={dateInput} onChange={(e)=>setDateInput(e.target.value)}></input>
             <hr />
-            <div className='flex flex-row mt-3 gap-3'>
-                <button className='text-xs p-1 px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('dateAllCheck', status)}>全選</button>
-                <button className='text-xs p-1 px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('dateAllCancel', status)}>取消全選</button>
+            <div className='flex flex-row mt-3 gap-2 sm:gap-3'>
+                <button className='text-xs p-1 px-2 sm:px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('dateAllCheck', status)}>全選</button>
+                <button className='text-xs p-1 px-2 sm:px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('dateAllCancel', status)}>取消全選</button>
             </div>
             {status!=='submit'?'':dayList?
                 <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
@@ -279,11 +279,11 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         </div>
         <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
             <p className='mb-2'>騎手姓名</p>
-            <input type='text' className='rounded-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手' value={riderInput} onChange={(e)=>setRiderInput(e.target.value)}></input>
+            <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手' value={riderInput} onChange={(e)=>setRiderInput(e.target.value)}></input>
             <hr />
-            <div className='flex flex-row mt-3 gap-3'>
-                <button className='text-xs p-1 px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('riderAllCheck', status)}>全選</button>
-                <button className='text-xs p-1 px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('riderAllCancel', status)}>取消全選</button>
+            <div className='flex flex-row mt-3 gap-2 sm:gap-3'>
+                <button className='text-xs p-1 px-2 sm:px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('riderAllCheck', status)}>全選</button>
+                <button className='text-xs p-1 px-2 sm:px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('riderAllCancel', status)}>取消全選</button>
             </div>
             {status!=='submit'?'':riderList?
             <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>

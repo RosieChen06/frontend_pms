@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   const {setToken, token} = useContext(AdminContext)
   return (
-    <div className='w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] relative'>
+    <div className='hidden sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] relative'>
     {token==='admin'?       
         <ul>
             <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>

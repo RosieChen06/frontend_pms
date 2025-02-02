@@ -45,7 +45,7 @@ const AdminContextProvider = (props) =>{
             const {data} = await axios.get('http://localhost:4000/api/admin/week-data')
             if(data.success){
                 setOnlineData(data.weekData)
-
+                console.log('success')
             }else{
                 toast.error(data.message)
             }

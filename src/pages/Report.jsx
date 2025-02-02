@@ -176,13 +176,9 @@ const openEditForm = async(id, name, weeknum) => {
       weeknum: selectedData[0].weeknum
   })
 
-  console.log(riderData)
-
   const selectedWeekData = await onlineData.filter((item)=>(
     item.name===name && item.weeknum===weeknum
   ))
-
-  console.log(selectedWeekData)
 
   setRiderWeekData({
     riderId: selectedWeekData[0]._id,
@@ -201,7 +197,6 @@ const openEditForm = async(id, name, weeknum) => {
     admincomment: selectedWeekData[0].admincomment
   })
 
-  console.log(riderWeekData)
   const selectDayData = await rider.filter((item)=>(
     item.name===name && item.weeknum===weeknum && item.date !== selectedData[0].date
 ))
@@ -230,8 +225,6 @@ const filterdWeekData = onlineData.filter((item)=>(
 
 const openWeekEditForm = (id, name, weeknum) => {
 
-  console.log('week')
-
   const selectedData = filterdWeekData.filter((item)=>(
       item._id===id
   ))
@@ -254,8 +247,6 @@ const openWeekEditForm = (id, name, weeknum) => {
   }
   setSpIsQualify(tempArray);
 
-  console.log(isSpQualify)
-
   setRiderWeekData({
     riderId: selectedData[0]._id,
     name: selectedData[0].name,
@@ -276,7 +267,7 @@ const openWeekEditForm = (id, name, weeknum) => {
 }
 
   return (
-    <div className='w-2/3 md:w-5/6 h-[88vh]'>
+    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 m-2 sm:ml-4 bg-white mt-4'>
       {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>

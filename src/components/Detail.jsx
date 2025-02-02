@@ -14,11 +14,11 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
     lost_cnt, weeknum, sp2_attendance, epod_lost, seq, ttl_delivered, ttl_workday_weekend,ttl_worksday, uncleanCnt, is_online_bonus, day_report_status, week_report_status}) => {
   
     const {setIsShowDetail, setReportForm, setIsShowConfirmDetail, setIsReportOnline} = useContext(UserContext)
-    const {setIsShowAdminDetail, isShowData, setIsShowData} = useContext(AdminContext)
+    const {setIsShowAdminDetail, setIsShowData} = useContext(AdminContext)
 
 
     return (
-    <div className='absolute bg-white w-[79%] h-[83%] rounded-lg p-2 ml-0'> 
+    <div className=' bg-white w-full h-full rounded-lg p-2 mt-3'> 
         <div className='border-l-2 border-gray-300 pl-4'>
             <div className='flex justify-between'>
                 <p className='text-lg font-bold'>Detail</p>
@@ -41,95 +41,97 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                         <p className='border-l-4 border-green-400 pl-2'>上線獎勵</p>
                     }
                 </div>
-                <table className="table-fixed w-full min-w-[730px] text-left mt-3">
-                    <tr>
-                        <th class="p-4 border-b border-slate-300 bg-slate-50">
-                            <p class="block text-sm font-normal leading-none text-slate-500">總配送顆數</p>
-                        </th>
-                        <th class="p-4 border-b border-slate-300 bg-slate-50">
-                            <p class="block text-sm font-normal leading-none text-slate-500">總配送天數</p>
-                        </th>
-                        <th class="p-4 border-b border-slate-300 bg-slate-50">
-                            <p class="block text-sm font-normal leading-none text-slate-500">假日累計配送天數</p>
-                        </th>
-                        <th class="p-4 border-b border-slate-300 bg-slate-50">
-                            <p class="block text-sm font-normal leading-none text-slate-500">推薦排序使用率</p>
-                        </th>
-                        <th class="p-4 border-b border-slate-300 bg-slate-50">
-                            <p class="block text-sm font-normal leading-none text-slate-500">EPOD&遺失包裹累計</p>
-                        </th>
-                        {token==='admin'?'':day_report_status==='confirm'?'':
+                <div className='w-full overflow-scroll'>
+                    <table className="table-fixed w-full min-w-[1000px] text-left mt-3">
+                        <tr>
                             <th class="p-4 border-b border-slate-300 bg-slate-50">
-                            <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
-                        </th>
-                        }
-                    </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{ttl_delivered}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{ttl_worksday}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{ttl_workday_weekend}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{parseFloat(seq*100).toFixed(2)+'%'}</p>
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800">{epod_lost}</p>
-                        </td>
-                        {token==='admin'?'':day_report_status==='confirm'?'':                                
-                        <td class="p-4 border-b border-slate-200">
-                            <p class="block text-sm text-slate-800"></p>
-                        </td>
-                        }
-                    </tr>
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-4 border-b border-slate-200">
-                            {parseInt(ttl_delivered)>=400?
-                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                <p class="block text-sm font-normal leading-none text-slate-500">總配送顆數</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">總配送天數</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">假日累計配送天數</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">推薦排序使用率</p>
+                            </th>
+                            <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">EPOD&遺失包裹累計</p>
+                            </th>
+                            {token==='admin'?'':day_report_status==='confirm'?'':
+                                <th class="p-4 border-b border-slate-300 bg-slate-50">
+                                <p class="block text-sm font-normal leading-none text-slate-500">我要回報</p>
+                            </th>
                             }
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {parseInt(ttl_worksday)>=5?
-                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{ttl_delivered}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{ttl_worksday}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{ttl_workday_weekend}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{parseFloat(seq*100).toFixed(2)+'%'}</p>
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800">{epod_lost}</p>
+                            </td>
+                            {token==='admin'?'':day_report_status==='confirm'?'':                                
+                            <td class="p-4 border-b border-slate-200">
+                                <p class="block text-sm text-slate-800"></p>
+                            </td>
                             }
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {parseInt(ttl_workday_weekend)>=1?
-                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(ttl_delivered)>=400?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(ttl_worksday)>=5?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(ttl_workday_weekend)>=1?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(seq)>=0.9?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            <td class="p-4 border-b border-slate-200">
+                                {parseInt(epod_lost)<=2?
+                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
+                                }
+                            </td>
+                            {token==='admin'?'':day_report_status==='confirm'?'':                                
+                            <td class="p-4 border-b border-slate-200">
+                                {week_report_status==='report'?
+                                    <div className='flex flex-row gap-1'>
+                                        <FaCheckDouble className='text-xl cursor-pointer' />
+                                        <p class="block text-sm text-slate-800">已回報</p>
+                                    </div>
+                                    :<p class="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setIsReportOnline(true); setReportForm(true); setIsShowDetail(false);}}/></p>
+                                }
+                            </td>
                             }
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {parseInt(seq)>=0.9?
-                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
-                            }
-                        </td>
-                        <td class="p-4 border-b border-slate-200">
-                            {parseInt(epod_lost)<=2?
-                                <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
-                                <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
-                            }
-                        </td>
-                        {token==='admin'?'':day_report_status==='confirm'?'':                                
-                        <td class="p-4 border-b border-slate-200">
-                            {week_report_status==='report'?
-                                <div className='flex flex-row gap-1'>
-                                    <FaCheckDouble className='text-xl cursor-pointer' />
-                                    <p class="block text-sm text-slate-800">已回報</p>
-                                </div>
-                                :<p class="block text-sm text-slate-800"><VscReport className='text-xl cursor-pointer' onClick={()=>{setIsReportOnline(true); setReportForm(true); setIsShowDetail(false);}}/></p>
-                            }
-                        </td>
-                        }
-                    </tr>
-                </table>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div className={sp2_1_serve_type==="指定"?'border-l-4 border-green-400 pl-4 rounded-lg bg-white p-2':'border-l-4 border-yellow-400 pl-4 rounded-lg bg-white p-2'}>
                 <div className='flex justify-between pr-2'>    

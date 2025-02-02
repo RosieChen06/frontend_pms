@@ -49,7 +49,7 @@ const Confirmed = () => {
     const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
     const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
   return (
-    <div className='w-[80%] h-[96%] rounded-lg p-2 ml-4'> 
+    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 ml-0 sm:ml-4'> 
       {isShowConfirmDetail?'':isConfirmFilter?'':
       <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
           <FaFilter />
@@ -108,7 +108,7 @@ const Confirmed = () => {
             />
             :''
         }
-        <div className='w-[99%] grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
+        <div className='w-full grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
             <p>日期</p>
             <p>騎手</p>
             <p>保底獎勵</p>
@@ -116,7 +116,7 @@ const Confirmed = () => {
             <p>上線獎勵</p>
             <p>選項</p>
         </div>
-        <div className='w-[99%] overflow-scroll text-center'>
+        <div className='w-full overflow-scroll text-center'>
             {
                 filterConfirmData.map((item, index)=>(
                   <div key={index} className='flex flex-row items-center w-full justify-between'>
