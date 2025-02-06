@@ -114,13 +114,13 @@ const Update = () => {
     }
 
   return riderData && (
-        <div className='w-full bg-white sm:w-[80%] h-[96%] rounded-lg p-2 m-2 sm:ml-4 mt-4'>  
+        <div className='w-full h-[96%] rounded-lg p-2 bg-white'>  
         {
             riderWeekData && isWeekEdit?
-            <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll z-50'>
-                <div className='pr-6 mb-12 flex w-full flex-row gap-4 justify-between bg-slate-50'>
-                    <div className='w-full flex flex-row justify-center items-center'>   
-                        <div className='flex flex-col w-full gap-3p-4 hover:bg-[#004e76] hover:text-white'>
+            <div className='bg-white flex flex-col items-center gap-5 py-8 md:px-12 w-full h-[85vh] rounded-md overflow-scroll'>
+                <div className='text-xs sm:text-md mb-8 flex w-full flex-row justify-between bg-slate-50'>
+                    <div className='w-2/3 flex flex-row mr-8 items-center'>   
+                        <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                             <p className='text-sm'>騎手姓名</p>
                             <p className='text-lg font-extrabold'>{riderWeekData.name}</p>
                         </div>
@@ -136,13 +136,13 @@ const Update = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='flex flex-row justify-end items-center w-full'>
-                        <button onClick={()=>setIsWeekEdit(false)} className=' px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
-                        <button onClick={()=>updateWeekData(riderWeekData.riderId)} className=' px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                    <div className='w-1/3 flex flex-row justify-end items-center'>
+                        <button onClick={()=>setIsWeekEdit(false)} className='px-3 sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                        <button onClick={()=>updateWeekData(riderWeekData.riderId)} className='px-4 sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                     </div>
                 </div>
                 <h1 className='w-full border-l-4 pl-4 text-lg font-bold border-[#004e76]'>當周表現</h1>
-                <div className='flex flex-wrap gap-x-24 gap-y-12 w-full mt-12'>
+                <div className='flex flex-wrap gap-x-24 gap-y-12 w-full mt-8'>
                     <div className='w-full max-w-96'> 
                         <div className='flex flex-row items-center mb-4 gap-3'>
                             {riderWeekData.reportItem.includes('ttl_delivered')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
@@ -213,10 +213,10 @@ const Update = () => {
         {
             riderData && riderWeekData&& isSpQualify && isEdit?
             
-                <div className='w-full sm:w-[75%] h-[76%] bg-white rounded-lg sm:ml-4 mt-4 overflow-scroll absolute'>
+                <div className='w-full text-xs sm:text-md h-full rounded-lg overflow-scroll'>
                     <div className='w-full'>
                         <div className='w-full'>
-                            <div className='mb-12 w-full flex flex-row bg-slate-50 '>
+                            <div className='mb-12 w-full flex flex-row bg-slate-50 overflow-scroll'>
                                 <div className='w-2/3 flex flex-row justify-center items-center'>   
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-sm'>騎手姓名</p>

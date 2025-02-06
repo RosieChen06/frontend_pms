@@ -26,7 +26,7 @@ const AdminContextProvider = (props) =>{
     const [riderRawList, setRiderRawList] = useState(false)
     const [dayRawList, setDayRawList] = useState(false)
     const [isShowData, setIsShowData] = useState(false)
-    const [isShowMenu, setIsShowMenu] = useState(true)
+    const [isShowMenu, setIsShowMenu] = useState(false)
 
     const getDB = async () => {
         try{
