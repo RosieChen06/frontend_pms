@@ -49,7 +49,7 @@ const Confirmed = () => {
     const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
     const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
   return (
-    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 ml-0 sm:ml-4'> 
+    <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
       {isShowConfirmDetail?'':isConfirmFilter?'':
       <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
           <FaFilter />

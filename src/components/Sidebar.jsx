@@ -12,24 +12,25 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 
 const Sidebar = () => {
 
-  const {setToken, token} = useContext(AdminContext)
+  const {setToken, token, isShowMenu, setIsShowMenu, rider, onlineData} = useContext(AdminContext)
   return (
-    <div className='hidden sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] relative'>
+    <div className={isShowMenu?'w-full sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] absolute sm:relative':'hidden sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] absolute sm:relative'}>
     {token==='admin'?       
         <ul>
-            <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+            <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <IoMdCheckboxOutline className='text-lg'/>
                 <p>Uncheck</p>
             </NavLink>
-            <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+            <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <TbMessageReport className='text-lg'/>
                 <p>Report & Update</p>
+                <p className={({isActive})=>`'px-2 py-1 rounded-md text-sm' ${isActive? 'bg-[#004e76] text-white':'bg-white text-[#004e76]'}`}>{rider.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</p>
             </NavLink>
-            <NavLink to={'/missing-parcel'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+            <NavLink to={'/missing-parcel'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <LuClipboardPenLine className='text-lg'/>
                 <p>Lost Registration</p>
             </NavLink>
-            <NavLink to={'/maintenance'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+            <NavLink to={'/maintenance'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <MdOutlineDeleteOutline className='text-xl'/>
                 <p>Delete</p>
             </NavLink>
@@ -39,19 +40,19 @@ const Sidebar = () => {
             </div>
         </ul>:
         <ul>
-          <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+          <NavLink to={'/'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
               <TbReportSearch className='text-lg' />
               <p>成績查詢</p>
           </NavLink>
-          <NavLink to={'/confirmed'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+          <NavLink to={'/confirmed'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <MdOutlineFactCheck className='text-lg'/>
                 <p>已確認</p>
           </NavLink>
-          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`}>
+          <NavLink to={'/report'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
               <VscReport className='text-lg'/>
               <p>已回報</p>
           </NavLink>
-          <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full cursor-pointer hover:bg-white hover:text-red-600 hover:font-bold'>
+          <div onClick={()=>{setToken(''); sessionStorage.removeItem('token'); setIsShowMenu(false)}} className='absolute flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full cursor-pointer hover:bg-white hover:text-red-600 hover:font-bold' >
             <CiLogout className='text-lg'/>
             <button>登出</button>
           </div>

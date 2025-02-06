@@ -121,7 +121,6 @@ const Report = () => {
 }
 
 const ReportedData = rider.filter((item)=>(item.status==='report'))
-console.log(riderData)
 
 const openEditForm = async(id, name, weeknum) => {
 
@@ -213,10 +212,8 @@ const openEditForm = async(id, name, weeknum) => {
     }
     tempArray.push(getallData)
   }
-  console.log(tempArray)
   setSpIsQualify(tempArray);
   setIsEdit(true)
-  console.log(isSpQualify)
 }
 
 const filterdWeekData = onlineData.filter((item)=>(
@@ -267,15 +264,15 @@ const openWeekEditForm = (id, name, weeknum) => {
 }
 
   return (
-    <div className='w-full sm:w-[80%] h-[96%] rounded-lg p-2 m-2 sm:ml-4 bg-white mt-4'>
+    <div className='w-full bg-white sm:w-[80%] h-[96%] rounded-lg sm:m-4 mt-4'>
       {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
-          <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{filterdData.length + onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
-        <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復<span className={isResolve==='resolve'?'ml-3 rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{filterdData.length + onlineData.filter((item)=>(item.status === 'resolve')).length}</span></p>
+          <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{rider.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
+        <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復<span className={isResolve==='resolve'?'ml-3 rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{rider.filter((item)=>(item.status === 'resolve')).length+onlineData.filter((item)=>(item.status === 'resolve')).length}</span></p>
       </div>}
       {isEdit?'':isWeekEdit?'':
-        <div className={token==='admin'?'w-full flex-wrap-reverse h-[85vh] px-4 overflow-scroll':'w-full flex-wrap-reverse h-[77vh] px-4 overflow-scroll'}>
+        <div className={token==='admin'?'w-full flex-wrap-reverse h-[80vh] px-4 overflow-scroll':'w-full flex-wrap-reverse h-[72vh] px-4 overflow-scroll'}>
         {isReply?
           <div className='absolute bg-white w-[82%] h-[76vh] rounded-lg p-2'>
             <div className='border-l-2 border-gray-300 pl-4'>
@@ -342,7 +339,7 @@ const openWeekEditForm = (id, name, weeknum) => {
         }
         {
           filterdData.map((item, index)=>(
-            <div key={index} className='w-full bg-white pt-2 p-2 rounded-lg mb-4'>
+            <div key={index} className='w-full bg-slate-50 pt-2 p-2 rounded-lg mb-4'>
               <div className='flex flex-col justify-between'>
                 <div>
                   <div className='flex flex-row justify-between'>

@@ -18,7 +18,7 @@ import dayjs from 'dayjs';
 
 const Delete = () => {
 
-    const {rider, onlineData, isShowData, setIsShowData, getDB, getWeekDB} = useContext(AdminContext)
+    const {rider, onlineData, isShowData, setIsShowData, getDB, getWeekDB, isShowMenu} = useContext(AdminContext)
     const [startDate, setStartDate] = useState(dayjs(Date()))
     const [endDate, setEndDate] = useState(dayjs(Date()))
     const [maxDate, setMaxDate] = useState('')
@@ -30,9 +30,6 @@ const Delete = () => {
     const [filteredData, setFilteredData] = useState([])
 
     const filterData = () => {
-        // if(endDate>=startDate){
-        //     toast.error("Please enter valid date range")
-        // }
         const data = rider.filter((item)=>(
             new Date(startDate.$d.setHours(0, 0, 0, 0))<=new Date(item.date) && new Date(endDate.$d.setHours(0, 0, 0, 0))>=new Date(item.date) && searchStatus===item.status
         ))
@@ -208,6 +205,7 @@ const Delete = () => {
         }
         {isShowData?'':
             <div className='h-full'>
+                {isShowMenu?'':
                 <div className='h-1/6 flex flex-row w-full gap-4'>
                     <div className='flex flex-col gap-2 w-1/3'>
                         <p>Start From</p>
@@ -231,7 +229,9 @@ const Delete = () => {
                         </select>
                     </div>
                 </div>
-                <div className='h-[65%] flex justify-center items-center mt-2'>
+                }
+                {isShowMenu?'':
+                <div className='h-[65%] flex justify-center items-center mt-4'>
                     {!isShow?
                         <GrDocumentExcel className='text-[24px] text-gray-300'/>:
                         <div className='w-full h-full overflow-scroll'>
@@ -295,9 +295,11 @@ const Delete = () => {
                         </div>
                     }
                 </div>
+                }
+                {isShowMenu?'':
                 <div className='h-[15%] flex flex-row w-full gap-4 justify-center items-center'>
                     <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={filteredData.length} rowsPerPageOptions={[5, 10, 15]} onPageChange={onPageChange} />
-                </div>
+                </div>}
             </div>
         }
     </div>

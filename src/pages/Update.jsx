@@ -113,47 +113,14 @@ const Update = () => {
         }
     }
 
-    console.log(rider.filter((i)=>(i.weeknum===riderWeekData.weeknum && i.date !==riderData.date)))
-
   return riderData && (
-        <div className='flex flex-col gap-3 pl-12 w-2/3 md:w-5/6 mt-4'>  
-            <div className='flex flex-row gap-2 items-center h-[3vh]'>
-                <h1 className='text-[#004e76] font-extrabold'>All Report</h1>
-                <p className='bg-[#004e76] px-3 text-white rounded-full text-sm flex items-center'>{ReportedData.length}</p>
-            </div>
-            <div className='flex flex-wrap gap-6 mt-4 h-[77vh] overflow-scroll w-[99%] relative'>
-                {
-                    ReportedData.map((item, index)=>(
-                    <div key={index} className='flex flex-col items-start gap-5 max-w-96 min-w-96 max-h-72 min-h-72 bg-white p-2 rounded-md'>
-                        <div className='flex flex-col gap-0.5'>
-                            <p className='font-semibold'>{item.name}</p>
-                            <p className='text-xs'>{item.date.slice(0,10)}</p>
-                        </div>
-                        <div className='flex flex-wrap gap-2 w-full'>
-                            <p className={obj[index][0]==='Appsheet'?'px-4 py-0.5 font-bold rounded-full bg-pink-200 text-sm':obj[index][0]==='smart_inbound'?'px-4 py-0.5 font-bold rounded-full bg-purple-200 text-sm':obj[index][0]==='EPOD'?'px-4 py-0.5 font-bold rounded-full bg-yellow-200 text-sm':obj[index][0]==='work&clean'?'px-4 py-0.5 font-bold rounded-full bg-blue-200 text-sm':'px-4 py-0.5 font-bold rounded-full bg-orange-200 text-sm'}>{obj[index][0]}</p>
-                            {obj[index][1]?<p className={obj[index][1]==='Appsheet'?'px-4 py-0.5 font-bold rounded-full bg-pink-200 text-sm':obj[index][1]==='smart_inbound'?'px-4 py-0.5 font-bold rounded-full bg-purple-200 text-sm':obj[index][1]==='EPOD'?'px-4 py-0.5 font-bold rounded-full bg-yellow-200 text-sm':obj[index][1]==='work&clean'?'px-4 py-0.5 font-bold rounded-full bg-blue-200 text-sm':'px-4 py-0.5 font-bold rounded-full bg-orange-200 text-sm'}>{obj[index][1]}</p>:''}
-                            {obj[index][2]?<p className={obj[index][2]==='Appsheet'?'px-4 py-0.5 font-bold rounded-full bg-pink-200 text-sm':obj[index][2]==='smart_inbound'?'px-4 py-0.5 font-bold rounded-full bg-purple-200 text-sm':obj[index][2]==='EPOD'?'px-4 py-0.5 font-bold rounded-full bg-yellow-200 text-sm':obj[index][2]==='work&clean'?'px-4 py-0.5 font-bold rounded-full bg-blue-200 text-sm':'px-4 py-0.5 font-bold rounded-full bg-orange-200 text-sm'}>{obj[index][2]}</p>:''}
-                            {obj[index][3]?<p className={obj[index][3]==='Appsheet'?'px-4 py-0.5 font-bold rounded-full bg-pink-200 text-sm':obj[index][3]==='smart_inbound'?'px-4 py-0.5 font-bold rounded-full bg-purple-200 text-sm':obj[index][3]==='EPOD'?'px-4 py-0.5 font-bold rounded-full bg-yellow-200 text-sm':obj[index][3]==='work&clean'?'px-4 py-0.5 font-bold rounded-full bg-blue-200 text-sm':'px-4 py-0.5 font-bold rounded-full bg-orange-200 text-sm'}>{obj[index][3]}</p>:''}
-                            {obj[index][4]?<p className={obj[index][4]==='Appsheet'?'px-4 py-0.5 font-bold rounded-full bg-pink-200 text-sm':obj[index][4]==='smart_inbound'?'px-4 py-0.5 font-bold rounded-full bg-purple-200 text-sm':obj[index][4]==='EPOD'?'px-4 py-0.5 font-bold rounded-full bg-yellow-200 text-sm':obj[index][4]==='work&clean'?'px-4 py-0.5 font-bold rounded-full bg-blue-200 text-sm':'px-4 py-0.5 font-bold rounded-full bg-orange-200 text-sm'}>{obj[index][4]}</p>:''}
-                        </div>
-                        <p className='bg-gray-100 p-2 w-full h-20 overflow-scroll'>{item.comment}</p>
-                        <hr className='w-full' />
-                        <div className='flex flex-row justify-between w-full items-center'>
-                            <div>
-                                <p><a href={item.image[0]} target="_blank">{item.image.length} file attached</a></p>
-                            </div>
-                            <button onClick={()=>console.log(item._id)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>
-                        </div>
-                    </div> 
-                    ))
-                }
-            </div>
+        <div className='w-full bg-white sm:w-[80%] h-[96%] rounded-lg p-2 m-2 sm:ml-4 mt-4'>  
         {
             riderWeekData && isWeekEdit?
             <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll z-50'>
                 <div className='pr-6 mb-12 flex w-full flex-row gap-4 justify-between bg-slate-50'>
                     <div className='w-full flex flex-row justify-center items-center'>   
-                        <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
+                        <div className='flex flex-col w-full gap-3p-4 hover:bg-[#004e76] hover:text-white'>
                             <p className='text-sm'>騎手姓名</p>
                             <p className='text-lg font-extrabold'>{riderWeekData.name}</p>
                         </div>
@@ -246,11 +213,11 @@ const Update = () => {
         {
             riderData && riderWeekData&& isSpQualify && isEdit?
             
-                <div className='flex flex-col items-center gap-5 absolute px-4 py-8 md:px-12 w-9/12 bg-white h-[85vh] rounded-md overflow-scroll'>
+                <div className='w-full sm:w-[75%] h-[76%] bg-white rounded-lg sm:ml-4 mt-4 overflow-scroll absolute'>
                     <div className='w-full'>
-                        <div className='w-full mt-4'>
-                            <div className='pr-6 mb-12 flex flex-row gap-4 justify-between bg-slate-50'>
-                                <div className='w-full flex flex-row justify-center items-center'>   
+                        <div className='w-full'>
+                            <div className='mb-12 w-full flex flex-row bg-slate-50 '>
+                                <div className='w-2/3 flex flex-row justify-center items-center'>   
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-sm'>騎手姓名</p>
                                         <p className='text-lg font-extrabold'>{riderData.name}</p>
@@ -267,12 +234,12 @@ const Update = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className='flex flex-row justify-end items-center w-full'>
-                                    <button onClick={()=>setIsEdit(false)} className=' px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
-                                    <button onClick={()=>updateData(riderData.riderId)} className=' px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                                <div className='w-1/3 flex flex-row justify-center items-center bg-red-400'>
+                                    <button onClick={()=>setIsEdit(false)} className='px-2 w-full sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                                    <button onClick={()=>updateData(riderData.riderId)} className='px-2 w-full sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                                 </div>
                             </div>
-                            <div className='w-full flex pr-5 justify-between items-center'>
+                            <div className='w-full flex justify-between items-center'>
                                 <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_1}</h1>
                                 <div className='flex flex-row gap-4 items-center justify-center'>
                                     <p>服務獎勵</p>
