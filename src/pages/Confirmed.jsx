@@ -149,10 +149,10 @@ const Confirmed = () => {
                         <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
                     </th>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
                     </th>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                        <p className="block text-sm font-normal leading-none text-slate-500">選項</p>
                     </th>
                 </tr>}
                 {filterConfirmData.slice(first,first+rows).map((item, index)=>(

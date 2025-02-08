@@ -13,8 +13,6 @@ import VendorHomePage from './pages/VendorHomePage';
 import Confirmed from './pages/Confirmed';
 import MissingParcel from './pages/MissingParcel';
 import Delete from './pages/Delete';
-import { ImCross } from "react-icons/im";
-import { FaCheck } from "react-icons/fa";
 
 function App() {
 

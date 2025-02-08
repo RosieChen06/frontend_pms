@@ -12,20 +12,20 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
+import { ImCross } from "react-icons/im";
+import { FaCheck } from "react-icons/fa";
 
 const Home = () => {
 
-    const {rider, data, state, token, isShowAdminDetail, displayMainItem, 
-        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB, isShowMenu} = useContext(AdminContext)  
+    const {rider, data, state, token, isShowAdminDetail, displayMainItem, isMassiveUpload, setIsMassiveUpload,
+        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB, isShowMenu, uploadItem, setUploadItem} = useContext(AdminContext)  
     const {setDateInput, setRiderInput} = useContext(UserContext) 
     const [dateRawFilterPreview, setDateRawFilterPreview] = useState([])
     const [riderRawFilterPreview, setRiderRawFilterPreview] = useState([])
     const [dateRawFilterConfirm, setDateRawFilterConfirm] = useState([])
     const [riderRawFilterConfirm, setRiderRawFilterConfirm] = useState([])
     const [filterRawData, setFilterRawData] = useState([])
-    const [isMassiveUpload, setIsMassiveUpload] = useState(false)
-    const [uploadItem, setUploadItem] = useState([])
-
+    
     const filterdData = data.filter((item)=>(rider.filter((i)=>(i.name===item.name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.name !=='')
 
     const dataList = () => {
@@ -156,8 +156,8 @@ const Home = () => {
                     <div className='flex flex-row gap-2 items-center p-2 bg-blue-600 text-white rounded-md'>
                         <MdOutlineAdsClick />
                         {uploadItem.length>0?
-                            <button>上傳中...</button>
-                            :<button onClick={()=>{setIsMassiveUpload(true); addUploadItem();}}>批量上傳</button>
+                            <button>上傳中...</button>:
+                            <button onClick={()=>{setIsMassiveUpload(true); addUploadItem();}}>批量上傳</button>
                         }
                     </div>:
                     <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md min-w-[300px]'>

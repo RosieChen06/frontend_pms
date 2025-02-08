@@ -27,6 +27,8 @@ const AdminContextProvider = (props) =>{
     const [dayRawList, setDayRawList] = useState(false)
     const [isShowData, setIsShowData] = useState(false)
     const [isShowMenu, setIsShowMenu] = useState(false)
+    const [uploadItem, setUploadItem] = useState([])
+    const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
     const getDB = async () => {
         try{
@@ -85,7 +87,7 @@ const AdminContextProvider = (props) =>{
         isSpQualify, setSpIsQualify, displayMainItem, setDisplayMainItem,
         displayOnlineMainItem, setDisplayOnlineMainItem, isRawFilter, setRawFilter,
         riderRawList, setRiderRawList, dayRawList, setDayRawList, isShowData, setIsShowData,
-        isShowMenu, setIsShowMenu
+        isShowMenu, setIsShowMenu, uploadItem, setUploadItem, isMassiveUpload, setIsMassiveUpload
         
     }
 

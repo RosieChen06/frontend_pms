@@ -13,6 +13,8 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
+import { ImCross } from "react-icons/im";
+import { FaCheck } from "react-icons/fa";
 
 const VendorHomePage = () => {
 
