@@ -5,10 +5,14 @@ import { UserContext } from '../../context/UserContext';
 import Detail from '../components/Detail';
 import Filter from '../components/Filter';
 import { FaFilter } from "react-icons/fa6";
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css'
+import { Paginator } from 'primereact/paginator';
 
 const Confirmed = () => {
 
-    const {rider, token} = useContext(AdminContext)
+    const {rider, token, isShowMenu} = useContext(AdminContext)
     const {setDateInput, setRiderInput} = useContext(UserContext)
     const [filterConfirmData, setFilterConfirmData] = useState([])
     const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
@@ -42,20 +46,37 @@ const Confirmed = () => {
         dataList()
     }, [rider])
 
-    const filterdData = rider.filter((item)=>(
-      item.status === 'confirm'
-    ))
     const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem, isConfirmFilter, setConfirmFilter} = useContext( UserContext)
     const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
     const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(100);
+
+    const onPageChange = (event) => {
+        setFirst(event.first);
+        setRows(event.rows);
+        console.log(event)
+    }
   return (
     <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
-      {isShowConfirmDetail?'':isConfirmFilter?'':
-      <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
-          <FaFilter />
-          <button onClick={()=>{setConfirmFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
+      <div className='flex flex-row items-center mt-4'>
+        {isShowConfirmDetail?'':isConfirmFilter?'':
+        <div className='p-2 min-w-[75px] flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
+            <FaFilter />
+            <button onClick={()=>{setConfirmFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
+        </div>
+        }
+        {isShowConfirmDetail?'':isConfirmFilter?'':isShowMenu?'':
+          <div className='flex-row w-full justify-end items-center h-8 flex'>
+              <div className='hidden lg:block'>
+                  <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={filterConfirmData.length} onPageChange={onPageChange} />
+              </div>
+              <div className="card block max-w-[220px] lg:hidden">
+                  <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={filterConfirmData.length} onPageChange={onPageChange} template={{ layout: 'PrevPageLink CurrentPageReport NextPageLink' }} />
+              </div>
+          </div>
+        }
       </div>
-      }
       {isConfirmFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'confirm'
           ))} status='confirm' setRiderConfirmFilterConfirm={setRiderConfirmFilterConfirm} setDateConfirmFilterConfirm={setDateConfirmFilterConfirm} dateConfirmFilterPreview={dateConfirmFilterPreview} setDateConfirmFilterPreview={setDateConfirmFilterPreview} 
@@ -71,6 +92,7 @@ const Confirmed = () => {
             sp2_1_remaindelivering={displayConfirmItem.sp2_1_remaindelivering}
             sp2_1_ttl_delivered={displayConfirmItem.sp2_1_ttl_delivered}
             sp2_1_delivered={displayConfirmItem.sp2_1_delivered}
+            sp2_1_assign_delivered={displayConfirmItem.sp2_1_assign_delivered}
             sp2_1_onhold={displayConfirmItem.sp2_1_onhold}
             sp2_1_appsheet={displayConfirmItem.sp2_1_appsheet}
             sp2_1_serve_type={displayConfirmItem.sp2_1_serve_type}
@@ -79,6 +101,7 @@ const Confirmed = () => {
             sp2_2_is_servicce_bonus={displayConfirmItem.sp2_2_is_servicce_bonus}
             sp2_2_remaindelivering={displayConfirmItem.sp2_2_remaindelivering}
             sp2_2_ttl_delivered={displayConfirmItem.sp2_2_ttl_delivered}
+            sp2_2_assign_delivered={displayConfirmItem.sp2_2_assign_delivered}
             sp2_2_delivered={displayConfirmItem.sp2_2_delivered}
             sp2_2_onhold={displayConfirmItem.sp2_2_onhold}
             sp2_2_appsheet={displayConfirmItem.sp2_2_appsheet}
@@ -89,6 +112,7 @@ const Confirmed = () => {
             sp2_3_remaindelivering={displayConfirmItem.sp2_3_remaindelivering}
             sp2_3_ttl_delivered={displayConfirmItem.sp2_3_ttl_delivered}
             sp2_3_delivered={displayConfirmItem.sp2_3_delivered}
+            sp2_3_assign_delivered={displayConfirmItem.sp2_3_assign_delivered}
             sp2_3_onhold={displayConfirmItem.sp2_3_onhold}
             sp2_3_appsheet={displayConfirmItem.sp2_3_appsheet}
             sp2_3_serve_type={displayConfirmItem.sp2_3_serve_type}
@@ -108,24 +132,34 @@ const Confirmed = () => {
             />
             :''
         }
-        <div className='w-full grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
-            <p>日期</p>
-            <p>騎手</p>
-            <p>保底獎勵</p>
-            <p>服務獎勵</p>
-            <p>上線獎勵</p>
-            <p>選項</p>
-        </div>
-        <div className='w-full overflow-scroll text-center'>
-            {
-                filterConfirmData.map((item, index)=>(
-                  <div key={index} className='flex flex-row items-center w-full justify-between'>
-                    <div className='w-full'>
-                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
-                    </div>
-                  </div> 
+        <div className='w-full h-full overflow-scroll mt-6'>
+            <table className='table-fixed w-full min-w-[730px] text-center'>   
+                {isShowMenu?'':
+                <tr className='sticky top-0 z-1'>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">Date</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">Rider</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                    </th>
+                </tr>}
+                {filterConfirmData.slice(first,first+rows).map((item, index)=>(
+                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
                 ))
-            }
+                }
+            </table>
         </div>
     </div>
   )

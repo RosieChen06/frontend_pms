@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
 import { UserContext } from '../../context/UserContext'
-import { ImCross } from "react-icons/im";
-import { FaCheck } from "react-icons/fa";
 import { CiCircleQuestion } from "react-icons/ci";
 
 const Update = () => {
 
     const {getDB, rider, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
-    const {reportSp2Item, setReportSp2Item} = useContext(UserContext)
+    const {reportSp2Item} = useContext(UserContext)
     const ReportedData = rider.filter((item)=>(item.status==='report'))
 
     const [dayAdjustment, setDayAdjustment] = useState(true)
@@ -254,7 +252,7 @@ const Update = () => {
                                     <div className='flex flex-row items-center mb-4 gap-3'>
                                         {reportSp2Item['1'].includes('remain_delivering')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                         <p className='text-sm text-gray-700'>門市應配貨量</p>
-                                        <CiCircleQuestion onClick={()=>setRiderData(prev =>({...prev, sp2_1_remaindelivering: Number(riderData.sp2_1_remaindelivering_fix) + Number(riderData.sp2_1_onhold_fix)}))}/>
+                                        <CiCircleQuestion onClick={()=>setRiderData(prev =>({...prev, sp2_1_remaindelivering: Number(riderData.sp2_1_ttl_delivered) + Number(riderData.sp2_1_onhold_fix)}))}/>
                                     </div>
                                     <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_remaindelivering} onChange={e=>setRiderData(prev =>({...prev, sp2_1_remaindelivering: e.target.value}))}></input>
                                 </div>
@@ -271,6 +269,19 @@ const Update = () => {
                                         <p className='text-sm text-gray-700'>個人配送貨量</p>
                                     </div>
                                     <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_1_delivered: e.target.value}))}></input>
+                                </div>
+                                <div className='w-full max-w-96'> 
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        <p className='text-sm text-gray-700'>指定騎手總配送貨量</p>
+                                    </div>
+                                    <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_assign_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_1_assign_delivered: e.target.value}))}></input>
+                                </div>
+                                <div className='w-full max-w-96'> 
+                                    <div className='flex flex-row items-center mb-4 gap-3'>
+                                        {reportSp2Item['1'].includes('delivered_cnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                        <p className='text-sm text-gray-700'>門市總配送貨量</p>
+                                    </div>
+                                    <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_1_ttl_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_1_ttl_delivered: e.target.value}))}></input>
                                 </div>
                                 <div className='w-full max-w-96'> 
                                     <div className='flex flex-row items-center mb-4 gap-3'>
@@ -351,6 +362,7 @@ const Update = () => {
                                         <div className='flex flex-row items-center mb-4 gap-3'>
                                             {reportSp2Item['2'].includes('remain_delivering')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>門市應配貨量</p>
+                                            <CiCircleQuestion onClick={()=>setRiderData(prev =>({...prev, sp2_2_remaindelivering: Number(riderData.sp2_2_ttl_delivered) + Number(riderData.sp2_2_onhold_fix)}))}/>
                                         </div>
                                         <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_remaindelivering} onChange={e=>setRiderData(prev =>({...prev, sp2_2_remaindelivering: e.target.value}))}></input>
                                     </div>
@@ -367,6 +379,19 @@ const Update = () => {
                                             <p className='text-sm text-gray-700'>個人配送貨量</p>
                                         </div>
                                         <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_2_delivered: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['1'].includes('delivered_cnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>指定騎手總配送貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_assign_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_2_assign_delivered: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            <p className='text-sm text-gray-700'>門市總配送貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_2_ttl_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_2_ttl_delivered: e.target.value}))}></input>
                                     </div>
                                     <div className='w-full max-w-96'> 
                                         <div className='flex flex-row items-center mb-4 gap-3'>
@@ -452,6 +477,7 @@ const Update = () => {
                                         <div className='flex flex-row items-center mb-4 gap-3'>
                                             {reportSp2Item['3'].includes('remain_delivering')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
                                             <p className='text-sm text-gray-700'>門市應配貨量</p>
+                                            <CiCircleQuestion onClick={()=>setRiderData(prev =>({...prev, sp2_3_remaindelivering: Number(riderData.sp2_3_ttl_delivered) + Number(riderData.sp2_3_onhold_fix)}))}/>
                                         </div>
                                         <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_remaindelivering} onChange={e=>setRiderData(prev =>({...prev, sp2_3_remaindelivering: e.target.value}))}></input>
                                     </div>
@@ -468,6 +494,19 @@ const Update = () => {
                                             <p className='text-sm text-gray-700'>個人配送貨量</p>
                                         </div>
                                         <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_3_delivered: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            <p className='text-sm text-gray-700'>指定騎手總配送貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_assign_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_3_assign_delivered: e.target.value}))}></input>
+                                    </div>
+                                    <div className='w-full max-w-96'> 
+                                        <div className='flex flex-row items-center mb-4 gap-3'>
+                                            {reportSp2Item['3'].includes('delivered_cnt')?<p className='w-2 h-2 rounded-full bg-red-500'></p>:''}
+                                            <p className='text-sm text-gray-700'>門市總配送貨量</p>
+                                        </div>
+                                        <input className='w-full border-gray-300 py-1 pl-2 rounded-md border-2' type='text' value={riderData.sp2_3_ttl_delivered} onChange={e=>setRiderData(prev =>({...prev, sp2_3_ttl_delivered: e.target.value}))}></input>
                                     </div>
                                     <div className='w-full max-w-96'> 
                                         <div className='flex flex-row items-center mb-4 gap-3'>

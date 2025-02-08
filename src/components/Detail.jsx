@@ -8,15 +8,15 @@ import { ImCross } from "react-icons/im";
 import { FaCheckDouble } from "react-icons/fa6";
 
 
-const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus, sp2_1_remaindelivering, sp2_1_ttl_delivered, sp2_1_delivered, sp2_1_onhold, sp2_1_appsheet,
-    sp2_1_serve_type, sp2_1_sop, sp2_2, sp2_2_is_servicce_bonus, sp2_2_remaindelivering, sp2_2_ttl_delivered, sp2_2_delivered, sp2_2_onhold, sp2_2_appsheet, sp2_2_serve_type, 
-    sp2_2_sop, sp2_3, sp2_3_is_servicce_bonus, sp2_3_remaindelivering, sp2_3_ttl_delivered, sp2_3_delivered, sp2_3_onhold, sp2_3_appsheet, sp2_3_serve_type, sp2_3_sop, epod, 
+const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus, sp2_1_remaindelivering, sp2_1_ttl_delivered, sp2_1_delivered, sp2_1_onhold, sp2_1_appsheet, sp2_1_assign_delivered,
+    sp2_1_serve_type, sp2_1_sop, sp2_2, sp2_2_is_servicce_bonus, sp2_2_remaindelivering, sp2_2_ttl_delivered, sp2_2_delivered, sp2_2_onhold, sp2_2_appsheet, sp2_2_serve_type, sp2_2_assign_delivered,
+    sp2_2_sop, sp2_3, sp2_3_is_servicce_bonus, sp2_3_remaindelivering, sp2_3_ttl_delivered, sp2_3_delivered, sp2_3_onhold, sp2_3_appsheet, sp2_3_serve_type, sp2_3_sop, epod, sp2_3_assign_delivered,
     lost_cnt, weeknum, sp2_attendance, epod_lost, seq, ttl_delivered, ttl_workday_weekend,ttl_worksday, uncleanCnt, is_online_bonus, day_report_status, week_report_status}) => {
   
     const {setIsShowDetail, setReportForm, setIsShowConfirmDetail, setIsReportOnline} = useContext(UserContext)
     const {setIsShowAdminDetail, setIsShowData} = useContext(AdminContext)
 
-
+    console.log(sp2_1_assign_delivered)
     return (
     <div className=' bg-white w-full h-full rounded-lg p-2 mt-3'> 
         <div className='border-l-2 border-gray-300 pl-4'>
@@ -79,7 +79,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p class="block text-sm text-slate-800">{parseFloat(seq*100).toFixed(2)+'%'}</p>
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                <p class="block text-sm text-slate-800">{epod_lost}</p>
+                                <p class="block text-sm text-slate-800">{parseInt(epod_lost)+parseInt(lost_cnt)}</p>
                             </td>
                             {token==='admin'?'':day_report_status==='confirm'?'':                                
                             <td class="p-4 border-b border-slate-200">
@@ -90,7 +90,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                         <tr class="hover:bg-slate-50">
                             <td class="p-4 border-b border-slate-200">
                                 {parseInt(ttl_delivered)>=400?
-                                    <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
+                                    <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />上線獎勵</p>:
                                     <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />上線獎勵</p>
                                 }
                             </td>
@@ -206,7 +206,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p class="block text-sm text-slate-800">{sp2_1_delivered}</p>
                             </td>
                             <td class="p-4 border-b border-slate-200">
-                                {parseInt(sp2_1_delivered)>=parseInt(sp2_1_remaindelivering)-parseInt(sp2_1_onhold)?
+                                {parseInt(sp2_1_assign_delivered)>=parseInt(sp2_1_remaindelivering)-parseInt(sp2_1_onhold)?
                                     <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
@@ -453,6 +453,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                         <p className='font-bold'>{sp2_2}</p>
                         <p className={sp2_2_is_servicce_bonus==="達標"?'border-l-4 border-green-400 pl-2':sp2_2_is_servicce_bonus==="部分達標"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
                     </div>
+                    <p className='text-sm font-semibold mt-4'>1. 門市清空</p>
                     <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[730px] text-left mt-3">
                         <tr>
@@ -501,7 +502,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800">{sp2_2_delivered}</p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(sp2_2_delivered)>=parseInt(sp2_2_remaindelivering)-parseInt(sp2_2_onhold)?
+                                {parseInt(sp2_2_assign_delivered)>=parseInt(sp2_2_remaindelivering)-parseInt(sp2_2_onhold)?
                                     <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }
@@ -749,7 +750,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                         <p className='font-bold'>{sp2_3}</p>
                         <p className={sp2_3_is_servicce_bonus==="達標"?'border-l-4 border-green-400 pl-2':sp2_3_is_servicce_bonus==="部分達標"?'border-l-4 border-yellow-400 pl-2':'border-l-4 border-red-600 pl-2'}>服務獎勵</p>
                     </div>
-                    <p className='text-sm font-semibold mt-4'>1. 門市清空 :</p>
+                    <p className='text-sm font-semibold mt-4'>1. 門市清空</p>
                     <div className='w-full overflow-scroll'>
                     <table className="table-fixed w-full min-w-[730px] text-left mt-3">
                         <tr>
@@ -794,7 +795,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                                 <p className="block text-sm text-slate-800">{sp2_3_delivered}</p>
                             </td>
                             <td className="p-4 border-b border-slate-200">
-                                {parseInt(sp2_3_delivered)>=parseInt(sp2_3_remaindelivering)-parseInt(sp2_3_onhold)?
+                                {parseInt(sp2_3_assign_delivered)>=parseInt(sp2_3_remaindelivering)-parseInt(sp2_3_onhold)?
                                     <p class="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />保底獎勵</p>:
                                     <p class="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />保底獎勵</p>
                                 }

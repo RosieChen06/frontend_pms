@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { MdOutlineFactCheck } from "react-icons/md";
 import { BiDetail } from "react-icons/bi";
 import { AdminContext } from '../../context/AdminContext';
@@ -6,18 +6,22 @@ import { UserContext } from '../../context/UserContext';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { FaRegSave } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 
-const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem}) => {
+const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem}) => {
 
-  const {getDB, onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
+  const {getDB, rider, onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
   const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail} = useContext(UserContext)
 
-  const displayDetail = (index, name, weeknum) =>{
+  const displayDetail = (date, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
         item.name===name && item.weeknum===weeknum
     ))
-    setDisplayItem(filterdData[index])
+    let day_bonus_data = rider.filter((item)=>(
+      item.name===name && item.date===date
+    ))
+    setDisplayItem(day_bonus_data[0])
     setDisplayOnlineItem(online_bonus_data[0])
     setIsShowDetail(true)
   }
@@ -42,11 +46,14 @@ const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index
     }
   }
 
-  const displayConfirmDetail = (index, name, weeknum) =>{
+  const displayConfirmDetail = (date, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
       item.name===name && item.weeknum===weeknum
     ))
-    setDisplayConfirmItem(filterdData[index])
+    let day_bonus_data = rider.filter((item)=>(
+      item.name===name && item.date===date
+    ))
+    setDisplayConfirmItem(day_bonus_data[0])
     setDisplayConfirmOnlineItem(online_bonus_data[0])
     setIsShowConfirmDetail(true)
 }
@@ -57,43 +64,47 @@ const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index
     setIsShowAdminDetail(true)
   }
 
-  const saveRecord = async (index, name, weeknum) => {
+  const saveRecord = async (date, name, weeknum) => {
+    const dayDataForSave = filterdData.filter((item)=>(item.name===name && new Date(item.date).toLocaleDateString()===date))
     const weekDataforSave = weekData.filter((item)=>(item.name===name && item.weeknum===weeknum))
     try{
         const formData = new FormData()
-        formData.append('phone', filterdData[index].phone)
-        formData.append('name', filterdData[index].name)
-        formData.append('date', new Date(filterdData[index].date).toLocaleDateString())
-        formData.append('is_garantee', filterdData[index].is_garantee)
-        formData.append('sp2_1', filterdData[index].sp2_1)
-        formData.append('sp2_1_is_servicce_bonus', filterdData[index].sp2_1_is_servicce_bonus)
-        formData.append('sp2_1_serve_type', filterdData[index].sp2_1_serve_type)
-        formData.append('sp2_1_onhold', filterdData[index].sp2_1_onhold)
-        formData.append('sp2_1_remaindelivering', filterdData[index].sp2_1_remaindelivering)
-        formData.append('sp2_1_ttl_delivered', filterdData[index].sp2_1_ttl_delivered)
-        formData.append('sp2_1_delivered', filterdData[index].sp2_1_delivered)
-        formData.append('sp2_1_sop', filterdData[index].sp2_1_sop)
-        formData.append('sp2_1_appsheet', filterdData[index].sp2_1_appsheet)
-        formData.append('sp2_2', filterdData[index].sp2_2)
-        formData.append('sp2_2_is_servicce_bonus', filterdData[index].sp2_2_is_servicce_bonus)
-        formData.append('sp2_2_serve_type', filterdData[index].sp2_2_serve_type)
-        formData.append('sp2_2_onhold', filterdData[index].sp2_2_onhold)
-        formData.append('sp2_2_remaindelivering', filterdData[index].sp2_2_remaindelivering)
-        formData.append('sp2_2_ttl_delivered', filterdData[index].sp2_2_ttl_delivered)
-        formData.append('sp2_2_delivered', filterdData[index].sp2_2_delivered)
-        formData.append('sp2_2_sop', filterdData[index].sp2_2_sop)
-        formData.append('sp2_2_appsheet', filterdData[index].sp2_2_appsheet)
-        formData.append('sp2_3', filterdData[index].sp2_3)
-        formData.append('sp2_3_is_servicce_bonus', filterdData[index].sp2_3_is_servicce_bonus)
-        formData.append('sp2_3_serve_type', filterdData[index].sp2_3_serve_type)
-        formData.append('sp2_3_onhold', filterdData[index].sp2_3_onhold)
-        formData.append('sp2_3_remaindelivering', filterdData[index].sp2_3_remaindelivering)
-        formData.append('sp2_3_ttl_delivered', filterdData[index].sp2_3_ttl_delivered)
-        formData.append('sp2_3_delivered', filterdData[index].sp2_3_delivered)
-        formData.append('sp2_3_sop', filterdData[index].sp2_3_sop)
-        formData.append('sp2_3_appsheet', filterdData[index].sp2_3_appsheet)
-        formData.append('sp2_attendance', filterdData[index].sp2_attendance)
-        formData.append('epod', filterdData[index].epod)
+        formData.append('phone', dayDataForSave[0].phone)
+        formData.append('name', dayDataForSave[0].name)
+        formData.append('date', new Date(dayDataForSave[0].date).toLocaleDateString())
+        formData.append('is_garantee', dayDataForSave[0].is_garantee)
+        formData.append('sp2_1', dayDataForSave[0].sp2_1)
+        formData.append('sp2_1_is_servicce_bonus', dayDataForSave[0].sp2_1_is_servicce_bonus)
+        formData.append('sp2_1_serve_type', dayDataForSave[0].sp2_1_serve_type)
+        formData.append('sp2_1_onhold', dayDataForSave[0].sp2_1_onhold)
+        formData.append('sp2_1_remaindelivering', dayDataForSave[0].sp2_1_remaindelivering)
+        formData.append('sp2_1_ttl_delivered', dayDataForSave[0].sp2_1_ttl_delivered)
+        formData.append('sp2_1_delivered', dayDataForSave[0].sp2_1_delivered)
+        formData.append('sp2_1_assign_delivered', dayDataForSave[0].sp2_1_assign_delivered)
+        formData.append('sp2_1_sop', dayDataForSave[0].sp2_1_sop)
+        formData.append('sp2_1_appsheet', dayDataForSave[0].sp2_1_appsheet)
+        formData.append('sp2_2', dayDataForSave[0].sp2_2)
+        formData.append('sp2_2_is_servicce_bonus', dayDataForSave[0].sp2_2_is_servicce_bonus)
+        formData.append('sp2_2_serve_type', dayDataForSave[0].sp2_2_serve_type)
+        formData.append('sp2_2_onhold', dayDataForSave[0].sp2_2_onhold)
+        formData.append('sp2_2_remaindelivering', dayDataForSave[0].sp2_2_remaindelivering)
+        formData.append('sp2_2_ttl_delivered', dayDataForSave[0].sp2_2_ttl_delivered)
+        formData.append('sp2_2_delivered', dayDataForSave[0].sp2_2_delivered)
+        formData.append('sp2_2_assign_delivered', dayDataForSave[0].sp2_2_assign_delivered)
+        formData.append('sp2_2_sop', dayDataForSave[0].sp2_2_sop)
+        formData.append('sp2_2_appsheet', dayDataForSave[0].sp2_2_appsheet)
+        formData.append('sp2_3', dayDataForSave[0].sp2_3)
+        formData.append('sp2_3_is_servicce_bonus', dayDataForSave[0].sp2_3_is_servicce_bonus)
+        formData.append('sp2_3_serve_type', dayDataForSave[0].sp2_3_serve_type)
+        formData.append('sp2_3_onhold', dayDataForSave[0].sp2_3_onhold)
+        formData.append('sp2_3_remaindelivering', dayDataForSave[0].sp2_3_remaindelivering)
+        formData.append('sp2_3_ttl_delivered', dayDataForSave[0].sp2_3_ttl_delivered)
+        formData.append('sp2_3_delivered', dayDataForSave[0].sp2_3_delivered)
+        formData.append('sp2_3_assign_delivered', dayDataForSave[0].sp2_3_assign_delivered)
+        formData.append('sp2_3_sop', dayDataForSave[0].sp2_3_sop)
+        formData.append('sp2_3_appsheet', dayDataForSave[0].sp2_3_appsheet)
+        formData.append('sp2_attendance', dayDataForSave[0].sp2_attendance)
+        formData.append('epod', dayDataForSave[0].epod)
         formData.append('ttl_delivered', weekDataforSave[0].ttl_delivered)
         formData.append('ttl_worksday', weekDataforSave[0].ttl_worksday)
         formData.append('ttl_workday_weekend', weekDataforSave[0].ttl_workday_weekend)
@@ -185,27 +196,60 @@ const List = ({date, name, is_garantee, is_service_bonus, is_online_bonus, index
   }
 
   return (
-    <div className='w-full grid grid-cols-6 bg-white p-3 mb-2 mr-8 justify-center items-center'>
-        <p>{date}</p>
-        <p>{name}</p>
-        <p>{is_garantee}</p>
-        <p>{is_service_bonus}</p>
-        <p>{is_online_bonus}</p>
+      <tr className='hover:bg-slate-100 bg-slate-50'>
+        <td className="p-4 border-b border-slate-200">
+            <p className="block text-sm text-slate-800">{date}</p>
+        </td>
+        <td className="p-4 border-b border-slate-200">
+            <p className="block text-sm text-slate-800">{name}</p>
+        </td>
+        <td className="p-4 border-b border-slate-200">
+            {is_garantee==='達標'?
+            <div className='flex justify-center items-center text-center'>
+              <p className="bg-green-100 block px-2 py-1 rounded-2xl text-black w-fit"><FaCheck /></p>
+            </div>:
+            <div className='flex justify-center items-center text-center'>
+              <p className="bg-red-100 block px-2 py-1 rounded-2xl text-black w-fit"><ImCross /></p>
+            </div>
+            }
+        </td>
+        <td className="p-4 border-b border-slate-200">
+          {sp2_1_is_service_bonus==='未達標' || sp2_2_is_service_bonus==='未達標' || sp2_3_is_service_bonus==='未達標'?
+              <div className='flex justify-center items-center text-center'>
+                <p className="bg-red-100 block px-2 py-1 rounded-2xl text-black w-fit"><ImCross /></p>
+              </div>:
+              <div className='flex justify-center items-center text-center'>
+                <p className="bg-green-100 block px-2 py-1 rounded-2xl text-black w-fit"><FaCheck /></p>
+              </div>
+          }
+        </td>
+        <td className="p-4 border-b border-slate-200">
+          {is_online_bonus==='達標'?
+              <div className='flex justify-center items-center text-center'>
+                <p className="bg-green-100 block px-2 py-1 rounded-2xl text-black w-fit"><FaCheck /></p>
+              </div>:
+              <div className='flex justify-center items-center text-center'>
+                <p className="bg-red-100 block px-2 py-1 rounded-2xl text-black w-fit"><ImCross /></p>
+              </div>
+          }
+        </td>
         {status==='submit'?
-          <div className='flex flex-row items-center justify-center'>
-            <button onClick={()=>displayDetail(index, name, weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
-            <button onClick={()=>isCheck(id)} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><MdOutlineFactCheck /></button>
-        </div>:status==='confirm'?
-        <div className='flex flex-row items-center justify-center'>
-          <button onClick={()=>displayConfirmDetail(index, name, weeknum)} className='bg-white p-3 rounded-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
-        </div>:status==='raw'?
-        <div className='flex flex-row items-center justify-center'>
-            <button onClick={()=>displayRawDetail(name, date, weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
-            {!isMassiveUpload?<button onClick={()=>saveRecord(index, name, weeknum)} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-slate-200'><FaRegSave /></button>:
-            <button className={uploadItem.filter((item)=>(item.name===name && item.date===date)).length>0?'p-3 rounded-r-md border-y-2 border-r-2 bg-green-500 text-white border-green-500':'bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-slate-200'} onClick={()=>singleSelectPush(name, date, isInclude(name, date))}><FaCheck /></button>}
-        </div>:''
-        }
-    </div>
+          <td className="p-4 border-b border-slate-200">
+            <div className='flex flex-row items-center justify-center'>
+              <button onClick={()=>displayDetail(date, name, weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
+              <button onClick={()=>isCheck(id)} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><MdOutlineFactCheck /></button>
+            </div>
+          </td>:status==='confirm'?
+          <td className="p-4 border-b border-slate-200">
+            <button onClick={()=>displayConfirmDetail(date, name, weeknum)} className='bg-white p-3 rounded-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
+          </td>:status==='raw'?
+          <td className="p-4 border-b border-slate-200">
+              <button onClick={()=>displayRawDetail(name, date, weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
+              {!isMassiveUpload?<button onClick={()=>saveRecord(date, name, weeknum)} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-slate-200'><FaRegSave /></button>:
+              <button className={uploadItem.filter((item)=>(item.name===name && item.date===date)).length>0?'p-3 rounded-r-md border-y-2 border-r-2 bg-green-500 text-white border-green-500':'bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-slate-200'} onClick={()=>singleSelectPush(name, date, isInclude(name, date))}><FaCheck /></button>}
+          </td>:''
+          }
+      </tr>
   )
 }
 

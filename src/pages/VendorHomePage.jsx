@@ -2,22 +2,24 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
-import { FaCheck } from "react-icons/fa";
 import { FiUpload } from "react-icons/fi";
 import List from '../components/List';
 import Detail from '../components/Detail';
 import { UserContext } from '../../context/UserContext';
-import { ImCross } from "react-icons/im";
 import Spreport from '../components/spReport';
 import { FaFilter } from "react-icons/fa6";
 import Filter from '../components/Filter';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css'
+import { Paginator } from 'primereact/paginator';
 
 const VendorHomePage = () => {
 
-    const {getDB, rider, state, token} = useContext(AdminContext)
+    const {getDB, rider, state, token, isShowMenu} = useContext(AdminContext)
     const {isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
-        setSp2_3_reportItem, dayList,setDayList, riderList, setRiderList, submitDataFilter, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
+        setSp2_3_reportItem, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
     const [comment, setComment] = useState('')
     const [image1, setImage1] = useState(false)
     const [image2, setImage2] = useState(false)
@@ -121,6 +123,15 @@ const VendorHomePage = () => {
             return
         }
 
+        let report = rider.filter((item)=>item._id===_id)[0]
+        if(Number(report.sp2_1_ttl_delivered)+Number(report.sp2_1_onhold)>=Number(report.sp2_1_remaindelivering) && reportItem['1'].includes('remain_delivering') ||
+        Number(report.sp2_2_ttl_delivered)+Number(report.sp2_2_onhold)>=Number(report.sp2_2_remaindelivering) && reportItem['2'].includes('remain_delivering') ||
+        Number(report.sp2_3_ttl_delivered)+Number(report.sp2_3_onhold)>=Number(report.sp2_3_remaindelivering) && reportItem['3'].includes('remain_delivering')
+    ){
+        toast.error('應配數量不存在異常，請重新確認回報項目')
+        return
+    }
+
         try{
             const formData = new FormData()
             formData.append('riderId', _id)
@@ -160,6 +171,15 @@ const VendorHomePage = () => {
         console.log(reportItem)
     }
 
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(100);
+
+    const onPageChange = (event) => {
+        setFirst(event.first);
+        setRows(event.rows);
+        console.log(event)
+    }
+
   const toggleOnlineReportItem = (e) => {
     if(onlineReportItem.includes(e.target.value)){
         setOnlineReportItem(prev=> prev.filter((item)=> item !== e.target.value))
@@ -169,12 +189,24 @@ const VendorHomePage = () => {
   }
 
   return state && (
-    <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
-        {isShowDetail?'':isSubmitFilter?'':reportForm?'':
-        <div className='p-2 w-fit flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
-            <FaFilter />
-            <button onClick={()=>{setSubmitFilter(true);setDateInput(''); setRiderInput('')}}>篩選</button>
-        </div>}
+    <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 mt-4 ml-0 sm:ml-4'> 
+        <div className='flex flex-row justify-center items-center'>
+            {isShowDetail?'':isSubmitFilter?'':reportForm?'':
+            <div className='p-2 min-w-[75px] flex justify-end mt-3 rounded-md flex-row items-center gap-2 bg-[#004e76] text-white'>
+                <FaFilter />
+                <button onClick={()=>{setSubmitFilter(true);setDateInput(''); setRiderInput('')}}>篩選</button>
+            </div>}
+            {isShowDetail?'':isSubmitFilter?'':isShowMenu?'':reportForm?'':
+            <div className='flex-row w-full justify-end items-center h-8 flex'>
+                <div className='hidden lg:block'>
+                    <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={filterSubmitData.length} onPageChange={onPageChange} />
+                </div>
+                <div className="card block max-w-[220px] lg:hidden">
+                    <Paginator className='bg-slate-50' first={first} rows={rows} totalRecords={filterSubmitData.length} onPageChange={onPageChange} template={{ layout: 'PrevPageLink CurrentPageReport NextPageLink' }} />
+                </div>
+            </div>
+            }
+        </div>
         {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
             item.status === 'submit'
           ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm} status='submit'
@@ -380,7 +412,7 @@ const VendorHomePage = () => {
                 </label>    
 
             </div>
-           </div>
+            </div>
             </div>
           </div>:''
         }
@@ -395,6 +427,7 @@ const VendorHomePage = () => {
             sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering}
             sp2_1_ttl_delivered={displayItem.sp2_1_ttl_delivered}
             sp2_1_delivered={displayItem.sp2_1_delivered}
+            sp2_1_assign_delivered={displayItem.sp2_1_assign_delivered}
             sp2_1_onhold={displayItem.sp2_1_onhold}
             sp2_1_appsheet={displayItem.sp2_1_appsheet}
             sp2_1_serve_type={displayItem.sp2_1_serve_type}
@@ -404,6 +437,7 @@ const VendorHomePage = () => {
             sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering}
             sp2_2_ttl_delivered={displayItem.sp2_2_ttl_delivered}
             sp2_2_delivered={displayItem.sp2_2_delivered}
+            sp2_2_assign_delivered={displayItem.sp2_2_assign_delivered}
             sp2_2_onhold={displayItem.sp2_2_onhold}
             sp2_2_appsheet={displayItem.sp2_2_appsheet}
             sp2_2_serve_type={displayItem.sp2_2_serve_type}
@@ -413,6 +447,7 @@ const VendorHomePage = () => {
             sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering}
             sp2_3_ttl_delivered={displayItem.sp2_3_ttl_delivered}
             sp2_3_delivered={displayItem.sp2_3_delivered}
+            sp2_3_assign_delivered={displayItem.sp2_3_assign_delivered}
             sp2_3_onhold={displayItem.sp2_3_onhold}
             sp2_3_appsheet={displayItem.sp2_3_appsheet}
             sp2_3_serve_type={displayItem.sp2_3_serve_type}
@@ -433,24 +468,34 @@ const VendorHomePage = () => {
         />
             :''
         }
-        <div className='w-full grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
-            <p>Date</p>
-            <p>Name</p>
-            <p>保底獎勵</p>
-            <p>服務獎勵</p>
-            <p>上線獎勵</p>
-            <p>選項</p>
-        </div>
-        <div className='w-full overflow-scroll text-center'>
-        {
-                filterSubmitData.map((item, index)=>(
-                <div key={index} className='flex flex-row items-center w-full justify-between'>
-                    <div className='w-full'>
-                        <List date={item.date} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} filterdData={filterSubmitData} status='submit'/>
-                    </div>
-                </div> 
+        <div className='w-full h-full overflow-scroll mt-6'>
+            <table className='table-fixed w-full min-w-[730px] text-center'>   
+                {isShowDetail?'':isSubmitFilter?'':reportForm?'':isShowMenu?'':
+                <tr className='sticky top-0 z-1'>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">Date</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">Rider</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                    </th>
+                </tr>}
+                {filterSubmitData.slice(first,first+rows).map((item, index)=>(
+                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} filterdData={filterSubmitData} status='submit'/>
                 ))
-            }
+                }
+            </table>
         </div>
     </div>
   )

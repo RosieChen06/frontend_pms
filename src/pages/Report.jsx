@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import axios from 'axios'
 import {toast} from 'react-toastify'
@@ -140,6 +140,7 @@ const openEditForm = async(id, name, weeknum) => {
       sp2_1: selectedData[0].sp2_1,
       sp2_1_remaindelivering: selectedData[0].sp2_1_remaindelivering,
       sp2_1_ttl_delivered: selectedData[0].sp2_1_ttl_delivered,
+      sp2_1_assign_delivered: selectedData[0].sp2_1_assign_delivered,
       sp2_1_onhold: selectedData[0].sp2_1_onhold,
       sp2_1_remaindelivering_fix: selectedData[0].sp2_1_remaindelivering,
       sp2_1_onhold_fix: selectedData[0].sp2_1_onhold,
@@ -150,6 +151,7 @@ const openEditForm = async(id, name, weeknum) => {
       sp2_2: selectedData[0].sp2_2,
       sp2_2_remaindelivering: selectedData[0].sp2_2_remaindelivering,
       sp2_2_ttl_delivered: selectedData[0].sp2_2_ttl_delivered,
+      sp2_2_assign_delivered: selectedData[0].sp2_2_assign_delivered,
       sp2_2_onhold: selectedData[0].sp2_2_onhold,
       sp2_2_remaindelivering_fix: selectedData[0].sp2_2_remaindelivering,
       sp2_2_onhold_fix: selectedData[0].sp2_2_onhold,
@@ -160,6 +162,7 @@ const openEditForm = async(id, name, weeknum) => {
       sp2_3: selectedData[0].sp2_3,
       sp2_3_remaindelivering: selectedData[0].sp2_3_remaindelivering,
       sp2_3_ttl_delivered: selectedData[0].sp2_3_ttl_delivered,
+      sp2_3_assign_delivered: selectedData[0].sp2_3_assign_delivered,
       sp2_3_onhold: selectedData[0].sp2_3_onhold,
       sp2_3_remaindelivering_fix: selectedData[0].sp2_3_remaindelivering,
       sp2_3_onhold_fix: selectedData[0].sp2_3_onhold,
@@ -274,7 +277,7 @@ const openWeekEditForm = (id, name, weeknum) => {
       {isEdit?'':isWeekEdit?'':
         <div className={token==='admin'?'w-full flex-wrap-reverse h-[80vh] px-4 overflow-scroll':'w-full flex-wrap-reverse h-[72vh] px-4 overflow-scroll'}>
         {isReply?
-          <div className='absolute bg-white w-[82%] h-[76vh] rounded-lg p-2'>
+          <div className=' bg-white w-full h-[76vh] rounded-lg p-2'>
             <div className='border-l-2 border-gray-300 pl-4'>
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回復</p>
@@ -337,7 +340,7 @@ const openWeekEditForm = (id, name, weeknum) => {
             </div>
             </div>:''
         }
-        {
+        {isReply?'':
           filterdData.map((item, index)=>(
             <div key={index} className='w-full bg-slate-50 pt-2 p-2 rounded-lg mb-4'>
               <div className='flex flex-col justify-between'>

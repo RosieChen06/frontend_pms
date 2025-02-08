@@ -7,14 +7,16 @@ import Detail from '../components/Detail';
 import { FaFilter } from "react-icons/fa6";
 import Filter from '../components/Filter';
 import { MdOutlineAdsClick } from "react-icons/md";
-import { ImCross } from "react-icons/im";
-import { FaCheck } from "react-icons/fa";
 import { UserContext } from '../../context/UserContext';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css'
+import { Paginator } from 'primereact/paginator';
 
 const Home = () => {
 
     const {rider, data, state, token, isShowAdminDetail, displayMainItem, 
-        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB} = useContext(AdminContext)  
+        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB, isShowMenu} = useContext(AdminContext)  
     const {setDateInput, setRiderInput} = useContext(UserContext) 
     const [dateRawFilterPreview, setDateRawFilterPreview] = useState([])
     const [riderRawFilterPreview, setRiderRawFilterPreview] = useState([])
@@ -55,43 +57,47 @@ const Home = () => {
     const addUploadItem = () => {
         const tempArray = []
 
-        for(let i=0;i<filterRawData.length;i++){
+        for(let i=0;i<filterRawData.slice(homeFirst,homeFirst+homeRows).length;i++){
 
-          const weekDataforSave = weekData.filter((item)=>(item.name===filterRawData[i].name && item.weeknum===filterRawData[i].weeknum))
+          const weekDataforSave = weekData.filter((item)=>(item.name===filterRawData.slice(homeFirst,homeFirst+homeRows)[i].name && item.weeknum===filterRawData.slice(homeFirst,homeFirst+homeRows)[i].weeknum))
+
           const getallData={
-            phone: filterRawData[i].phone,
-            name: filterRawData[i].name,
-            date: new Date(filterRawData[i].date).toLocaleDateString(),
-            is_garantee: filterRawData[i].is_garantee,
-            sp2_1: filterRawData[i].sp2_1,
-            sp2_1_is_servicce_bonus: filterRawData[i].sp2_1_is_servicce_bonus,
-            sp2_1_serve_type: filterRawData[i].sp2_1_serve_type,
-            sp2_1_onhold: filterRawData[i].sp2_1_onhold,
-            sp2_1_remaindelivering: filterRawData[i].sp2_1_remaindelivering,
-            sp2_1_ttl_delivered: filterRawData[i].sp2_1_ttl_delivered,
-            sp2_1_delivered: filterRawData[i].sp2_1_delivered,
-            sp2_1_sop: filterRawData[i].sp2_1_sop,
-            sp2_1_appsheet: filterRawData[i].sp2_1_appsheet,
-            sp2_2: filterRawData[i].sp2_2,
-            sp2_2_is_servicce_bonus: filterRawData[i].sp2_2_is_servicce_bonus,
-            sp2_2_serve_type: filterRawData[i].sp2_2_serve_type,
-            sp2_2_onhold: filterRawData[i].sp2_2_onhold,
-            sp2_2_remaindelivering: filterRawData[i].sp2_2_remaindelivering,
-            sp2_2_ttl_delivered: filterRawData[i].sp2_2_ttl_delivered,
-            sp2_2_delivered: filterRawData[i].sp2_2_delivered,
-            sp2_2_sop: filterRawData[i].sp2_2_sop,
-            sp2_2_appsheet: filterRawData[i].sp2_2_appsheet,
-            sp2_3: filterRawData[i].sp2_3,
-            sp2_3_is_servicce_bonus: filterRawData[i].sp2_3_is_servicce_bonus,
-            sp2_3_serve_type: filterRawData[i].sp2_3_serve_type,
-            sp2_3_onhold: filterRawData[i].sp2_3_onhold,
-            sp2_3_remaindelivering: filterRawData[i].sp2_3_remaindelivering,
-            sp2_3_ttl_delivered: filterRawData[i].sp2_3_ttl_delivered,
-            sp2_3_delivered: filterRawData[i].sp2_3_delivered,
-            sp2_3_sop: filterRawData[i].sp2_3_sop,
-            sp2_3_appsheet: filterRawData[i].sp2_3_appsheet,
-            sp2_attendance: filterRawData[i].sp2_attendance,
-            epod: filterRawData[i].epod,
+            phone: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].phone,
+            name: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].name,
+            date: new Date(filterRawData.slice(homeFirst,homeFirst+homeRows)[i].date).toLocaleDateString(),
+            is_garantee: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].is_garantee,
+            sp2_1: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1,
+            sp2_1_is_servicce_bonus: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_is_servicce_bonus,
+            sp2_1_serve_type: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_serve_type,
+            sp2_1_onhold: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_onhold,
+            sp2_1_remaindelivering: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_remaindelivering,
+            sp2_1_ttl_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_ttl_delivered,
+            sp2_1_assign_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_assign_delivered,
+            sp2_1_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_delivered,
+            sp2_1_sop: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_sop,
+            sp2_1_appsheet: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_1_appsheet,
+            sp2_2: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2,
+            sp2_2_is_servicce_bonus: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_is_servicce_bonus,
+            sp2_2_serve_type: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_serve_type,
+            sp2_2_onhold: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_onhold,
+            sp2_2_remaindelivering: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_remaindelivering,
+            sp2_2_ttl_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_ttl_delivered,
+            sp2_2_assign_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_assign_delivered,
+            sp2_2_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_delivered,
+            sp2_2_sop: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_sop,
+            sp2_2_appsheet: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_2_appsheet,
+            sp2_3: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3,
+            sp2_3_is_servicce_bonus: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_is_servicce_bonus,
+            sp2_3_serve_type: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_serve_type,
+            sp2_3_onhold: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_onhold,
+            sp2_3_remaindelivering: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_remaindelivering,
+            sp2_3_ttl_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_ttl_delivered,
+            sp2_3_assign_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_assign_delivered,
+            sp2_3_delivered: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_delivered,
+            sp2_3_sop: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_sop,
+            sp2_3_appsheet: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_3_appsheet,
+            sp2_attendance: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].sp2_attendance,
+            epod: filterRawData.slice(homeFirst,homeFirst+homeRows)[i].epod,
             ttl_delivered: weekDataforSave[0].ttl_delivered,
             ttl_worksday: weekDataforSave[0].ttl_worksday,
             ttl_workday_weekend: weekDataforSave[0].ttl_workday_weekend,
@@ -125,38 +131,62 @@ const Home = () => {
             console.log(error)
         }
       }
+
+    const [homeFirst, setHomeFirst] = useState(0);
+    const [homeRows, setHomeRows] = useState(200);
+
+    const onPageChange = (event) => {
+        setHomeFirst(event.first);
+        setHomeRows(event.rows);
+        console.log(event)
+    }
   
     return state && (
     <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
-        <div className='w-fit flex justify-end mt-3 flex-row items-center gap-2'>
-            {isShowAdminDetail?'':isRawFilter?'':
-            <div className='flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md'>
-                <FaFilter />
-                <button onClick={()=>{setRawFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
-            </div>}
-            {isShowAdminDetail?'':isRawFilter?'':
-            <div>
-                {!isMassiveUpload?
-                <div className='flex flex-row gap-2 items-center p-2 bg-blue-600 text-white rounded-md'>
-                    <MdOutlineAdsClick />
-                    <button onClick={()=>{setIsMassiveUpload(true); addUploadItem();}}>批量上傳</button>
-                </div>:
-                <div className='flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md'>
-                    <div className='flex flex-row items-center gap-2'>
-                        <ImCross />
-                        <button onClick={()=>{setIsMassiveUpload(false); setUploadItem([])}}>取消上傳</button>
+        <div className='w-full flex justify-between mt-3 items-center gap-2'>
+            <div className='flex flex-row gap-4 w-[900%]'>
+                {isShowAdminDetail?'':isRawFilter?'':
+                <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md min-w-[80px]'>
+                    <FaFilter />
+                    <button onClick={()=>{setRawFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
+                </div>}
+                {isShowAdminDetail?'':isRawFilter?'':
+                <div>
+                    {!isMassiveUpload?
+                    <div className='flex flex-row gap-2 items-center p-2 bg-blue-600 text-white rounded-md'>
+                        <MdOutlineAdsClick />
+                        {uploadItem.length>0?
+                            <button>上傳中...</button>
+                            :<button onClick={()=>{setIsMassiveUpload(true); addUploadItem();}}>批量上傳</button>
+                        }
+                    </div>:
+                    <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md min-w-[300px]'>
+                        <div className='flex flex-row items-center gap-2'>
+                            <ImCross />
+                            <button onClick={()=>{setIsMassiveUpload(false); setUploadItem([])}}>取消上傳</button>
+                        </div>
+                        <hr className='rotate-90 w-4'/>
+                        <div className='flex flex-row items-center gap-2'>
+                            <FaCheck />
+                            <button onClick={()=>{massiveRecordUpload(); setIsMassiveUpload(false);}}>確認上傳</button>
+                        </div>
+                        <hr className='rotate-90 w-4'/>
+                        <p>{uploadItem.length} 筆</p>
                     </div>
-                    <hr className='rotate-90 w-4'/>
-                    <div className='flex flex-row items-center gap-2'>
-                        <FaCheck />
-                        <button onClick={()=>massiveRecordUpload()}>確認上傳</button>
-                    </div>
-                    <hr className='rotate-90 w-4'/>
-                    <p>{uploadItem.length} 筆</p>
-                </div>
-                }
+                    }
+                </div>}
             </div>
-        }
+            {isShowAdminDetail?'':isRawFilter?'':isShowMenu?'':
+            <div className='flex-row w-[1050%] justify-end items-center h-8 flex'>
+                <div className='hidden lg:block sm:flex'>
+                    <Paginator className='bg-slate-50' first={homeFirst} rows={homeRows} totalRecords={filterRawData.length} onPageChange={onPageChange} />
+                </div>
+                {isMassiveUpload?'':
+                    <div className="card block max-w-[220px] lg:hidden">
+                    <Paginator className='bg-slate-50' first={homeFirst} rows={homeRows} totalRecords={filterRawData.length} onPageChange={onPageChange} template={{ layout: 'PrevPageLink CurrentPageReport NextPageLink' }} />
+                </div>}
+            </div>
+            }
         </div>
         {isRawFilter?<Filter filterData={filterdData} status='raw' setDateRawFilterPreview={setDateRawFilterPreview} dateRawFilterPreview={dateRawFilterPreview} 
         setRiderRawFilterPreview={setRiderRawFilterPreview} riderRawFilterPreview={riderRawFilterPreview} setDateRawFilterConfirm={setDateRawFilterConfirm}
@@ -172,6 +202,7 @@ const Home = () => {
                 sp2_1_remaindelivering={displayMainItem.sp2_1_remaindelivering}
                 sp2_1_ttl_delivered={displayMainItem.sp2_1_ttl_delivered}
                 sp2_1_delivered={displayMainItem.sp2_1_delivered}
+                sp2_1_assign_delivered={displayMainItem.sp2_1_assign_delivered}
                 sp2_1_onhold={displayMainItem.sp2_1_onhold}
                 sp2_1_appsheet={displayMainItem.sp2_1_appsheet}
                 sp2_1_serve_type={displayMainItem.sp2_1_serve_type}
@@ -181,6 +212,7 @@ const Home = () => {
                 sp2_2_remaindelivering={displayMainItem.sp2_2_remaindelivering}
                 sp2_2_ttl_delivered={displayMainItem.sp2_2_ttl_delivered}
                 sp2_2_delivered={displayMainItem.sp2_2_delivered}
+                sp2_2_assign_delivered={displayMainItem.sp2_2_assign_delivered}
                 sp2_2_onhold={displayMainItem.sp2_2_onhold}
                 sp2_2_appsheet={displayMainItem.sp2_2_appsheet}
                 sp2_2_serve_type={displayMainItem.sp2_2_serve_type}
@@ -190,6 +222,7 @@ const Home = () => {
                 sp2_3_remaindelivering={displayMainItem.sp2_3_remaindelivering}
                 sp2_3_ttl_delivered={displayMainItem.sp2_3_ttl_delivered}
                 sp2_3_delivered={displayMainItem.sp2_3_delivered}
+                sp2_3_assign_delivered={displayMainItem.sp2_3_assign_delivered}
                 sp2_3_onhold={displayMainItem.sp2_3_onhold}
                 sp2_3_appsheet={displayMainItem.sp2_3_appsheet}
                 sp2_3_serve_type={displayMainItem.sp2_3_serve_type}
@@ -210,24 +243,34 @@ const Home = () => {
             />
             :''
         }
-        <div className='w-full grid grid-cols-6 bg-white p-3 rounded-lg mb-4 text-center mt-4'>
-            <p>Date</p>
-            <p>Name</p>
-            <p>保底獎勵</p>
-            <p>服務獎勵</p>
-            <p>上線獎勵</p>
-            <p>選項</p>
-        </div>
-        <div className='w-full overflow-scroll text-center'>
-            {
-                filterRawData.map((item, index)=>(
-                <div key={index} className='flex flex-row items-center w-full justify-between'>
-                <div className='w-full'>
-                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem}/>
-                </div>
-                </div> 
+        <div className='w-full h-full overflow-scroll mt-6'>
+            <table className='table-fixed w-full min-w-[730px] text-center'>   
+                {isShowMenu?'':
+                <tr className='sticky top-0 z-1'>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">Date</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">Rider</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                    </th>
+                </tr>}
+                {filterRawData.slice(homeFirst,homeFirst+homeRows).map((item, index)=>(
+                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
                 ))
-            }
+                }
+            </table>
         </div>
     </div>
   )

@@ -164,6 +164,7 @@ const Delete = () => {
             sp2_1_is_servicce_bonus={selectedData.sp2_1_is_servicce_bonus}
             sp2_1_remaindelivering={selectedData.sp2_1_remaindelivering}
             sp2_1_ttl_delivered={selectedData.sp2_1_ttl_delivered}
+            sp2_1_assign_delivered={selectedData.sp2_1_assign_delivered}
             sp2_1_delivered={selectedData.sp2_1_delivered}
             sp2_1_onhold={selectedData.sp2_1_onhold}
             sp2_1_appsheet={selectedData.sp2_1_appsheet}
@@ -173,6 +174,7 @@ const Delete = () => {
             sp2_2_is_servicce_bonus={selectedData.sp2_2_is_servicce_bonus}
             sp2_2_remaindelivering={selectedData.sp2_2_remaindelivering}
             sp2_2_ttl_delivered={selectedData.sp2_2_ttl_delivered}
+            sp2_2_assign_delivered={selectedData.sp2_2_assign_delivered}
             sp2_2_delivered={selectedData.sp2_2_delivered}
             sp2_2_onhold={selectedData.sp2_2_onhold}
             sp2_2_appsheet={selectedData.sp2_2_appsheet}
@@ -182,6 +184,7 @@ const Delete = () => {
             sp2_3_is_servicce_bonus={selectedData.sp2_3_is_servicce_bonus}
             sp2_3_remaindelivering={selectedData.sp2_3_remaindelivering}
             sp2_3_ttl_delivered={selectedData.sp2_3_ttl_delivered}
+            sp2_3_assign_delivered={selectedData.sp2_3_assign_delivered}
             sp2_3_delivered={selectedData.sp2_3_delivered}
             sp2_3_onhold={selectedData.sp2_3_onhold}
             sp2_3_appsheet={selectedData.sp2_3_appsheet}
