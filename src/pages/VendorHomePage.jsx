@@ -473,10 +473,10 @@ const VendorHomePage = () => {
                 {isShowDetail?'':isSubmitFilter?'':reportForm?'':isShowMenu?'':
                 <tr className='sticky top-0 z-1'>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">Date</p>
+                        <p className="block text-sm font-normal leading-none text-slate-500">日期</p>
                     </th>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">Rider</p>
+                        <p className="block text-sm font-normal leading-none text-slate-500">騎手</p>
                     </th>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
                         <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
@@ -485,10 +485,10 @@ const VendorHomePage = () => {
                         <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
                     </th>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
                     </th>
                     <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                        <p className="block text-sm font-normal leading-none text-slate-500">選項</p>
                     </th>
                 </tr>}
                 {filterSubmitData.slice(first,first+rows).map((item, index)=>(

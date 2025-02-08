@@ -245,7 +245,7 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
           </td>:status==='raw'?
           <td className="p-4 border-b border-slate-200">
               <button onClick={()=>displayRawDetail(name, date, weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
-              {!isMassiveUpload?<button onClick={()=>saveRecord(date, name, weeknum)} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-slate-200'><FaRegSave /></button>:
+              {!isMassiveUpload?<button onClick={()=>saveRecord(date, name, weeknum)} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><FaRegSave /></button>:
               <button className={uploadItem.filter((item)=>(item.name===name && item.date===date)).length>0?'p-3 rounded-r-md border-y-2 border-r-2 bg-green-500 text-white border-green-500':'bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-slate-200'} onClick={()=>singleSelectPush(name, date, isInclude(name, date))}><FaCheck /></button>}
           </td>:''
           }
