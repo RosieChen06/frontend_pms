@@ -101,7 +101,7 @@ const Report = () => {
         formData.append('image3', image3)
         formData.append('type', type)
 
-        const {data} = await axios.post('http://localhost:4000/api/user/reply',formData)
+        const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/user/reply',formData)
 
         if(data.success){
             setIsReply(false);
