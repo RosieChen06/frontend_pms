@@ -94,7 +94,7 @@ const Update = () => {
                formData.append('admincomment', riderWeekData.admincomment)
                formData.append('status', 'resolve')
 
-            const {data} = await axios.post('http://localhost:4000/api/admin/update-weekdata',formData)
+            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/update-weekdata',formData)
 
             if(data.success){
                 toast.success(data.message)
