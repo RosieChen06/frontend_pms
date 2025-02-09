@@ -6,7 +6,7 @@ import { FiUpload } from "react-icons/fi";
 import List from '../components/List';
 import Detail from '../components/Detail';
 import { UserContext } from '../../context/UserContext';
-import Spreport from '../components/spReport';
+import Spreport from '../components/Spreport';
 import { FaFilter } from "react-icons/fa6";
 import Filter from '../components/Filter';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
