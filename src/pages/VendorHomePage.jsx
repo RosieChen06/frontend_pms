@@ -85,7 +85,7 @@ const VendorHomePage = () => {
             formData.append('image2', image2)
             formData.append('image3', image3)
   
-            const {data} = await axios.post('http://localhost:4000/api/user/week-report',formData)
+            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/user/week-report',formData)
   
             if(data.success){
                 setReportForm(false);
@@ -145,7 +145,7 @@ const VendorHomePage = () => {
             formData.append('image3', image3)
             formData.append('reportdatetime', new Date())
   
-            const {data} = await axios.post('http://localhost:4000/api/user/report',formData)
+            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/user/report',formData)
   
             if(data.success){
                 setReportForm(false);
