@@ -96,7 +96,7 @@ const Delete = () => {
             if(type==='allDelete'){
                 formData.append('riderId', id)
                 formData.append('riderWeekId', findWeekData[0]._id)
-                const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/all-delete',formData)
+                const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-delete',formData)
                 if(data.success){
                     toast.success(data.message)
                     setIsWarning(false)
@@ -107,7 +107,7 @@ const Delete = () => {
                 }
             }else{
                 formData.append('riderId', id)
-                const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/delete',formData)
+                const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/delete',formData)
                 if(data.success){
                     toast.success(data.message)
                     setIsWarning(false)
@@ -127,7 +127,7 @@ const Delete = () => {
             const formData = new FormData()
             formData.append('riderId', editId)
             formData.append('status', value)
-            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/update-status',formData)
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/update-status',formData)
             if(data.success){
                 toast.success(data.message)
                 setEditId('')
