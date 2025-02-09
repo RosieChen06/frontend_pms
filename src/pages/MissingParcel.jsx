@@ -166,7 +166,7 @@ const MissingParcel = () => {
             formData.append('day_lost_cnt', dayDetail.lost_cnt)
             formData.append('week_lost_cnt', weekDetail.lost_cnt)
   
-            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/missing-parcel',formData)
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/missing-parcel',formData)
   
             if(data.success){
                 setDayDetail(false)
