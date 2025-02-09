@@ -422,6 +422,7 @@ const VendorHomePage = () => {
             <Detail 
             token={token}
             name={displayItem.name}
+            ch_name={displayItem.name_ch}
             date={displayItem.date}
             is_garantee={displayItem.is_garantee}
             sp2_1={displayItem.sp2_1}

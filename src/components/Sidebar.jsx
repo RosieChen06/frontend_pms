@@ -32,7 +32,7 @@ const Sidebar = () => {
             </NavLink>
             <NavLink to={'/maintenance'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <MdOutlineDeleteOutline className='text-xl'/>
-                <p>Delete</p>
+                <p>DB Maintenance</p>
             </NavLink>
             <div onClick={()=>{setToken(''); sessionStorage.removeItem('token');}} className='absolute cursor-pointer flex flex-row pl-4 gap-4 h-16 items-center text-white bottom-0 w-full hover:bg-white hover:text-red-600 hover:font-bold'>
               <CiLogout className='text-lg'/>

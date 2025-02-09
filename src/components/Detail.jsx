@@ -8,7 +8,7 @@ import { ImCross } from "react-icons/im";
 import { FaCheckDouble } from "react-icons/fa6";
 
 
-const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus, sp2_1_remaindelivering, sp2_1_ttl_delivered, sp2_1_delivered, sp2_1_onhold, sp2_1_appsheet, sp2_1_assign_delivered,
+const Detail = ({token, name, ch_name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus, sp2_1_remaindelivering, sp2_1_ttl_delivered, sp2_1_delivered, sp2_1_onhold, sp2_1_appsheet, sp2_1_assign_delivered,
     sp2_1_serve_type, sp2_1_sop, sp2_2, sp2_2_is_servicce_bonus, sp2_2_remaindelivering, sp2_2_ttl_delivered, sp2_2_delivered, sp2_2_onhold, sp2_2_appsheet, sp2_2_serve_type, sp2_2_assign_delivered,
     sp2_2_sop, sp2_3, sp2_3_is_servicce_bonus, sp2_3_remaindelivering, sp2_3_ttl_delivered, sp2_3_delivered, sp2_3_onhold, sp2_3_appsheet, sp2_3_serve_type, sp2_3_sop, epod, sp2_3_assign_delivered,
     lost_cnt, weeknum, sp2_attendance, epod_lost, seq, ttl_delivered, ttl_workday_weekend,ttl_worksday, uncleanCnt, is_online_bonus, day_report_status, week_report_status}) => {
@@ -16,7 +16,6 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
     const {setIsShowDetail, setReportForm, setIsShowConfirmDetail, setIsReportOnline} = useContext(UserContext)
     const {setIsShowAdminDetail, setIsShowData} = useContext(AdminContext)
 
-    console.log(sp2_1_assign_delivered)
     return (
     <div className=' bg-white w-full h-full rounded-lg p-2 mt-3'> 
         <div className='border-l-2 border-gray-300 pl-4'>
@@ -24,7 +23,7 @@ const Detail = ({token, name, date, is_garantee, sp2_1, sp2_1_is_servicce_bonus,
                 <p className='text-lg font-bold'>Detail</p>
                 <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false); setIsShowAdminDetail(false); setIsReportOnline(false); setIsShowData(false);}}><IoClose /></button>  
             </div>
-            <p className='mt-4 text-sm text-gray-700'>Rider Name: {name}</p>
+            <p className='mt-4 text-sm text-gray-700'>Rider Name: {ch_name}</p>
             <div className='flex justify-between'>
                 <p className='text-sm text-gray-700'>Date: {date}</p>
                 <div className='text-sm flex flex-row gap-6 mr-5'>

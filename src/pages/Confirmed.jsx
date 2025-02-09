@@ -156,7 +156,7 @@ const Confirmed = () => {
                     </th>
                 </tr>}
                 {filterConfirmData.slice(first,first+rows).map((item, index)=>(
-                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
+                    <List date={item.date} name={item.name} ch_name={item.name_ch} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
                 ))
                 }
             </table>

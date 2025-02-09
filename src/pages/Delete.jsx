@@ -158,6 +158,7 @@ const Delete = () => {
             <Detail
             token='admin'
             name={selectedData.name}
+            ch_name={selectedData.name_ch}
             date={selectedData.date}
             is_garantee={selectedData.is_garantee}
             sp2_1={selectedData.sp2_1}

@@ -146,7 +146,7 @@ const Home = () => {
         <div className='w-full flex justify-between mt-3 items-center gap-2'>
             <div className='flex flex-row gap-4 w-[900%]'>
                 {isShowAdminDetail?'':isRawFilter?'':
-                <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md min-w-[80px]'>
+                <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md min-w-[70px]'>
                     <FaFilter />
                     <button onClick={()=>{setRawFilter(true); setDateInput(''); setRiderInput('');}}>篩選</button>
                 </div>}
@@ -160,7 +160,7 @@ const Home = () => {
                             <button onClick={()=>{setIsMassiveUpload(true); addUploadItem();}}>批量上傳</button>
                         }
                     </div>:
-                    <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md min-w-[300px]'>
+                    <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md min-w-[270px]'>
                         <div className='flex flex-row items-center gap-2'>
                             <ImCross />
                             <button onClick={()=>{setIsMassiveUpload(false); setUploadItem([])}}>取消上傳</button>
@@ -195,6 +195,7 @@ const Home = () => {
             <Detail 
                 token={token}
                 name={displayMainItem.name}
+                ch_name={displayMainItem.name_ch}
                 date={new Date(displayMainItem.date).toLocaleDateString()}
                 is_garantee={displayMainItem.is_garantee}
                 sp2_1={displayMainItem.sp2_1}
