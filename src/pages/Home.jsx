@@ -133,7 +133,7 @@ const Home = () => {
       }
 
     const [homeFirst, setHomeFirst] = useState(0);
-    const [homeRows, setHomeRows] = useState(200);
+    const [homeRows, setHomeRows] = useState(50);
 
     const onPageChange = (event) => {
         setHomeFirst(event.first);
