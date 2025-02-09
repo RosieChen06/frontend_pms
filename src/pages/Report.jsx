@@ -42,7 +42,7 @@ const Report = () => {
             formData.append('riderId', _id)
             formData.append('status', status)
             formData.append('type', type)
-            const {data} = await axios.post('http://localhost:4000/api/user/confirm-data',formData)
+            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/user/confirm-data',formData)
             if(data.success){
                 toast.success(reply)
                 getDB()
