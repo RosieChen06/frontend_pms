@@ -117,7 +117,7 @@ const Home = () => {
             const formData = new FormData()
             formData.append('dataset', JSON.stringify(uploadItem))
     
-            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/massive-upload',formData)
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/massive-upload',formData)
     
             if(data.success){
                 toast.success(data.message)
