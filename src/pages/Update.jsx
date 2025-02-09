@@ -44,7 +44,7 @@ const Update = () => {
             formData.append('epod', riderData.epod)
             formData.append('dayAdjust', JSON.stringify(isSpQualify))
 
-            const {data} = await axios.post('http://localhost:4000/api/admin/update-data',formData)
+            const {data} = await axios.post('https://frontend-pms-9k33.vercel.app/api/admin/update-data',formData)
 
             if(data.success){
                 toast.success(data.message)
