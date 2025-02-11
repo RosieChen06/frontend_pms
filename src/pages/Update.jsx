@@ -459,10 +459,10 @@ const Update = () => {
                     {riderData.sp2_3==='-'?'':
                         <div className='w-full'>
                             <hr className='w-full mt-8'/>
-                            <div className='flex flex-row items-center gap-3 w-full'>
+{/*                             <div className='flex flex-row items-center gap-3 w-full'>
                                 <button onClick={()=>updateData(riderData.id, riderData.name, riderData.date, riderData.is_garantee, riderData.smart_inbound_sop, riderData.is_report)} className='bg-green-100 p-3 round-lg cursor-pointer'>Save</button>
                                 <button onClick={()=>setIsEdit(false)} className='bg-green-100 p-3 round-lg cursor-pointer'>Cancel</button>
-                            </div>
+                            </div> */}
                             <div className='w-full'>
                                 <div className='w-full flex pr-5 justify-between items-center'>
                                     <h1 className='border-l-4 pl-4 text-lg font-bold border-green-600 '>{riderData.sp2_3}</h1>
@@ -573,7 +573,7 @@ const Update = () => {
                         <h1 className='border-l-4 pl-4 text-lg font-bold border-orange-400 '>當周配送表現調整</h1>
                         {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum && i.date !==riderData.date && i.name===riderData.name)).map((item, index)=>(
                             <div key={index}>
-                                <div className='flex flex-row w-full bg-slate-50 rounded-md items-center justify-start'>
+                                <div className='flex flex-row w-full bg-slate-50 rounded-md items-center justify-start overflow-scroll'>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-xs'>配送日期</p>
                                         <p className='py-1 rounded-md'>{item.date}</p>
