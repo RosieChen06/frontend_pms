@@ -237,7 +237,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     }
 
     return (
-    <div className='w-full bg-white h-full rounded-lg p-2 flex flex-col md:flex-row gap-4 overflow-scroll'>
+    <div className='w-full bg-white h-full rounded-lg p-2 flex flex-col md:flex-row gap-4'>
         <div className='flex flex-row w-full md:w-2/3'>
             <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-full h-[60svh] md:h-full'>
                 <p className='mb-2'>配送日期</p>
