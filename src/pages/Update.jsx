@@ -217,7 +217,7 @@ const Update = () => {
                     <div className='w-full'>
                         <div className='w-full'>
                             <div className='mb-12 w-full flex flex-row bg-slate-50 overflow-scroll'>
-                                <div className='w-2/3 flex flex-row justify-center items-center'>   
+                                <div className='flex flex-row justify-center items-center'>   
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-sm'>騎手姓名</p>
                                         <p className='text-lg font-extrabold'>{riderData.name}</p>
@@ -234,7 +234,7 @@ const Update = () => {
                                         </select>
                                     </div>
                                 </div>
-                                <div className='w-1/3 flex flex-row justify-center items-center bg-red-400'>
+                                <div className='flex flex-row justify-center items-center bg-red-400'>
                                     <button onClick={()=>setIsEdit(false)} className='px-2 w-full sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
                                     <button onClick={()=>updateData(riderData.riderId)} className='px-2 w-full sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                                 </div>
