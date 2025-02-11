@@ -118,8 +118,12 @@ const Update = () => {
         {
             riderWeekData && isWeekEdit?
             <div className='bg-white flex flex-col items-center gap-5 py-8 md:px-12 w-full h-[85vh] rounded-md overflow-scroll'>
+                <div className='w-full rounded-lg gap-4 flex flex-row justify-end items-center'>
+                    <button onClick={()=>setIsWeekEdit(false)} className='px-3 sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                    <button onClick={()=>updateWeekData(riderWeekData.riderId)} className='px-4 sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                </div>
                 <div className='text-xs sm:text-md mb-8 flex w-full flex-row justify-between bg-slate-50'>
-                    <div className='w-2/3 flex flex-row mr-8 items-center'>   
+                    <div className='w-full flex flex-row mr-8 items-center'>   
                         <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                             <p className='text-sm'>騎手姓名</p>
                             <p className='text-lg font-extrabold'>{riderWeekData.name}</p>
@@ -135,10 +139,6 @@ const Update = () => {
                                 <option value='未達標'>未達標</option>
                             </select>
                         </div>
-                    </div>
-                    <div className='w-1/3 flex flex-row justify-end items-center'>
-                        <button onClick={()=>setIsWeekEdit(false)} className='px-3 sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
-                        <button onClick={()=>updateWeekData(riderWeekData.riderId)} className='px-4 sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                     </div>
                 </div>
                 <h1 className='w-full border-l-4 pl-4 text-lg font-bold border-[#004e76]'>當周表現</h1>
