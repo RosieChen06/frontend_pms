@@ -23,7 +23,7 @@ const Detail = ({token, name, ch_name, date, is_garantee, sp2_1, sp2_1_is_servic
                 <p className='text-lg font-bold'>Detail</p>
                 <button className='mr-5' onClick={()=>{setIsShowDetail(false); setIsShowConfirmDetail(false); setIsShowAdminDetail(false); setIsReportOnline(false); setIsShowData(false);}}><IoClose /></button>  
             </div>
-            <p className='mt-4 text-sm text-gray-700'>Rider Name: {ch_name}</p>
+            <p className='mt-4 text-sm text-gray-700'>Rider Name: {name}</p>
             <div className='flex justify-between'>
                 <p className='text-sm text-gray-700'>Date: {date}</p>
                 <div className='text-sm flex flex-row gap-6 mr-5'>
