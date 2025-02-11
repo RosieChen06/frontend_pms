@@ -160,7 +160,7 @@ const Home = () => {
                             <button onClick={()=>{setIsMassiveUpload(true); addUploadItem();}}>批量上傳</button>
                         }
                     </div>:
-                    <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md min-w-[270px]'>
+                    <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-orange-600 text-white rounded-md min-w-[300px]'>
                         <div className='flex flex-row items-center gap-2'>
                             <ImCross />
                             <button onClick={()=>{setIsMassiveUpload(false); setUploadItem([])}}>取消上傳</button>
