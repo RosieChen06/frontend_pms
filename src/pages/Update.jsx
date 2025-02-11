@@ -117,10 +117,10 @@ const Update = () => {
         <div className='w-full h-[96%] rounded-lg p-2 bg-white'>  
         {
             riderWeekData && isWeekEdit?
-            <div className='bg-white flex flex-col items-center gap-5 py-8 md:px-12 w-full h-[85vh] rounded-md overflow-scroll'>
+            <div className='bg-white flex flex-col items-center gap-5 md:px-12 w-full h-[85vh] rounded-md overflow-scroll'>
                 <div className='w-full rounded-lg gap-4 flex flex-row justify-end items-center'>
-                    <button onClick={()=>setIsWeekEdit(false)} className='px-3 sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
-                    <button onClick={()=>updateWeekData(riderWeekData.riderId)} className='px-4 sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                    <button onClick={()=>setIsWeekEdit(false)} className='px-3 sm:px-12 w-1/2 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                    <button onClick={()=>updateWeekData(riderWeekData.riderId)} className='px-4 w-1/2 sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                 </div>
                 <div className='text-xs sm:text-md mb-8 flex w-full flex-row justify-between bg-slate-50'>
                     <div className='w-full flex flex-row mr-8 items-center'>   
