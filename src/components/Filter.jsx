@@ -239,7 +239,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     return (
     <div className='w-full bg-white h-full rounded-lg p-2 flex flex-col md:flex-row gap-4'>
         <div className='flex flex-row w-full md:w-2/3'>
-            <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-full h-[60svh] md:h-full'>
+            <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/2 h-[60svh] md:h-full'>
                 <p className='mb-2'>配送日期</p>
                 <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期' value={dateInput} onChange={(e)=>setDateInput(e.target.value)}></input>
                 <hr />
@@ -278,7 +278,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 </div>:''
                 }
             </div>
-            <div className='flex flex-col hover:bg-slate-100 rounded-md h-[60vh] md:h-full p-2 w-full'>
+            <div className='flex flex-col hover:bg-slate-100 rounded-md h-[60vh] md:h-full p-2 w-1/2'>
                 <p className='mb-2'>騎手姓名</p>
                 <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手' value={riderInput} onChange={(e)=>setRiderInput(e.target.value)}></input>
                 <hr />
