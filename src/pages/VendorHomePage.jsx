@@ -466,8 +466,8 @@ const VendorHomePage = () => {
             ttl_worksday={displayOnlineItem.ttl_worksday}
             uncleanCnt={displayOnlineItem.uncleanCnt}
             is_online_bonus={displayOnlineItem.is_online_bonus}
-            day_report_status='raw'
-            week_report_status='raw'
+            day_report_status={displayItem.status}
+            week_report_status={displayOnlineItem.status}
         />
             :''
         }
