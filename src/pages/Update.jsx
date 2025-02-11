@@ -113,7 +113,7 @@ const Update = () => {
         }
     }
 
-  return riderData && (
+  return (
         <div className='w-full h-[96%] rounded-lg p-2 bg-white'>  
         {
             riderWeekData && isWeekEdit?
