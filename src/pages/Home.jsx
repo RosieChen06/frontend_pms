@@ -183,7 +183,7 @@ const Home = () => {
                 </div>
                 {isMassiveUpload?'':
                     <div className="card block max-w-[220px] lg:hidden">
-                    <Paginator className='bg-slate-50' first={homeFirst} rows={homeRows} totalRecords={filterRawData.length} onPageChange={onPageChange} template={{ layout: 'PrevPageLink CurrentPageReport NextPageLink' }} />
+                    <Paginator className='bg-slate-50 text-[12px] px-1' first={homeFirst} rows={homeRows} totalRecords={filterRawData.length} onPageChange={onPageChange} template={{ layout: 'PrevPageLink CurrentPageReport NextPageLink' }} />
                 </div>}
             </div>
             }
