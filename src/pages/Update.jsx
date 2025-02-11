@@ -216,6 +216,10 @@ const Update = () => {
                 <div className='w-full text-xs sm:text-md h-full rounded-lg overflow-scroll'>
                     <div className='w-full'>
                         <div className='w-full'>
+                            <div className='w-full gap-4 flex flex-row justify-center items-center mb-2'>
+                                <button onClick={()=>setIsEdit(false)} className='px-2 w-full sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
+                                <button onClick={()=>updateData(riderData.riderId)} className='px-2 w-full sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
+                            </div>
                             <div className='mb-12 w-full flex flex-row bg-slate-50 overflow-scroll'>
                                 <div className='flex flex-row justify-center items-center'>   
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
@@ -233,10 +237,6 @@ const Update = () => {
                                             <option value='未達標'>未達標</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div className='flex flex-row justify-center items-center bg-red-400'>
-                                    <button onClick={()=>setIsEdit(false)} className='px-2 w-full sm:px-12 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
-                                    <button onClick={()=>updateData(riderData.riderId)} className='px-2 w-full sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                                 </div>
                             </div>
                             <div className='w-full flex justify-between items-center'>
