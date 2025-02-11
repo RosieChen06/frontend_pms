@@ -144,7 +144,7 @@ const Home = () => {
     return state && (
     <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
         <div className='w-full flex justify-between mt-3 items-center gap-2'>
-            <div className='flex flex-row gap-4 w-[900%]'>
+            <div className={isMassiveUpload?'flex flex-row gap-4 min-w-[350px]':'flex flex-row gap-4 w-[900%]'}>
                 {isShowAdminDetail?'':isRawFilter?'':
                 <div className='text-sm sm:text-md flex flex-row gap-2 items-center p-2 bg-[#004e76] text-white rounded-md min-w-[70px]'>
                     <FaFilter />
