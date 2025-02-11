@@ -236,84 +236,86 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-  return (
-    <div className='w-full bg-white h-full rounded-lg p-2 flex flex-row gap-4'>
-        <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
-            <p className='mb-2'>配送日期</p>
-            <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期' value={dateInput} onChange={(e)=>setDateInput(e.target.value)}></input>
-            <hr />
-            <div className='flex flex-row mt-3 gap-2 sm:gap-3'>
-                <button className='text-xs p-1 px-2 sm:px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('dateAllCheck', status)}>全選</button>
-                <button className='text-xs p-1 px-2 sm:px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('dateAllCancel', status)}>取消全選</button>
+    return (
+    <div className='w-full bg-white h-full rounded-lg p-2 flex flex-col md:flex-row gap-4 overflow-scroll'>
+        <div className='flex flex-row w-full md:w-2/3'>
+            <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-full h-[60svh] md:h-full'>
+                <p className='mb-2'>配送日期</p>
+                <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢日期' value={dateInput} onChange={(e)=>setDateInput(e.target.value)}></input>
+                <hr />
+                <div className='flex flex-row mt-3 gap-2 sm:gap-3'>
+                    <button className='text-xs p-1 px-2 sm:px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('dateAllCheck', status)}>全選</button>
+                    <button className='text-xs p-1 px-2 sm:px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('dateAllCancel', status)}>取消全選</button>
+                </div>
+                {status!=='submit'?'':dayList?
+                    <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
+                    {dayList.map((item)=>(
+                        <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
+                            <p className={dateFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
+                            {dateFilterPreview.includes(item)?<FaCheck />:''}
+                        </div>
+                    ))}
+                </div>:''
+                }
+                {status!=='confirm'?'':dayConfirmList?
+                    <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
+                    {dayConfirmList.map((item)=>(
+                        <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
+                            <p className={dateConfirmFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
+                            {dateConfirmFilterPreview.includes(item)?<FaCheck />:''}
+                        </div>
+                    ))}
+                </div>:''
+                }
+                {status!=='raw'?'':dayRawList?
+                    <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
+                    {dayRawList.map((item)=>(
+                        <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
+                            <p className={dateRawFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{new Date(item).toLocaleDateString()}</p>
+                            {dateRawFilterPreview.includes(item)?<FaCheck />:''}
+                        </div>
+                    ))}
+                </div>:''
+                }
             </div>
-            {status!=='submit'?'':dayList?
+            <div className='flex flex-col hover:bg-slate-100 rounded-md h-[60vh] md:h-full p-2 w-full'>
+                <p className='mb-2'>騎手姓名</p>
+                <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手' value={riderInput} onChange={(e)=>setRiderInput(e.target.value)}></input>
+                <hr />
+                <div className='flex flex-row mt-3 gap-2 sm:gap-3'>
+                    <button className='text-xs p-1 px-2 sm:px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('riderAllCheck', status)}>全選</button>
+                    <button className='text-xs p-1 px-2 sm:px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('riderAllCancel', status)}>取消全選</button>
+                </div>
+                {status!=='submit'?'':riderList?
                 <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
-                {dayList.map((item)=>(
-                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
-                        <p className={dateFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
-                        {dateFilterPreview.includes(item)?<FaCheck />:''}
-                    </div>
-                ))}
-            </div>:''
-            }
-            {status!=='confirm'?'':dayConfirmList?
+                    {riderList.map((item)=>(
+                        <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
+                            <p className={riderFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
+                            {riderFilterPreview.includes(item)?<FaCheck />:''}
+                        </div>
+                    ))}
+                </div>:''}
+                {status!=='confirm'?'':riderConfirmList?
                 <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
-                {dayConfirmList.map((item)=>(
-                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
-                        <p className={dateConfirmFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
-                        {dateConfirmFilterPreview.includes(item)?<FaCheck />:''}
-                    </div>
-                ))}
-            </div>:''
-            }
-            {status!=='raw'?'':dayRawList?
-                <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
-                {dayRawList.map((item)=>(
-                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>dateSelect(item, status)}>
-                        <p className={dateRawFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{new Date(item).toLocaleDateString()}</p>
-                        {dateRawFilterPreview.includes(item)?<FaCheck />:''}
-                    </div>
-                ))}
-            </div>:''
-            }
-        </div>
-        <div className='flex flex-col hover:bg-slate-100 rounded-md p-2 w-1/3'>
-            <p className='mb-2'>騎手姓名</p>
-            <input type='text' className='rounded-sm text-sm mb-4 h-12 border-2 border-slate-300 p-2' placeholder='請輸入欲查詢騎手' value={riderInput} onChange={(e)=>setRiderInput(e.target.value)}></input>
-            <hr />
-            <div className='flex flex-row mt-3 gap-2 sm:gap-3'>
-                <button className='text-xs p-1 px-2 sm:px-5 bg-blue-100 rounded-full' onClick={()=>getFilterList('riderAllCheck', status)}>全選</button>
-                <button className='text-xs p-1 px-2 sm:px-5 bg-red-100 rounded-full' onClick={()=>getFilterList('riderAllCancel', status)}>取消全選</button>
+                    {riderConfirmList.map((item)=>(
+                        <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
+                            <p className={riderConfirmFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
+                            {riderConfirmFilterPreview.includes(item)?<FaCheck />:''}
+                        </div>
+                    ))}
+                </div>:''}
+                {status!=='raw'?'':riderRawList?
+                <div className='mt-4 flex flex-col gap-2 :h-full overflow-scroll'>
+                    {riderRawList.map((item)=>(
+                        <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
+                            <p className={riderRawFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
+                            {riderRawFilterPreview.includes(item)?<FaCheck />:''}
+                        </div>
+                    ))}
+                </div>:''}
             </div>
-            {status!=='submit'?'':riderList?
-            <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
-                {riderList.map((item)=>(
-                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
-                        <p className={riderFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
-                        {riderFilterPreview.includes(item)?<FaCheck />:''}
-                    </div>
-                ))}
-            </div>:''}
-            {status!=='confirm'?'':riderConfirmList?
-            <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
-                {riderConfirmList.map((item)=>(
-                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
-                        <p className={riderConfirmFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
-                        {riderConfirmFilterPreview.includes(item)?<FaCheck />:''}
-                    </div>
-                ))}
-            </div>:''}
-            {status!=='raw'?'':riderRawList?
-            <div className='mt-4 flex flex-col gap-2 h-full overflow-scroll'>
-                {riderRawList.map((item)=>(
-                    <div className='flex flex-row justify-between items-center cursor-pointer' onClick={()=>riderSelect(item, status)}>
-                        <p className={riderRawFilterPreview.includes(item)?'font-bold':'text-gray-600'}>{item}</p>
-                        {riderRawFilterPreview.includes(item)?<FaCheck />:''}
-                    </div>
-                ))}
-            </div>:''}
         </div>
-        <div className='flex flex-col rounded-md p-2 w-1/3'>
+        <div className='flex flex-col rounded-md p-2 w-full md:w-1/3'>
             <button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty(status)}>確認篩選</button>
             <button className='mb-2 w-full bg-white p-2 rounded-sm text-[#004e76] border-[#004e76] border-2 hover:text-white hover:border-red-600 hover:bg-red-600' onClick={()=>cancelEvent(status)}>取消篩選</button>
         </div>
