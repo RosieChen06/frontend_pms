@@ -28,7 +28,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         if(dateInput!=='' && riderInput!==''){
             if(status==='raw'){
                 const advancedFilter = filterData.filter((item)=>(
-                    new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.rider.startsWith(riderInput)
+                    new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.name.startsWith(riderInput)
                 ))
                 setAdvancedFilter(advancedFilter)
             }else{
