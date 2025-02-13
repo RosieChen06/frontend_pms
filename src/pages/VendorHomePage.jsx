@@ -18,7 +18,7 @@ import { FaCheck } from "react-icons/fa";
 
 const VendorHomePage = () => {
 
-    const {getDB, rider, state, token, isShowMenu} = useContext(AdminContext)
+    const {getDB, rider, state, token, isShowMenu, onlineData} = useContext(AdminContext)
     const {isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
         setSp2_3_reportItem, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
@@ -495,7 +495,7 @@ const VendorHomePage = () => {
                     </th>
                 </tr>}
                 {filterSubmitData.slice(first,first+rows).map((item, index)=>(
-                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} filterdData={filterSubmitData} status='submit'/>
+                    <List date={item.date} name={item.name} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={onlineData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} filterdData={filterSubmitData} status='submit'/>
                 ))
                 }
             </table>
