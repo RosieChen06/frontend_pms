@@ -268,7 +268,7 @@ const Home = () => {
                     </th>
                 </tr>}
                 {filterRawData.slice(homeFirst,homeFirst+homeRows).map((item, index)=>(
-                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={item.is_online_bonus} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
+                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
                 ))
                 }
             </table>
