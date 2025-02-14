@@ -44,7 +44,7 @@ const Confirmed = () => {
 
     useEffect(()=>{
         dataList()
-    }, [rider])
+    }, [rider, riderConfirmFilterConfirm, dateConfirmFilterConfirm])
 
     const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem, isConfirmFilter, setConfirmFilter} = useContext( UserContext)
     const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
