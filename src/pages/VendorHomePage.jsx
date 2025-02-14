@@ -59,7 +59,7 @@ const VendorHomePage = () => {
 
     useEffect(()=>{
         dataList()
-    }, [rider])
+    }, [rider, riderSubmitFilterConfirm, dateSubmitFilterConfirm])
 
     const reportItem = {
         '1':[],
