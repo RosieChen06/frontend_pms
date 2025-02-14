@@ -72,7 +72,6 @@ const AdminContextProvider = (props) =>{
                     }else{
                         setOnlineData(data.weekData) 
                     }
-            
                 clearInterval(intervalId);
                 }
               }, 100);
