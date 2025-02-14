@@ -32,7 +32,7 @@ const AdminContextProvider = (props) =>{
 
     const getDB = async () => {
         try{
-        const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', {"ta":"user"})
+        const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
         if(data.success){
             setRider(data.riders)
             }
@@ -47,7 +47,7 @@ const AdminContextProvider = (props) =>{
     const getWeekDB = async () => {
         
         try{
-            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', {"ta":"user"})
+            const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
             if(data.success){
                 setOnlineData(data.weekData) 
             }else{
