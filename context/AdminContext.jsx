@@ -30,38 +30,57 @@ const AdminContextProvider = (props) =>{
     const [uploadItem, setUploadItem] = useState([])
     const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
-    console.log(token)
-
     const getDB = async () => {
-        const formData = new FormData()
-        formData.append('ta', token)
-        try{
-            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', formData)
-            if(data.success){
-                setRider(data.riders)
-                }
-            else{
-                toast.error(data.message)
-            }
-        }catch(error){
-            toast.error(data.message)
+        const formData = new FormData();
+        
+        let token2 = sessionStorage.getItem("token");
+        while (!token2) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            token2 = sessionStorage.getItem("token");
         }
-    }
+
+        formData.append("ta", token2);
+        try {
+            const { data } = await axios.post(
+                "https://backend-pms.vercel.app/api/admin/all-rider",
+                formData
+            );
+    
+            if (data.success) {
+                setRider(data.riders);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error("請求失敗：" + (error.response?.data?.message || error.message));
+        }
+    };
 
     const getWeekDB = async () => {
-    const formData = new FormData()
-    formData.append('ta', token)
-    try{
-        const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', formData)
-        if(data.success){
-            setOnlineData(data.weekData) 
-        }else{
-            toast.error(data.message)
+        const formData = new FormData();
+        
+        let token2 = sessionStorage.getItem("token");
+        while (!token2) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            token2 = sessionStorage.getItem("token");
         }
-    }catch(error){
-        toast.error(data.message)
-    }
-    }
+        formData.append("ta", token2);
+        console.log(token2)
+    
+        try {
+            const { data } = await axios.post(
+                "https://backend-pms.vercel.app/api/admin/week-data",
+                formData
+            );
+            if (data.success) {
+                setOnlineData(data.weekData);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error("請求失敗：" + (error.response?.data?.message || error.message));
+        }
+    };
 
     const fetchData = async () => {
         try{
