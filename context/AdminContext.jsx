@@ -53,7 +53,7 @@ const AdminContextProvider = (props) =>{
                 // }else{
                 //     setRider(data.riders)
                 // }
-            }else{
+            else{
                 toast.error(data.message)
             }
         }catch(error){
