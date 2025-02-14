@@ -30,6 +30,8 @@ const AdminContextProvider = (props) =>{
     const [uploadItem, setUploadItem] = useState([])
     const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
+    console.log(token)
+
     const getDB = async () => {
         try{
             const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
