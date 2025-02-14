@@ -31,16 +31,8 @@ const AdminContextProvider = (props) =>{
     const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
     const getDB = async () => {
-        const formData = new FormData()
-        let checkSessionStorage = setInterval(() => {
-            let storedValue = sessionStorage.getItem("token");
-            if (storedValue) {
-            clearInterval(checkSessionStorage);
-            formData.append('ta', token)
-            }
-          }, 500);
         try{
-        const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', formData)
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', {"ta":"user"})
         if(data.success){
             setRider(data.riders)
             }
@@ -53,16 +45,9 @@ const AdminContextProvider = (props) =>{
     }
 
     const getWeekDB = async () => {
-        const formData = new FormData()
-        let checkSessionStorage = setInterval(() => {
-            let storedValue = sessionStorage.getItem("token");
-            if (storedValue) {
-            clearInterval(checkSessionStorage);
-            formData.append('ta', token)
-            }
-          }, 500);
+        
         try{
-            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', formData)
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', {"ta":"user"})
             if(data.success){
                 setOnlineData(data.weekData) 
             }else{
