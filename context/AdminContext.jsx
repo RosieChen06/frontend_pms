@@ -49,42 +49,19 @@ const AdminContextProvider = (props) =>{
     }
 
     const getWeekDB = async () => {
+    const formData = new FormData()
+    formData.append('ta', token)
     try{
-        const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
+        const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data', formData)
         if(data.success){
-            const intervalId = setInterval(() => {
-                if(sessionStorage.getItem('token')==='user'){
-                    setOnlineData(data.weekData.filter((item)=>(item.name.startsWith('DT')))) 
-                    clearInterval(intervalId);
-                }else if(sessionStorage.getItem('token')==='admin'){
-                    setOnlineData(data.weekData) 
-                    clearInterval(intervalId);
-                }
-              }, 100);
-            }else{
+            setOnlineData(data.weekData) 
+        }else{
             toast.error(data.message)
-            }
+        }
     }catch(error){
         toast.error(data.message)
     }
-}
-
-    // const getWeekDB = async () => {
-    //     try{
-    //         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
-    //         if(data.success){
-    //             if(token==='user'){
-    //                 setOnlineData(data.weekData.startsWith('DT')) 
-    //             }else{
-    //                 setOnlineData(data.weekData) 
-    //             }
-    //         }else{
-    //             toast.error(data.message)
-    //         }
-    //     }catch(error){
-    //         toast.error(data.message)
-    //     }
-    // }
+    }
 
     const fetchData = async () => {
         try{
