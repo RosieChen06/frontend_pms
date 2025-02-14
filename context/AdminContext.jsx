@@ -68,7 +68,7 @@ const AdminContextProvider = (props) =>{
             const intervalId = setInterval(() => {
                 if (token!== "") {
                     if(token==='user'){
-                        setOnlineData(data.weekData.startsWith('DT')) 
+                        setOnlineData(data.weekData.filter((item)=>(item.name.startsWith('DT')))) 
                     }else{
                         setOnlineData(data.weekData) 
                     }
