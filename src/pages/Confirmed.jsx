@@ -17,6 +17,8 @@ const Confirmed = () => {
     const [filterConfirmData, setFilterConfirmData] = useState([])
     const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
     const [riderConfirmFilterPreview, setRiderConfirmFilterPreview] = useState([])
+    const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
+    const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
 
     const dataList = () => {
         if(riderConfirmFilterConfirm.length === 0 && dateConfirmFilterConfirm.length === 0){
@@ -47,8 +49,6 @@ const Confirmed = () => {
     }, [rider, riderConfirmFilterConfirm, dateConfirmFilterConfirm])
 
     const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem, isConfirmFilter, setConfirmFilter} = useContext( UserContext)
-    const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
-    const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(100);
 
