@@ -52,7 +52,7 @@ const AdminContextProvider = (props) =>{
     const formData = new FormData()
     formData.append('ta', token)
     try{
-        const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data', formData)
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', formData)
         if(data.success){
             setOnlineData(data.weekData) 
         }else{
