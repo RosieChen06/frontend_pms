@@ -31,39 +31,36 @@ const AdminContextProvider = (props) =>{
     const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
     const getDB = async () => {
-        const formData = new FormData();
-        
-        let token2 = sessionStorage.getItem("token");
-        while (!token2) {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            token2 = sessionStorage.getItem("token");
-        }
-
-        formData.append("ta", token2);
+        const formData = new FormData()
+        let checkSessionStorage = setInterval(() => {
+            let storedValue = sessionStorage.getItem("token");
+            if (storedValue) {
+            clearInterval(checkSessionStorage);
+            formData.append('ta', token)
+            }
+          }, 500);
         try{
-            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', formData)
-            if(data.success){
-                setRider(data.riders)
-                }
-            else{
-                toast.error(data.message)
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', formData)
+        if(data.success){
+            setRider(data.riders)
             }
-            }catch(error){
-                toast.error(data.message)
-            }
-    };
+        else{
+            toast.error(data.message)
+        }
+        }catch(error){
+            toast.error(data.message)
+        }
+    }
 
     const getWeekDB = async () => {
-        const formData = new FormData();
-        
-        let token2 = sessionStorage.getItem("token");
-        while (!token2) {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            token2 = sessionStorage.getItem("token");
-        }
-        formData.append("ta", token2);
-        console.log(token2)
-    
+        const formData = new FormData()
+        let checkSessionStorage = setInterval(() => {
+            let storedValue = sessionStorage.getItem("token");
+            if (storedValue) {
+            clearInterval(checkSessionStorage);
+            formData.append('ta', token)
+            }
+          }, 500);
         try{
             const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', formData)
             if(data.success){
@@ -71,10 +68,10 @@ const AdminContextProvider = (props) =>{
             }else{
                 toast.error(data.message)
             }
-            }catch(error){
-                toast.error(data.message)
-            }
-    };
+        }catch(error){
+            toast.error(data.message)
+        }
+    }
 
     const fetchData = async () => {
         try{
