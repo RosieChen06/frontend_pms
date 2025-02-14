@@ -190,7 +190,7 @@ const VendorHomePage = () => {
     }
   }
 
-  return state && (
+  return (
     <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 mt-4 ml-0 sm:ml-4'> 
         <div className='flex flex-row justify-center items-center'>
             {isShowDetail?'':isSubmitFilter?'':reportForm?'':
