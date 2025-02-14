@@ -37,14 +37,12 @@ const AdminContextProvider = (props) =>{
             const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
             if(data.success){
                 const intervalId = setInterval(() => {
-                if (token!== "") {
-                    if(token==='user'){
-                        setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
-                    }else{
-                        setRider(data.riders)
-                    }
-            
-                clearInterval(intervalId);
+                if (token==="user") {
+                    setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
+                    clearInterval(intervalId);
+                }else if(token==="admin"){
+                    setRider(data.riders)
+                    clearInterval(intervalId);
                 }
               }, 100);
             }
@@ -66,13 +64,12 @@ const AdminContextProvider = (props) =>{
         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
         if(data.success){
             const intervalId = setInterval(() => {
-                if (token!== "") {
-                    if(token==='user'){
-                        setOnlineData(data.weekData.filter((item)=>(item.name.startsWith('DT')))) 
-                    }else{
-                        setOnlineData(data.weekData) 
-                    }
-                clearInterval(intervalId);
+                if(token==='user'){
+                    setOnlineData(data.weekData.filter((item)=>(item.name.startsWith('DT')))) 
+                    clearInterval(intervalId);
+                }else{
+                    setOnlineData(data.weekData) 
+                    clearInterval(intervalId);
                 }
               }, 100);
             }else{
