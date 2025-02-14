@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
 
 const Login = () => {
-    const {getDB, getWeekDB} = useContext(AdminContext)  
+
     const administrator = [
         {
             user: 'rosie.chenyy@shopee.com',
@@ -38,8 +38,6 @@ const Login = () => {
                 sessionStorage.setItem('token','admin')
                 sessionStorage.setItem('useremail',userEmail)
                 setToken('admin')
-                getDB()
-                getWeekDB()
                 setIsResolve('report')
             }else if(administrator.map((item)=>{item.user===userEmail}).length>0 && userPassword!='admin001'){
                 toast.error("Password Incorrect")
@@ -53,8 +51,6 @@ const Login = () => {
                 sessionStorage.setItem('token','user')
                 sessionStorage.setItem('useremail',userEmail)
                 setToken('user')
-                getDB()
-                getWeekDB()
             }else if(user.map((item)=>{item.user===userEmail}).length>0 && userPassword!='user001'){
                 toast.error("Password Incorrect")
             }else{
