@@ -33,20 +33,13 @@ const AdminContextProvider = (props) =>{
     console.log(token)
 
     const getDB = async () => {
+        const formData = new FormData()
+        formData.append('ta', token)
         try{
-            const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', formData)
             if(data.success){
-                const intervalId = setInterval(() => {
-                    console.log("run")
-                if (sessionStorage.getItem('token')==="user") {
-                    setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
-                    clearInterval(intervalId);
-                }else if(sessionStorage.getItem('token')==="admin"){
-                    setRider(data.riders)
-                    clearInterval(intervalId);
+                setRider(data.riders)
                 }
-              }, 100);
-            }
             else{
                 toast.error(data.message)
             }
