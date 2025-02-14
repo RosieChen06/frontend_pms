@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
 
-const {getDB} = useContext(AdminContext)
+const {getDB} = useContext(AdminContext)  
 
 const Login = () => {
     const administrator = [
