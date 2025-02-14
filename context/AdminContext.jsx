@@ -36,11 +36,23 @@ const AdminContextProvider = (props) =>{
         try{
             const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
             if(data.success){
-                if(token==='user'){
-                    setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
-                }else{
-                    setRider(data.riders)
+                const intervalId = setInterval(() => {
+                if (token !== '') {
+                    if(token==='user'){
+                        setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
+                    }else{
+                        setRider(data.riders)
+                    }
+            
+                clearInterval(intervalId);
                 }
+              }, 100);
+            }
+                // if(token==='user'){
+                //     setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
+                // }else{
+                //     setRider(data.riders)
+                // }
             }else{
                 toast.error(data.message)
             }
@@ -50,21 +62,45 @@ const AdminContextProvider = (props) =>{
     }
 
     const getWeekDB = async () => {
-        try{
-            const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
-            if(data.success){
-                if(token==='user'){
-                    setOnlineData(data.weekData.startsWith('DT')) 
-                }else{
-                    setOnlineData(data.weekData) 
+    try{
+        const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
+        if(data.success){
+            const intervalId = setInterval(() => {
+                if (token !== '') {
+                    if(token==='user'){
+                        setOnlineData(data.weekData.startsWith('DT')) 
+                    }else{
+                        setOnlineData(data.weekData) 
+                    }
+            
+                clearInterval(intervalId);
                 }
-            }else{
-                toast.error(data.message)
+              }, 100);
             }
-        }catch(error){
+        }else{
             toast.error(data.message)
         }
+    }catch(error){
+        toast.error(data.message)
     }
+}
+
+    // const getWeekDB = async () => {
+    //     try{
+    //         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
+    //         if(data.success){
+    //             if(token==='user'){
+    //                 setOnlineData(data.weekData.startsWith('DT')) 
+    //             }else{
+    //                 setOnlineData(data.weekData) 
+    //             }
+    //         }else{
+    //             toast.error(data.message)
+    //         }
+    //     }catch(error){
+    //         toast.error(data.message)
+    //     }
+    // }
 
     const fetchData = async () => {
         try{
