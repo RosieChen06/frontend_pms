@@ -37,6 +37,7 @@ const AdminContextProvider = (props) =>{
             const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
             if(data.success){
                 const intervalId = setInterval(() => {
+                    console.log("run")
                 if (token==="user") {
                     setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
                     clearInterval(intervalId);
