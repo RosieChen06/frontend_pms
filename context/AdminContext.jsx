@@ -40,20 +40,17 @@ const AdminContextProvider = (props) =>{
         }
 
         formData.append("ta", token2);
-        try {
-            const { data } = await axios.post(
-                "https://backend-pms.vercel.app/api/admin/all-rider",
-                formData
-            );
-    
-            if (data.success) {
-                setRider(data.riders);
-            } else {
-                toast.error(data.message);
+        try{
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-rider', formData)
+            if(data.success){
+                setRider(data.riders)
+                }
+            else{
+                toast.error(data.message)
             }
-        } catch (error) {
-            toast.error("請求失敗：" + (error.response?.data?.message || error.message));
-        }
+            }catch(error){
+                toast.error(data.message)
+            }
     };
 
     const getWeekDB = async () => {
@@ -67,19 +64,16 @@ const AdminContextProvider = (props) =>{
         formData.append("ta", token2);
         console.log(token2)
     
-        try {
-            const { data } = await axios.post(
-                "https://backend-pms.vercel.app/api/admin/week-data",
-                formData
-            );
-            if (data.success) {
-                setOnlineData(data.weekData);
-            } else {
-                toast.error(data.message);
+        try{
+            const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-data', formData)
+            if(data.success){
+                setOnlineData(data.weekData) 
+            }else{
+                toast.error(data.message)
             }
-        } catch (error) {
-            toast.error("請求失敗：" + (error.response?.data?.message || error.message));
-        }
+            }catch(error){
+                toast.error(data.message)
+            }
     };
 
     const fetchData = async () => {
