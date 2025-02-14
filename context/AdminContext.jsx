@@ -76,10 +76,9 @@ const AdminContextProvider = (props) =>{
                 clearInterval(intervalId);
                 }
               }, 100);
-            }
-        }else{
+            }else{
             toast.error(data.message)
-        }
+            }
     }catch(error){
         toast.error(data.message)
     }
