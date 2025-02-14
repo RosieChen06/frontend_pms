@@ -223,8 +223,8 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
               </div>
           }
         </td>
-        <td className="p-4 border-b border-slate-200">
-          {is_online_bonus==='達標'?
+        {is_online_bonus==='-'?<td className="p-4 border-b border-slate-200">-</td>:<td className="p-4 border-b border-slate-200">
+          {is_online_bonus==="uu"?<p>hjhk</p>:is_online_bonus==='達標'?
               <div className='flex justify-center items-center text-center'>
                 <p className="bg-green-100 block px-2 py-1 rounded-2xl text-black w-fit"><FaCheck /></p>
               </div>:
@@ -232,7 +232,7 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
                 <p className="bg-red-100 block px-2 py-1 rounded-2xl text-black w-fit"><ImCross /></p>
               </div>
           }
-        </td>
+        </td>}
         {status==='submit'?
           <td className="p-4 border-b border-slate-200">
             <div className='flex flex-row items-center justify-center'>
