@@ -37,7 +37,7 @@ const AdminContextProvider = (props) =>{
             const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
             if(data.success){
                 const intervalId = setInterval(() => {
-                if (token !== '') {
+                if (token.length>0) {
                     if(token==='user'){
                         setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
                     }else{
@@ -66,7 +66,7 @@ const AdminContextProvider = (props) =>{
         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
         if(data.success){
             const intervalId = setInterval(() => {
-                if (token !== '') {
+                if (token.length>0) {
                     if(token==='user'){
                         setOnlineData(data.weekData.startsWith('DT')) 
                     }else{
