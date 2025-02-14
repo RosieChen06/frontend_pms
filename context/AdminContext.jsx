@@ -38,10 +38,10 @@ const AdminContextProvider = (props) =>{
             if(data.success){
                 const intervalId = setInterval(() => {
                     console.log("run")
-                if (token==="user") {
+                if (sessionStorage.getItem('token')==="user") {
                     setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
                     clearInterval(intervalId);
-                }else if(token==="admin"){
+                }else if(sessionStorage.getItem('token')==="admin"){
                     setRider(data.riders)
                     clearInterval(intervalId);
                 }
@@ -65,10 +65,10 @@ const AdminContextProvider = (props) =>{
         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
         if(data.success){
             const intervalId = setInterval(() => {
-                if(token==='user'){
+                if(sessionStorage.getItem('token')==='user'){
                     setOnlineData(data.weekData.filter((item)=>(item.name.startsWith('DT')))) 
                     clearInterval(intervalId);
-                }else{
+                }else if(sessionStorage.getItem('token')==='admin'){
                     setOnlineData(data.weekData) 
                     clearInterval(intervalId);
                 }
