@@ -32,28 +32,28 @@ const AdminContextProvider = (props) =>{
 
     console.log(token)
 
-    // const getDB = async () => {
-    //     try{
-    //         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
-    //         if(data.success){
-    //             const intervalId = setInterval(() => {
-    //                 console.log("run")
-    //             if (sessionStorage.getItem('token')==="user") {
-    //                 setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
-    //                 clearInterval(intervalId);
-    //             }else if(sessionStorage.getItem('token')==="admin"){
-    //                 setRider(data.riders)
-    //                 clearInterval(intervalId);
-    //             }
-    //           }, 100);
-    //         }
-    //         else{
-    //             toast.error(data.message)
-    //         }
-    //     }catch(error){
-    //         toast.error(data.message)
-    //     }
-    // }
+    const getDB = async () => {
+        try{
+            const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
+            if(data.success){
+                const intervalId = setInterval(() => {
+                    console.log("run")
+                if (sessionStorage.getItem('token')==="user") {
+                    setRider(data.riders.filter((item)=>(item.name.startsWith('DT'))))
+                    clearInterval(intervalId);
+                }else if(sessionStorage.getItem('token')==="admin"){
+                    setRider(data.riders)
+                    clearInterval(intervalId);
+                }
+              }, 100);
+            }
+            else{
+                toast.error(data.message)
+            }
+        }catch(error){
+            toast.error(data.message)
+        }
+    }
 
     const getWeekDB = async () => {
     try{
