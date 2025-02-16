@@ -100,7 +100,7 @@ const VendorHomePage = () => {
         formData.append('statusInput', 'submit')
         console.log(dateSubmitFilterConfirm)
 
-        const {data} = await axios.post('http://localhost:4000/api/user/clientReadData',formData)
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
         if(data.success){
             setClientData(data.clientData)
         }
