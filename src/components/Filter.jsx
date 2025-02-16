@@ -237,6 +237,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
+    console.log(dateConfirmFilterConfirm)
+    console.log(riderConfirmFilterConfirm)
+
     const findDB = async() => {
         const formData = new FormData()
             formData.append('dateInput', dateConfirmFilterConfirm)
