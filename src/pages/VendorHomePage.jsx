@@ -19,7 +19,7 @@ import { FaCheck } from "react-icons/fa";
 const VendorHomePage = () => {
 
     const {getDB, rider, state, token, isShowMenu, onlineData} = useContext(AdminContext)
-    const {isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
+    const {clientData, setClientData, isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
         setSp2_3_reportItem, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
     const [comment, setComment] = useState('')
@@ -35,22 +35,22 @@ const VendorHomePage = () => {
 
     const dataList = () => {
         if(riderSubmitFilterConfirm.length === 0 && dateSubmitFilterConfirm.length === 0){
-            let newData = rider.filter((item)=>(
+            let newData = clientData.filter((item)=>(
                 item.status === 'submit'
             ))
             setFilterSubmitData(newData)
         }else if(riderSubmitFilterConfirm.length === 0){
-            let newData = rider.filter((item)=>(
+            let newData = clientData.filter((item)=>(
                 item.status === 'submit' && dateSubmitFilterConfirm.includes(item.date)
               ))
             setFilterSubmitData(newData)
         }else if(dateSubmitFilterConfirm.length === 0){
-            let newData = rider.filter((item)=>(
+            let newData = clientData.filter((item)=>(
                 item.status === 'submit' && riderSubmitFilterConfirm.includes(item.name)
               ))
             setFilterSubmitData(newData)
         }else{
-            let newData = rider.filter((item)=>(
+            let newData = clientData.filter((item)=>(
                 item.status === 'submit' && riderSubmitFilterConfirm.includes(item.name) && dateSubmitFilterConfirm.includes(item.date)
             ))
             setFilterSubmitData(newData)
@@ -59,7 +59,7 @@ const VendorHomePage = () => {
 
     useEffect(()=>{
         dataList()
-    }, [rider, riderSubmitFilterConfirm, dateSubmitFilterConfirm])
+    }, [clientData, riderSubmitFilterConfirm, dateSubmitFilterConfirm])
 
     const reportItem = {
         '1':[],
