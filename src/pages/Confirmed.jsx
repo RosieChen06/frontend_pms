@@ -13,7 +13,7 @@ import { Paginator } from 'primereact/paginator';
 const Confirmed = () => {
 
     const {rider, token, isShowMenu, onlineData} = useContext(AdminContext)
-    const {setDateInput, setRiderInput} = useContext(UserContext)
+    const {setDateInput, setRiderInput, clientConfirmData, setClientConfirmData} = useContext(UserContext)
     const [filterConfirmData, setFilterConfirmData] = useState([])
     const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
     const [riderConfirmFilterPreview, setRiderConfirmFilterPreview] = useState([])
@@ -21,24 +21,9 @@ const Confirmed = () => {
     const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
 
     const dataList = () => {
-        if(riderConfirmFilterConfirm.length === 0 && dateConfirmFilterConfirm.length === 0){
-            let newData = rider.filter((item)=>(
-                item.status === 'confirm'
-            ))
-            setFilterConfirmData(newData)
-        }else if(riderConfirmFilterConfirm.length === 0){
-            let newData = rider.filter((item)=>(
-                item.status === 'confirm' && dateConfirmFilterConfirm.includes(item.date)
-              ))
-            setFilterConfirmData(newData)
-        }else if(dateConfirmFilterConfirm.length === 0){
-            let newData = rider.filter((item)=>(
-                item.status === 'confirm' && riderConfirmFilterConfirm.includes(item.name)
-              ))
-            setFilterConfirmData(newData)
-        }else{
-            let newData = rider.filter((item)=>(
-                item.status === 'confirm' && riderConfirmFilterConfirm.includes(item.name) && dateConfirmFilterConfirm.includes(item.date)
+        if(clientConfirmData){
+            let newData = clientConfirmData.filter((item)=>(
+                item.status==='confirm'
             ))
             setFilterConfirmData(newData)
         }
@@ -46,7 +31,7 @@ const Confirmed = () => {
 
     useEffect(()=>{
         dataList()
-    }, [rider, riderConfirmFilterConfirm, dateConfirmFilterConfirm])
+    }, [clientConfirmData])
 
     const {isShowConfirmDetail, displayConfirmItem, displayConfirmOnlineItem, isConfirmFilter, setConfirmFilter} = useContext( UserContext)
     const [first, setFirst] = useState(0);
@@ -118,7 +103,7 @@ const Confirmed = () => {
             sp2_3_serve_type={displayConfirmItem.sp2_3_serve_type}
             sp2_3_sop={displayConfirmItem.sp2_3_sop}
             epod={displayConfirmItem.epod}
-            lost_cnt={displayConfirmItem.lost_cnt.length}
+            lost_cnt={displayConfirmItem.lost_cnt?displayConfirmItem.lost_cnt.length:0}
             weeknum={displayConfirmItem.weeknum}
             sp2_attendance={displayConfirmItem.sp2_attendance}
             epod_lost={displayConfirmOnlineItem.epod_lost}
@@ -155,9 +140,9 @@ const Confirmed = () => {
                         <p className="block text-sm font-normal leading-none text-slate-500">選項</p>
                     </th>
                 </tr>}
-                {filterConfirmData.slice(first,first+rows).map((item, index)=>(
+                {clientConfirmData?filterConfirmData.slice(first,first+rows).map((item, index)=>(
                     <List date={item.date} name={item.name} ch_name={item.name_ch} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={onlineData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
-                ))
+                )):''
                 }
             </table>
         </div>
