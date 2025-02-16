@@ -193,7 +193,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-    const isFilterEmpty = async(status) => {
+  const isFilterEmpty = async(status) => {
         if(status==='submit'){
             if(riderFilterPreview.length === 0 && dateFilterPreview.length === 0){
                 toast.error('請選擇篩選項目')
@@ -203,7 +203,6 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 console.log(dateSubmitFilterConfirm)
                 console.log(dateFilterPreview)
                 setSubmitFilter(false)
-                findDB()
             }
         }else if(status==='confirm'){
             if(riderConfirmFilterPreview.length === 0 && dateConfirmFilterPreview.length === 0){
@@ -226,6 +225,10 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
+    useEffect(() => {
+        findDB();
+    }, [dateSubmitFilterConfirm, riderSubmitFilterConfirm]);
+
     const cancelEvent = () => {
         if(status==='submit'){
             setSubmitFilter(false)
@@ -245,8 +248,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     const findDB = async() => {
         const formData = new FormData()
         console.log(JSON.stringify(dateSubmitFilterConfirm))
-        formData.append('dateInput', JSON.stringify(dateFilterPreview))
-        formData.append('riderInput', JSON.stringify(riderFilterPreview))
+        formData.append('dateInput', JSON.stringify(dateSubmitFilterConfirm))
+        formData.append('riderInput', JSON.stringify(riderSubmitFilterConfirm))
 
         console.log(dateSubmitFilterConfirm)
         console.log(riderSubmitFilterConfirm)
