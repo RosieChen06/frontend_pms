@@ -16,10 +16,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter, dateInput, setDateInput, riderInput, setRiderInput
         , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter, setClientData, clientConfirmData, setClientConfirmData
     } = useContext(UserContext)
-    const {setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
+    const {rider, setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
     const [advancedFilter, setAdvancedFilter] = useState([])
-
-    console.log(riderInput)
     
     const getFilterList = (type, status) => {
     const riderlist = []
@@ -28,33 +26,40 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     if(dateInput!==''||riderInput!==''){
         if(dateInput!=='' && riderInput!==''){
             if(status==='raw'){
-                const advancedFilter = filterData.filter((item)=>(
+                const advancedFilter = rider.filter((item)=>(
                     new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.name.startsWith(riderInput)
                 ))
                 setAdvancedFilter(advancedFilter)
             }else{
-                const advancedFilter = filterData.filter((item)=>(
-                    item.date.startsWith(dateInput) && item.rider.startsWith(riderInput)
+                const advancedFilter = rider.filter((item)=>(
+                    item.date.startsWith(dateInput) && item.rider.startsWith(riderInput) && item.status===status
                 ))
                 setAdvancedFilter(advancedFilter)
             }
         }else if(dateInput!==''){
             if(status==='raw'){
-                const advancedFilter = filterData.filter((item)=>(
+                const advancedFilter = rider.filter((item)=>(
                     new Date(item.date).toLocaleDateString().startsWith(dateInput)
                 ))
                 setAdvancedFilter(advancedFilter)
             }else{
-                const advancedFilter = filterData.filter((item)=>(
-                    item.date.startsWith(dateInput)
+                const advancedFilter = rider.filter((item)=>(
+                    item.date.startsWith(dateInput) && item.status===status
                 ))
                 setAdvancedFilter(advancedFilter)
             }
         }else{
-            const advancedFilter = filterData.filter((item)=>(
-                item.name.startsWith(riderInput)
-            ))
-            setAdvancedFilter(advancedFilter)
+            if(status==='raw'){
+                const advancedFilter = rider.filter((item)=>(
+                    item.name.startsWith(riderInput)
+                ))
+                setAdvancedFilter(advancedFilter)
+            }else{
+                const advancedFilter = rider.filter((item)=>(
+                    item.name.startsWith(riderInput) && item.status===status
+                ))
+                setAdvancedFilter(advancedFilter)
+            }
         }
 
         for(let i=0; i<advancedFilter.length; i++){
@@ -64,11 +69,21 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             datelist.push(date)
         }
     }else{
-        for(let i=0; i<filterData.length; i++){
-            let name = filterData[i].name
-            let date = filterData[i].date
-            riderlist.push(name)
-            datelist.push(date)
+        if(status==='raw'){
+            for(let i=0; i<rider.length; i++){
+                let name = rider[i].name
+                let date = rider[i].date
+                riderlist.push(name)
+                datelist.push(date)
+            }
+        }else{
+            const filteredRider = rider.filter((item)=>item.status===status)
+            for(let i=0; i<filteredRider.length; i++){
+                let name = filteredRider[i].name
+                let date = filteredRider[i].date
+                riderlist.push(name)
+                datelist.push(date)
+            }
         }
     }
     let riderresult = riderlist.filter(function(element, index, arr){
