@@ -28,7 +28,7 @@ const UserContextProvider = (props) =>{
     const [isConfirmFilter, setConfirmFilter] = useState(false)
     const [dateInput, setDateInput] = useState('')
     const [riderInput, setRiderInput] = useState('')
-    const [clientData, setClientData] = useState([])
+    const [clientData, setClientData] = useState(false)
 
     const value = {
         isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isShowConfirmDetail, setIsShowConfirmDetail,
