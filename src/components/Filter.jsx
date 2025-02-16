@@ -221,8 +221,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             if(riderConfirmFilterPreview.length === 0 && dateConfirmFilterPreview.length === 0){
                 toast.error('請選擇篩選項目')
             }else{
-                setDateConfirmFilterConfirm(dateConfirmFilterPreview)
-                setRiderConfirmFilterConfirm(riderConfirmFilterPreview)
+                await setDateConfirmFilterConfirm(dateConfirmFilterPreview)
+                await setRiderConfirmFilterConfirm(riderConfirmFilterPreview)
                 setConfirmFilter(false)
             }
         }else{
