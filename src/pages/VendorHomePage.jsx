@@ -34,10 +34,12 @@ const VendorHomePage = () => {
     const [riderFilterPreview, setRiderFilterPreview] = useState([])
 
     const dataList = () => {
-        let newData = clientData.filter((item)=>(
-            item.status==='submit'
-        ))
-        setFilterSubmitData(newData)
+        if(clientData){
+            let newData = clientData.filter((item)=>(
+                item.status==='submit'
+            ))
+            setFilterSubmitData(newData)
+        }
     }
 
     useEffect(()=>{
