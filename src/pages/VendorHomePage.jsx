@@ -441,7 +441,7 @@ const VendorHomePage = () => {
             sp2_3_serve_type={displayItem.sp2_3_serve_type}
             sp2_3_sop={displayItem.sp2_3_sop}
             epod={displayItem.epod}
-            lost_cnt={displayItem.lost_cnt.length}
+            lost_cnt={displayItem.lost_cnt?displayItem.lost_cnt.length:0}
             weeknum={displayItem.weeknum}
             sp2_attendance={displayItem.sp2_attendance}
             epod_lost={displayOnlineItem.epod_lost}
