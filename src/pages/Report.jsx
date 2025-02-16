@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import axios from 'axios'
 import {toast} from 'react-toastify'
@@ -24,22 +24,24 @@ const Report = () => {
       const [isReply, setIsReply] = useState(false)
       const [replyType, setReplyType] = useState('')
       const [seletedData, setSeletedData] = useState('')
-
-      let filterdData = []
+      const [filterdData, setFilterdData] = useState([])
 
       const findDB = async(status) => {
         const formData = new FormData()
-        formData.append('dateInput', [])
-        formData.append('riderInput', [])
+        formData.append('dateInput', JSON.stringify([]))
+        formData.append('riderInput', JSON.stringify([]))
         formData.append('statusInput', status)
 
-        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
-        filterdData = data.clientData
-      }
+        const {data} = await axios.post('http://localhost:4000/api/user/clientReadData',formData)
+        if(data.success){
+          setFilterdData(data.clientData)
+        }
+        }
 
       useEffect(() => {
           findDB(isResolve);
-      }, [isResolve]);
+      }, []);
+
 
       const obj = []
 
