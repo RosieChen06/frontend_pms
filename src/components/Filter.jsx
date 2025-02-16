@@ -14,7 +14,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
 }) => {
 
     const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter, dateInput, setDateInput, riderInput, setRiderInput
-        , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter, setClientData
+        , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter, setClientData, clientConfirmData, setClientConfirmData
     } = useContext(UserContext)
     const {setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
     const [advancedFilter, setAdvancedFilter] = useState([])
@@ -193,15 +193,13 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-  const isFilterEmpty = async(status) => {
+    const isFilterEmpty = async(status) => {
         if(status==='submit'){
             if(riderFilterPreview.length === 0 && dateFilterPreview.length === 0){
                 toast.error('請選擇篩選項目')
             }else{
                 await setDateSubmitFilterConfirm(dateFilterPreview)
                 await setRiderSubmitFilterConfirm(riderFilterPreview)
-                console.log(dateSubmitFilterConfirm)
-                console.log(dateFilterPreview)
                 setSubmitFilter(false)
             }
         }else if(status==='confirm'){
@@ -211,7 +209,6 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 setDateConfirmFilterConfirm(dateConfirmFilterPreview)
                 setRiderConfirmFilterConfirm(riderConfirmFilterPreview)
                 setConfirmFilter(false)
-                findDB()
             }
         }else{
             if(riderRawFilterPreview.length === 0 && dateRawFilterPreview.length === 0){
@@ -226,8 +223,12 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     }
 
     useEffect(() => {
-        findDB();
+        findDB(dateSubmitFilterConfirm,riderSubmitFilterConfirm, 'submit');
     }, [dateSubmitFilterConfirm, riderSubmitFilterConfirm]);
+
+    useEffect(() => {
+        findDB(dateConfirmFilterConfirm, riderConfirmFilterConfirm, 'confirm');
+    }, [dateConfirmFilterConfirm, riderConfirmFilterConfirm]);
 
     const cancelEvent = () => {
         if(status==='submit'){
@@ -245,17 +246,17 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-    const findDB = async() => {
+    const findDB = async(date, rider, status) => {
         const formData = new FormData()
-        console.log(JSON.stringify(dateSubmitFilterConfirm))
-        formData.append('dateInput', JSON.stringify(dateSubmitFilterConfirm))
-        formData.append('riderInput', JSON.stringify(riderSubmitFilterConfirm))
+        formData.append('dateInput', JSON.stringify(date))
+        formData.append('riderInput', JSON.stringify(rider))
 
-        console.log(dateSubmitFilterConfirm)
-        console.log(riderSubmitFilterConfirm)
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
-        console.log(data.clientData)
-        setClientData(data.clientData)
+        if(status==='submit'){
+            setClientData(data.clientData)
+        }else if(status==='confirm'){
+            setClientConfirmData(data.clientData)
+        }
     }
 
     return (
