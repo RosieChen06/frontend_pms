@@ -12,7 +12,7 @@ import { FaCheck } from "react-icons/fa";
 const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem, riderSubmitFilterConfirm, dateSubmitFilterConfirm}) => {
 
   const {getDB, rider, onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
-  const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, , setClientData, clientData} = useContext(UserContext)
+  const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData} = useContext(UserContext)
 
   const findDB = async() => {
     const formData = new FormData()
