@@ -7,7 +7,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 
-const Update = () => {
+const Update = ({filterdData}) => {
 
     const {getDB, rider, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
     const {reportSp2Item} = useContext(UserContext)
@@ -63,10 +63,10 @@ const Update = () => {
 
     const obj = []
 
-    for(let i=0; i<ReportedData.length; i++){
-        let test1 = JSON.parse(ReportedData[Number(i)].reportItem)['1']
-        let test2 = JSON.parse(ReportedData[Number(i)].reportItem)['2']
-        let test3 = JSON.parse(ReportedData[Number(i)].reportItem)['3']
+    for(let i=0; i<filterdData.length; i++){
+        let test1 = JSON.parse(filterdData[Number(i)].reportItem)['1']
+        let test2 = JSON.parse(filterdData[Number(i)].reportItem)['2']
+        let test3 = JSON.parse(filterdData[Number(i)].reportItem)['3']
         let test = test1.concat(test2).concat(test3);
         test.filter((item, index) => test.indexOf(item) !== index);
         obj.push(test)
@@ -672,7 +672,7 @@ const Update = () => {
                                                 }
                                             </td>
                                             <td className="p-4 border-b border-slate-200">
-                                                {item.lost_cnt.length===0?
+                                                {!item.lost_cnt?0:item.lost_cnt.length===0?
                                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
                                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
                                                 }
@@ -715,7 +715,7 @@ const Update = () => {
                                                 }
                                             </td>
                                             <td className="p-4 border-b border-slate-200">
-                                                {item.lost_cnt.length===0?
+                                                {!item.lost_cnt?0:item.lost_cnt.length===0?
                                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
                                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
                                                 }
@@ -759,7 +759,7 @@ const Update = () => {
                                                 }
                                             </td>
                                             <td className="p-4 border-b border-slate-200">
-                                                {item.lost_cnt.length===0?
+                                                {!item.lost_cnt?0:item.lost_cnt.length===0?
                                                     <p className="text-sm bg-green-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><FaCheck />達標</p>:
                                                     <p className="text-sm bg-red-100 px-2 py-0.5 rounded-2xl text-black flex flex-row items-center gap-2 w-fit"><ImCross />未達標</p>
                                                 }
