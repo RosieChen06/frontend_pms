@@ -25,9 +25,21 @@ const Report = () => {
       const [replyType, setReplyType] = useState('')
       const [seletedData, setSeletedData] = useState('')
 
-      const filterdData = rider.filter((item)=>(
-        item.status === isResolve
-      ))
+      let filterdData = []
+
+      const findDB = async(status) => {
+        const formData = new FormData()
+        formData.append('dateInput', [])
+        formData.append('riderInput', [])
+        formData.append('statusInput', status)
+
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
+        filterdData = data.clientData
+      }
+
+      useEffect(() => {
+          findDB(isResolve);
+      }, [isResolve]);
 
       const obj = []
 
