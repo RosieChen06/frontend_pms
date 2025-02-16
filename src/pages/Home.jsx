@@ -34,7 +34,7 @@ const Home = () => {
                 setFilterRawData(newData)
             }else if(riderRawFilterConfirm.length === 0){
                 let newData = filterdData.filter((item)=>(
-                    dateRawFilterConfirm.includes(item.date)
+                    dateRawFilterConfirm.includes(new Date(item.date).toLocaleDateString())
                   ))
                 setFilterRawData(newData)
             }else if(dateRawFilterConfirm.length === 0){
