@@ -144,18 +144,16 @@ const catchDB = async(name, date, weeknum) => {
   const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-report',formData)
   if(data.success){
       setWeekPer(data.catchData)
+      setWeekPer((prevWeekPer) => {
+        const selectDayData = prevWeekPer.filter(
+            (item) =>
+                item.name === name &&
+                item.weeknum === weeknum &&
+                item.date !== date
+        );
+        setSpIsQualify(selectDayData);
+      })
     }
-    const selectDayData = weekPer.filter((item)=>(
-      item.name===name && item.weeknum===weeknum && item.date !== date
-    ))
-    console.log(weekPer)
-  
-    const tempArray = []
-  
-    for(let i=0;i<selectDayData.length;i++){
-      tempArray.push(selectDayData[i])
-    }
-    setSpIsQualify(tempArray);
 }
 
 const openEditForm = async(id, date, name, weeknum) => {
