@@ -40,7 +40,7 @@ const Report = () => {
 
       useEffect(() => {
           findDB(isResolve);
-      }, []);
+      }, [isResolve]);
 
 
       const obj = []
