@@ -32,11 +32,13 @@ const Report = () => {
         formData.append('riderInput', JSON.stringify([]))
         formData.append('statusInput', status)
 
-        const {data} = await axios.post('http://localhost:4000/api/user/clientReadData',formData)
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
         if(data.success){
           setFilterdData(data.clientData)
         }
-        }
+      }
+
+      console.log(filterdData)
 
       useEffect(() => {
           findDB(isResolve);
@@ -59,7 +61,7 @@ const Report = () => {
             const {data} = await axios.post('https://backend-pms.vercel.app/api/user/confirm-data',formData)
             if(data.success){
                 toast.success(reply)
-                getDB()
+                findDB(isResolve)
             }else{
                 toast.error(data.message)
             }
@@ -140,7 +142,7 @@ const openEditForm = async(id, name, weeknum) => {
 
   const reportDetail = []
 
-  const selectedData = await ReportedData.filter((item)=>(
+  const selectedData = filterdData.filter((item)=>(
       item._id===id
   ))
 
@@ -282,7 +284,7 @@ const openWeekEditForm = (id, name, weeknum) => {
 
   return (
     <div className='w-full bg-white sm:w-[80%] h-[96%] rounded-lg sm:m-4 mt-4'>
-      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update />:isWeekEdit?<Update />:''}
+      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update filterdData={filterdData} />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
           <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{rider.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
