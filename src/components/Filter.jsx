@@ -14,11 +14,11 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
 }) => {
 
     const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter, dateInput, setDateInput, riderInput, setRiderInput
-        , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter, setClientData, clientConfirmData, setClientConfirmData
+        , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter, clientData, setClientData, clientConfirmData, setClientConfirmData
     } = useContext(UserContext)
     const {rider, setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
     const [advancedFilter, setAdvancedFilter] = useState([])
-    
+
     const getFilterList = (type, status) => {
     const riderlist = []
     const datelist = []
@@ -26,7 +26,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     if(dateInput!==''||riderInput!==''){
         if(dateInput!=='' && riderInput!==''){
             if(status==='raw'){
-                const advancedFilter = rider.filter((item)=>(
+                const advancedFilter = filterData.filter((item)=>(
                     new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.name.startsWith(riderInput)
                 ))
                 setAdvancedFilter(advancedFilter)
@@ -38,7 +38,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             }
         }else if(dateInput!==''){
             if(status==='raw'){
-                const advancedFilter = rider.filter((item)=>(
+                const advancedFilter = filterData.filter((item)=>(
                     new Date(item.date).toLocaleDateString().startsWith(dateInput)
                 ))
                 setAdvancedFilter(advancedFilter)
@@ -50,7 +50,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             }
         }else{
             if(status==='raw'){
-                const advancedFilter = rider.filter((item)=>(
+                const advancedFilter = filterData.filter((item)=>(
                     item.name.startsWith(riderInput)
                 ))
                 setAdvancedFilter(advancedFilter)
@@ -70,9 +70,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }else{
         if(status==='raw'){
-            for(let i=0; i<rider.length; i++){
-                let name = rider[i].name
-                let date = rider[i].date
+            for(let i=0; i<filterData.length; i++){
+                let name = filterData[i].name
+                let date = new Date(filterData[i].date).toLocaleDateString()
                 riderlist.push(name)
                 datelist.push(date)
             }
@@ -232,7 +232,6 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 setDateRawFilterConfirm(dateRawFilterPreview)
                 setRiderRawFilterConfirm(riderRawFilterPreview)
                 setRawFilter(false)
-                findDB()
             }
         }
     }
@@ -267,7 +266,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         formData.append('riderInput', JSON.stringify(rider))
         formData.append('statusInput', status)
 
-        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
+        const {data} = await axios.post('http://localhost:4000/api/user/clientReadData',formData)
         if(status==='submit'){
             setClientData(data.clientData)
         }else if(status==='confirm'){
