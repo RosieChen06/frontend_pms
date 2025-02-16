@@ -7,11 +7,10 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 
-const Update = ({filterdData}) => {
+const Update = () => {
 
-    const {getDB, rider, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
+    const {getDB, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
     const {reportSp2Item} = useContext(UserContext)
-    const ReportedData = rider.filter((item)=>(item.status==='report'))
 
     const [dayAdjustment, setDayAdjustment] = useState(true)
     const myRef = useRef(null)
@@ -61,24 +60,13 @@ const Update = ({filterdData}) => {
         }
     }
 
-    const obj = []
-
-    for(let i=0; i<filterdData.length; i++){
-        let test1 = JSON.parse(filterdData[Number(i)].reportItem)['1']
-        let test2 = JSON.parse(filterdData[Number(i)].reportItem)['2']
-        let test3 = JSON.parse(filterdData[Number(i)].reportItem)['3']
-        let test = test1.concat(test2).concat(test3);
-        test.filter((item, index) => test.indexOf(item) !== index);
-        obj.push(test)
-    }
-
     const adjustQualification = (value, ob, id) => {
         setSpIsQualify(isSpQualify.map((item)=>{
-                    return item.id===id?
+                    return item._id===id?
                     {...item, [ob]:value}:item
                 }))
-        console.log(isSpQualify)
     }
+    console.log(isSpQualify)
 
     const updateWeekData = async (id) => {
 
@@ -117,8 +105,8 @@ const Update = ({filterdData}) => {
         <div className='w-full h-[96%] rounded-lg p-2 bg-white'>  
         {
             riderWeekData && isWeekEdit?
-            <div className='bg-white flex flex-col items-center gap-5 md:px-12 w-full h-[85vh] rounded-md overflow-scroll'>
-                <div className='w-full rounded-lg gap-4 flex flex-row justify-end items-center'>
+            <div className='bg-white flex flex-col items-center gap-5 w-full h-[82vh] rounded-md overflow-scroll'>
+                <div className='w-full rounded-lg gap-2 flex flex-row justify-end items-center'>
                     <button onClick={()=>setIsWeekEdit(false)} className='px-3 sm:px-12 w-1/2 py-2 text-lg bg-pink-50 hover:bg-red-600 hover:text-white h-full rounded-sm'>Cancel</button>
                     <button onClick={()=>updateWeekData(riderWeekData.riderId)} className='px-4 w-1/2 sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                 </div>
@@ -221,7 +209,7 @@ const Update = ({filterdData}) => {
                                 <button onClick={()=>updateData(riderData.riderId)} className='px-2 w-full sm:px-12 py-2 text-lg bg-green-50 hover:bg-green-600 hover:text-white h-full rounded-sm'>Update</button>
                             </div>
                             <div className='mb-12 w-full flex flex-row bg-slate-50 overflow-scroll'>
-                                <div className='flex flex-row justify-center items-center'>   
+                                <div className='flex flex-row justify-center items-center w-full'>   
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-sm'>騎手姓名</p>
                                         <p className='text-lg font-extrabold'>{riderData.name}</p>
@@ -571,7 +559,7 @@ const Update = ({filterdData}) => {
                     {!dayAdjustment?'':
                     <div ref={myRef} className='flex flex-col gap-x-24 gap-y-8 w-full mt-8'>
                         <h1 className='border-l-4 pl-4 text-lg font-bold border-orange-400 '>當周配送表現調整</h1>
-                        {rider.filter((i)=>(i.weeknum===riderWeekData.weeknum && i.date !==riderData.date && i.name===riderData.name)).map((item, index)=>(
+                        {isSpQualify.map((item, index)=>(
                             <div key={index}>
                                 <div className='flex flex-row w-full bg-slate-50 rounded-md items-center justify-start overflow-scroll'>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
@@ -580,7 +568,7 @@ const Update = ({filterdData}) => {
                                     </div>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-xs'>保底獎勵</p>
-                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={isSpQualify[index].is_garantee} onChange={(e)=>adjustQualification(e.target.value, "is_garantee", item._id)}>
+                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={item.is_garantee} onChange={(e)=>adjustQualification(e.target.value, "is_garantee", item._id)}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                             <option value='-'>-</option>
@@ -588,7 +576,7 @@ const Update = ({filterdData}) => {
                                     </div>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-xs'>{item.sp2_1}</p>
-                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={isSpQualify[index].sp2_1_service_bonus} onChange={(e)=>adjustQualification(e.target.value, "sp2_1_service_bonus", item._id)}>
+                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={item.sp2_1_is_servicce_bonus} onChange={(e)=>adjustQualification(e.target.value, "sp2_1_is_servicce_bonus", item._id)}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                             <option value='-'>-</option>
@@ -596,7 +584,7 @@ const Update = ({filterdData}) => {
                                     </div>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-xs'>{item.sp2_2}</p>
-                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={isSpQualify[index].sp2_2_service_bonus} onChange={(e)=>adjustQualification(e.target.value, "sp2_2_service_bonus", item._id)}>
+                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={item.sp2_2_is_servicce_bonus} onChange={(e)=>adjustQualification(e.target.value, "sp2_2_is_servicce_bonus", item._id)}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                             <option value='-'>-</option>
@@ -604,7 +592,7 @@ const Update = ({filterdData}) => {
                                     </div>
                                     <div className='flex flex-col w-full gap-3 p-4 hover:bg-[#004e76] hover:text-white'>
                                         <p className='text-xs'>{item.sp2_3}</p>
-                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={isSpQualify[index].sp2_3_service_bonus} onChange={(e)=>adjustQualification(e.target.value, "sp2_3_service_bonus", item._id)}>
+                                        <select className=' border-gray-300 py-1 rounded-md border-2 hover:text-black' type='text' value={item.sp2_3_is_servicce_bonus} onChange={(e)=>adjustQualification(e.target.value, "sp2_3_is_servicce_bonus", item._id)}>
                                             <option value='達標'>達標</option>
                                             <option value='未達標'>未達標</option>
                                             <option value='-'>-</option>
