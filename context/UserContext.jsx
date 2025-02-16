@@ -29,13 +29,14 @@ const UserContextProvider = (props) =>{
     const [dateInput, setDateInput] = useState('')
     const [riderInput, setRiderInput] = useState('')
     const [clientData, setClientData] = useState(false)
+    const [clientConfirmData, setClientConfirmData] = useState(false)
 
     const value = {
         isShowDetail, setIsShowDetail, displayItem, setDisplayItem, reportForm, setReportForm, isShowConfirmDetail, setIsShowConfirmDetail,
         isOnlineReport, setIsReportOnline, sp2_1_reportItem, setSp2_1_reportItem, sp2_2_reportItem, setSp2_2_reportItem, sp2_3_reportItem, setSp2_3_reportItem,
         reportSp2Item, setReportSp2Item, displayOnlineItem, setDisplayOnlineItem, displayConfirmItem, setDisplayConfirmItem,
         displayConfirmOnlineItem, setDisplayConfirmOnlineItem, riderList, setRiderList, dayList, setDayList, submitDataFilter, setSubmitDataFilter, isSubmitFilter, setSubmitFilter, isConfirmFilter, setConfirmFilter, dayConfirmList, setDayConfirmList,
-        riderConfirmList, setRiderConfirmList, filterConfirmData, setFilterConfirmData, dateInput, setDateInput, riderInput, setRiderInput, clientData, setClientData
+        riderConfirmList, setRiderConfirmList, filterConfirmData, setFilterConfirmData, dateInput, setDateInput, riderInput, setRiderInput, clientData, setClientData, clientConfirmData, setClientConfirmData
     }
 
     return(
