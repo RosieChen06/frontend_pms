@@ -193,14 +193,17 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-    const isFilterEmpty = (status) => {
+    const isFilterEmpty = async(status) => {
         if(status==='submit'){
             if(riderFilterPreview.length === 0 && dateFilterPreview.length === 0){
                 toast.error('請選擇篩選項目')
             }else{
-                setDateSubmitFilterConfirm(dateFilterPreview)
-                setRiderSubmitFilterConfirm(riderFilterPreview)
+                await setDateSubmitFilterConfirm(dateFilterPreview)
+                await setRiderSubmitFilterConfirm(riderFilterPreview)
+                console.log(dateSubmitFilterConfirm)
+                console.log(dateFilterPreview)
                 setSubmitFilter(false)
+                findDB()
             }
         }else if(status==='confirm'){
             if(riderConfirmFilterPreview.length === 0 && dateConfirmFilterPreview.length === 0){
@@ -209,6 +212,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 setDateConfirmFilterConfirm(dateConfirmFilterPreview)
                 setRiderConfirmFilterConfirm(riderConfirmFilterPreview)
                 setConfirmFilter(false)
+                findDB()
             }
         }else{
             if(riderRawFilterPreview.length === 0 && dateRawFilterPreview.length === 0){
@@ -217,6 +221,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                 setDateRawFilterConfirm(dateRawFilterPreview)
                 setRiderRawFilterConfirm(riderRawFilterPreview)
                 setRawFilter(false)
+                findDB()
             }
         }
     }
@@ -237,16 +242,17 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-    console.log(dateConfirmFilterConfirm)
-    console.log(riderConfirmFilterConfirm)
-
     const findDB = async() => {
         const formData = new FormData()
-            formData.append('dateInput', dateConfirmFilterConfirm)
-            formData.append('riderInput', riderConfirmFilterConfirm)
-  
+        console.log(JSON.stringify(dateSubmitFilterConfirm))
+        formData.append('dateInput', JSON.stringify(dateFilterPreview))
+        formData.append('riderInput', JSON.stringify(riderFilterPreview))
+
+        console.log(dateSubmitFilterConfirm)
+        console.log(riderSubmitFilterConfirm)
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
-        setClientData(data)
+        console.log(data.clientData)
+        setClientData(data.clientData)
     }
 
     return (
@@ -329,7 +335,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             </div>
         </div>
         <div className='flex flex-col rounded-md p-2 w-full md:w-1/3'>
-            <button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>{findDB(); isFilterEmpty(status)}}>確認篩選</button>
+            <button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty(status)}>確認篩選</button>
             <button className='mb-2 w-full bg-white p-2 rounded-sm text-[#004e76] border-[#004e76] border-2 hover:text-white hover:border-red-600 hover:bg-red-600' onClick={()=>cancelEvent(status)}>取消篩選</button>
         </div>
     </div>
