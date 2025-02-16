@@ -93,6 +93,20 @@ const VendorHomePage = () => {
         setImage3(false)
     }
 
+    const findDB = async() => {
+        const formData = new FormData()
+        formData.append('dateInput', JSON.stringify(dateSubmitFilterConfirm))
+        formData.append('riderInput', JSON.stringify(riderSubmitFilterConfirm))
+        formData.append('statusInput', 'submit')
+        console.log(dateSubmitFilterConfirm)
+
+        const {data} = await axios.post('http://localhost:4000/api/user/clientReadData',formData)
+        if(data.success){
+            setClientData(data.clientData)
+        }
+        console.log(clientData)
+    }
+
     const isReport = async (_id) => {
 
         for(let i=0; i<=sp2_1_reportItem.length-1; i++){
@@ -155,7 +169,7 @@ const VendorHomePage = () => {
         setSp2_2_reportItem([])
         setSp2_3_reportItem([])
         setReportForm(false)
-        console.log(reportItem)
+        findDB()
     }
 
     const [first, setFirst] = useState(0);
