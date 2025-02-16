@@ -373,13 +373,13 @@ const VendorHomePage = () => {
           }
         <Spreport sp2_1_serve_type={displayItem.sp2_1_serve_type} sp2_1_name={displayItem.sp2_1} sp2_1_remaindelivering={displayItem.sp2_1_remaindelivering} sp2_1_onhold={displayItem.sp2_1_onhold} 
         sp2_1_sop={displayItem.sp2_1_sop} sp2_1_appsheet={displayItem.sp2_1_appsheet} sp2_1_ttl_delivered={displayItem.sp2_1_ttl_delivered}
-        sp2_1_delivered={displayItem.sp2_1_delivered} sp2_1_lost_cnt={displayItem.lost_cnt.length}
+        sp2_1_delivered={displayItem.sp2_1_delivered} sp2_1_lost_cnt={displayItem.lost_cnt?displayItem.lost_cnt.length:0}
         sp2_2_serve_type={displayItem.sp2_2_serve_type} sp2_2_name={displayItem.sp2_2} sp2_2_remaindelivering={displayItem.sp2_2_remaindelivering} sp2_2_onhold={displayItem.sp2_2_onhold} 
         sp2_2_sop={displayItem.sp2_2_sop} sp2_2_appsheet={displayItem.sp2_2_appsheet} sp2_2_ttl_delivered={displayItem.sp2_2_ttl_delivered}
-        sp2_2_delivered={displayItem.sp2_2_delivered} sp2_2_lost_cnt={displayItem.lost_cnt.length}
+        sp2_2_delivered={displayItem.sp2_2_delivered} sp2_2_lost_cnt={displayItem.lost_cnt?displayItem.lost_cnt.length:0}
         sp2_3_serve_type={displayItem.sp2_3_serve_type} sp2_3_name={displayItem.sp2_3} sp2_3_remaindelivering={displayItem.sp2_3_remaindelivering} sp2_3_onhold={displayItem.sp2_3_onhold} 
         sp2_3_sop={displayItem.sp2_3_sop} sp2_3_appsheet={displayItem.sp2_3_appsheet} sp2_3_ttl_delivered={displayItem.sp2_3_ttl_delivered}
-        sp2_3_delivered={displayItem.sp2_3_delivered} sp2_3_lost_cnt={displayItem.lost_cnt.length} sp_epod={displayItem.epod} sp_attendance={displayItem.sp2_attendance}/>
+        sp2_3_delivered={displayItem.sp2_3_delivered} sp2_3_lost_cnt={displayItem.lost_cnt?displayItem.lost_cnt.length:0} sp_epod={displayItem.epod} sp_attendance={displayItem.sp2_attendance}/>
           <div>
             <div class="px-4 mt-8 border border-gray-200 bg-white rounded-t-lg dark:bg-gray-800">
                 <textarea id="comment" rows="4" onChange={(e)=>{setComment(e.target.value);}} value={comment} className="outline-none w-full py-2 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required ></textarea>
