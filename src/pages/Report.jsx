@@ -25,6 +25,7 @@ const Report = () => {
       const [replyType, setReplyType] = useState('')
       const [seletedData, setSeletedData] = useState('')
       const [filterdData, setFilterdData] = useState([])
+      const [weekPer, setWeekPer] = useState([])
 
       const findDB = async(status) => {
         const formData = new FormData()
@@ -37,8 +38,6 @@ const Report = () => {
           setFilterdData(data.clientData)
         }
       }
-
-      console.log(filterdData)
 
       useEffect(() => {
           findDB(isResolve);
@@ -136,9 +135,32 @@ const Report = () => {
     setImage3(false)
 }
 
-const ReportedData = rider.filter((item)=>(item.status==='report'))
+const catchDB = async(name, date, weeknum) => {
+  const formData = new FormData()
+  formData.append('name', name)
+  formData.append('weeknum', weeknum)
+  formData.append('date', 'na')
 
-const openEditForm = async(id, name, weeknum) => {
+  const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/week-report',formData)
+  if(data.success){
+      setWeekPer(data.catchData)
+    }
+    const selectDayData = weekPer.filter((item)=>(
+      item.name===name && item.weeknum===weeknum && item.date !== date
+    ))
+    console.log(weekPer)
+  
+    const tempArray = []
+  
+    for(let i=0;i<selectDayData.length;i++){
+      tempArray.push(selectDayData[i])
+    }
+    setSpIsQualify(tempArray);
+}
+
+const openEditForm = async(id, date, name, weeknum) => {
+
+  catchDB(name, date, weeknum)
 
   const reportDetail = []
 
@@ -215,23 +237,6 @@ const openEditForm = async(id, name, weeknum) => {
     admincomment: selectedWeekData[0].admincomment
   })
 
-  const selectDayData = await rider.filter((item)=>(
-    item.name===name && item.weeknum===weeknum && item.date !== selectedData[0].date
-))
-
-  const tempArray = []
-
-  for(let i=0;i<selectDayData.length;i++){
-    const getallData={
-      id: selectDayData[i]._id,
-      is_garantee: selectDayData[i].is_garantee,
-      sp2_1_service_bonus: selectDayData[i].sp2_1_is_servicce_bonus,
-      sp2_2_service_bonus: selectDayData[i].sp2_2_is_servicce_bonus,
-      sp2_3_service_bonus: selectDayData[i].sp2_3_is_servicce_bonus,
-    }
-    tempArray.push(getallData)
-  }
-  setSpIsQualify(tempArray);
   setIsEdit(true)
 }
 
@@ -284,7 +289,7 @@ const openWeekEditForm = (id, name, weeknum) => {
 
   return (
     <div className='w-full bg-white sm:w-[80%] h-[96%] rounded-lg sm:m-4 mt-4'>
-      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update filterdData={filterdData} />:isWeekEdit?<Update />:''}
+      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update />:isWeekEdit?<Update />:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
           <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{rider.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
@@ -367,7 +372,7 @@ const openWeekEditForm = (id, name, weeknum) => {
                       <p>{item.name}</p>
                     </div>
                     {token==='admin'?
-                    <button onClick={()=>openEditForm(item._id, item.name, item.weeknum)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
+                    <button onClick={()=>openEditForm(item._id, item.date, item.name, item.weeknum)} className='bg-[#004e76] rounded-md px-8 py-3 text-white font-bold round-lg cursor-pointer'>Edit</button>:isResolve==='report'?
                     <button className='p-2 px-4 bg-transparent border-2 border-[#c8cdcf] rounded-md text-[#004e76] hover:bg-red-600 hover:border-red-600 hover:text-white' onClick={()=>changeReportStatus(item._id, 'submit', '已取消回報', "day")}>取消回報</button>:
                     <div className='flex flex-row gap-4'>
                       <button className='p-2 px-4 bg-red-200 rounded-md' onClick={()=>showReportForm(index, 'day')}>回復</button>
