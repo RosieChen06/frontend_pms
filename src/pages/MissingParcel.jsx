@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AdminContext } from '../../context/AdminContext'
-import Detail from '../components/Detail'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { ImCross } from "react-icons/im";
-import { MdOutlineFactCheck } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 
 const MissingParcel = () => {
@@ -15,76 +13,35 @@ const MissingParcel = () => {
     const [dayDetail, setDayDetail] = useState(false)
     const [weekDetail, setWeekDetail] = useState(false)
 
-    const findRecord = async() => {
-        let dayRecord = await rider.filter((item)=>(
-            item.name===riderName && item.date===date
-        ))
+    const debounce = (func, delay) => {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                func(...args);
+            }, delay);
+        };
+    };
 
-        setDayDetail({
-            id: dayRecord[0]._id,
-            name: dayRecord[0].name,
-            date: dayRecord[0].date,
-            is_garantee: dayRecord[0].is_garantee,
-            sp2_1: dayRecord[0].sp2_1,
-            sp2_1_is_servicce_bonus: dayRecord[0].sp2_1_is_servicce_bonus,
-            sp2_1_serve_type: dayRecord[0].sp2_1_serve_type,
-            sp2_1_onhold: dayRecord[0].sp2_1_onhold,
-            sp2_1_ttl_delivered: dayRecord[0].sp2_1_ttl_delivered,
-            sp2_1_delivered: dayRecord[0].sp2_1_delivered,
-            sp2_1_remaindelivering: dayRecord[0].sp2_1_remaindelivering,
-            sp2_1_sop: dayRecord[0].sp2_1_sop,
-            sp2_1_appsheet: dayRecord[0].sp2_1_appsheet,
-            sp2_2: dayRecord[0].sp2_2,
-            sp2_2_is_servicce_bonus: dayRecord[0].sp2_2_is_servicce_bonus,
-            sp2_2_serve_type: dayRecord[0].sp2_2_serve_type,
-            sp2_2_onhold: dayRecord[0].sp2_2_onhold,
-            sp2_2_ttl_delivered: dayRecord[0].sp2_2_ttl_delivered,
-            sp2_2_delivered: dayRecord[0].sp2_2_delivered,
-            sp2_2_remaindelivering: dayRecord[0].sp2_2_remaindelivering,
-            sp2_2_sop: dayRecord[0].sp2_2_sop,
-            sp2_2_appsheet: dayRecord[0].sp2_2_appsheet,
-            sp2_3: dayRecord[0].sp2_3,
-            sp2_3_is_servicce_bonus: dayRecord[0].sp2_3_is_servicce_bonus,
-            sp2_3_serve_type: dayRecord[0].sp2_3_serve_type,
-            sp2_3_onhold: dayRecord[0].sp2_3_onhold,
-            sp2_3_ttl_delivered: dayRecord[0].sp2_3_ttl_delivered,
-            sp2_3_delivered: dayRecord[0].sp2_3_delivered,
-            sp2_3_remaindelivering: dayRecord[0].sp2_3_remaindelivering,
-            sp2_3_sop: dayRecord[0].sp2_3_sop,
-            sp2_3_appsheet: dayRecord[0].sp2_3_appsheet,
-            sp2_attendance: dayRecord[0].sp2_attendance,
-            epod: dayRecord[0].epod, 
-            lost_cnt: dayRecord[0].lost_cnt,
-        })
+    const catchDB = debounce(async(name, date) => {
+        const riderData = await rider.find((item) => item.date === date);
+        const weeknum = riderData ? riderData.weeknum : null;
 
-        let weeknum = await dayRecord[0].weeknum
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("weeknum", weeknum);
+        formData.append("date", date);
 
-        let weekRecord = await onlineData.filter((item)=>(
-            item.name === riderName && item.weeknum === weeknum
-        ))
-
-        setWeekDetail({
-            id: weekRecord[0]._id,
-            name: weekRecord[0].name,
-            weeknum: weekRecord[0].weeknum,
-            ttl_delivered: weekRecord[0].ttl_delivered,
-            ttl_worksday: weekRecord[0].ttl_worksday,
-            ttl_workday_weekend: weekRecord[0].ttl_workday_weekend,
-            seq: weekRecord[0].seq,
-            epod_lost: weekRecord[0].epod_lost,
-            uncleanCnt: weekRecord[0].uncleanCnt,
-            is_online_bonus: weekRecord[0].is_online_bonus,
-            lost_cnt: weekRecord[0].lost_cnt
-        })
-    }
+        const { data } = await axios.post("https://backend-pms.vercel.app/api/admin/week-report", formData);
+        if (data.success) {
+            setDayDetail(data.catchData[0]);
+            setWeekDetail(data.catchWeekData[0]);
+        }
+    }, 2000);
 
     useEffect(()=>{
-        findRecord()
+        catchDB(riderName, date)
     },[date, riderName])
-
-    console.log(riderName)
-    console.log(date)
-    console.log(parcelId)
 
     const setItem = (type) => {
         if(parcelId==='' || rider==='' || dayDetail===''){
@@ -135,21 +92,6 @@ const MissingParcel = () => {
                     setWeekDetail(prev =>({...prev, lost_cnt: weekArray}))
                 }
             } 
-            // if(dayDetail.lost_cnt.length>0){
-            //     setDayDetail(prev =>({...prev, is_garantee: '未達標'}))
-            //     if(dayDetail.sp2_1_is_servicce_bonus!=='-'){
-            //         setDayDetail(prev =>({...prev, sp2_1_is_servicce_bonus: '未達標'}))
-            //     }
-            //     if(dayDetail.sp2_2_is_servicce_bonus!=='-'){
-            //         setDayDetail(prev =>({...prev, sp2_2_is_servicce_bonus: '未達標'}))
-            //     }
-            //     if(dayDetail.sp2_3_is_servicce_bonus!=='-'){
-            //         setDayDetail(prev =>({...prev, sp2_3_is_servicce_bonus: '未達標'}))
-            //     }
-            // }
-            // if(weekDetail.lost_cnt.length>2){
-            //     setWeekDetail(prev =>({...prev, is_online_bonus: '未達標'}))
-            // }
         }
     }
 
