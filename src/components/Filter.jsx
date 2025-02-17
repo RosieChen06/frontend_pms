@@ -262,8 +262,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
 
     const findDB = async(date, rider, status) => {
         const formData = new FormData()
-        formData.append('dateInput', JSON.stringify(date))
-        formData.append('riderInput', JSON.stringify(rider))
+        formData.append('dateInput', JSON.stringify(date?date:[]))
+        formData.append('riderInput', JSON.stringify(rider?rider:[]))
         formData.append('statusInput', status)
 
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
