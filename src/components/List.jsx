@@ -31,7 +31,7 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
     let online_bonus_data = onlineData.filter((item)=>(
         item.name===name && item.weeknum===weeknum
     ))
-    let day_bonus_data = rider.filter((item)=>(
+    let day_bonus_data = clientData.filter((item)=>(
       item.name===name && item.date===date
     ))
     setDisplayItem(day_bonus_data[0])
