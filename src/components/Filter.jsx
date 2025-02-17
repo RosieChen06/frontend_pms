@@ -103,11 +103,11 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     });
 
     if(status==='submit'){
-        setDayList(dateresult)
+        setDayList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
     }else if(status==='confirm'){
-        setDayConfirmList(dateresult)
+        setDayConfirmList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
     }else{
-        setDayRawList(dateresult)
+        setDayRawList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
     }
 
     if(type==='dateAllCheck'){
