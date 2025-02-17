@@ -354,9 +354,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             </div>
         </div>
         <div className='flex flex-col rounded-md p-2 w-full md:w-1/3'>
-            {status==='submit'?<button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty('submit')}>確認篩選</button>:
-            status==='confirm'?<button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty('confirm')}>確認篩選</button>:
-            <button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty('raw')}>確認篩選</button>}
+            <button className='mb-2 w-full bg-[#004e76] p-2 rounded-sm text-white' onClick={()=>isFilterEmpty(status)}>確認篩選</button>
             <button className='mb-2 w-full bg-white p-2 rounded-sm text-[#004e76] border-[#004e76] border-2 hover:text-white hover:border-red-600 hover:bg-red-600' onClick={()=>cancelEvent(status)}>取消篩選</button>
         </div>
     </div>
