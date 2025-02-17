@@ -12,7 +12,7 @@ import { FaCheck } from "react-icons/fa";
 const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem, riderSubmitFilterConfirm, dateSubmitFilterConfirm}) => {
 
   const {getDB, rider, onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
-  const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData} = useContext(UserContext)
+  const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData, clientConfirmData, setClientConfirmData} = useContext(UserContext)
 
   const findDB = async() => {
     const formData = new FormData()
@@ -26,7 +26,7 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
         setClientData(data.clientData)
     }
   }
-  
+
   const displayDetail = (date, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
         item.name===name && item.weeknum===weeknum
@@ -59,11 +59,13 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
     }
   }
 
+  // console.log(clientData)
+
   const displayConfirmDetail = (date, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
       item.name===name && item.weeknum===weeknum
     ))
-    let day_bonus_data = rider.filter((item)=>(
+    let day_bonus_data = clientConfirmData.filter((item)=>(
       item.name===name && item.date===date
     ))
     setDisplayConfirmItem(day_bonus_data[0])
