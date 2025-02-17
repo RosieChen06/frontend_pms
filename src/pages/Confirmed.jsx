@@ -42,7 +42,7 @@ const Confirmed = () => {
         setRows(event.rows);
         console.log(event)
     }
-  return (
+  return rider && (
     <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
       <div className='flex flex-row items-center mt-4'>
         {isShowConfirmDetail?'':isConfirmFilter?'':
@@ -140,9 +140,11 @@ const Confirmed = () => {
                         <p className="block text-sm font-normal leading-none text-slate-500">選項</p>
                     </th>
                 </tr>}
-                {clientConfirmData?filterConfirmData.slice(first,first+rows).map((item, index)=>(
+                {clientConfirmData?
+                filterConfirmData.slice(first,first+rows).map((item, index)=>(
                     <List date={item.date} name={item.name} ch_name={item.name_ch} is_garantee={item.is_garantee} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} is_online_bonus={onlineData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus} index={index} id={item._id} weeknum={item.weeknum} status='confirm' filterdData={filterConfirmData}/>
-                )):''
+                ))
+                :''
                 }
             </table>
         </div>
