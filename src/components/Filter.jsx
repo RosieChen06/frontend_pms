@@ -20,149 +20,151 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     const [advancedFilter, setAdvancedFilter] = useState([])
 
     const getFilterList = (type, status) => {
-    const riderlist = []
-    const datelist = []
+        const riderlist = []
+        const datelist = []
 
-    if(dateInput!==''||riderInput!==''){
-        if(dateInput!=='' && riderInput!==''){
-            if(status==='raw'){
-                const advancedFilter = filterData.filter((item)=>(
-                    new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.name.startsWith(riderInput)
-                ))
-                setAdvancedFilter(advancedFilter)
+        if(dateInput!==''||riderInput!==''){
+            if(dateInput!=='' && riderInput!==''){
+                if(status==='raw'){
+                    const advancedFilter = filterData.filter((item)=>(
+                        new Date(item.date).toLocaleDateString().startsWith(dateInput) && item.name.startsWith(riderInput)
+                    ))
+                    setAdvancedFilter(advancedFilter)
+                }else{
+                    const advancedFilter = rider.filter((item)=>(
+                        item.date.startsWith(dateInput) && item.rider.startsWith(riderInput) && item.status===status
+                    ))
+                    setAdvancedFilter(advancedFilter)
+                }
+            }else if(dateInput!==''){
+                if(status==='raw'){
+                    const advancedFilter = filterData.filter((item)=>(
+                        new Date(item.date).toLocaleDateString().startsWith(dateInput)
+                    ))
+                    setAdvancedFilter(advancedFilter)
+                }else{
+                    const advancedFilter = rider.filter((item)=>(
+                        item.date.startsWith(dateInput) && item.status===status
+                    ))
+                    setAdvancedFilter(advancedFilter)
+                }
             }else{
-                const advancedFilter = rider.filter((item)=>(
-                    item.date.startsWith(dateInput) && item.rider.startsWith(riderInput) && item.status===status
-                ))
-                setAdvancedFilter(advancedFilter)
+                if(status==='raw'){
+                    const advancedFilter = filterData.filter((item)=>(
+                        item.name.startsWith(riderInput)
+                    ))
+                    setAdvancedFilter(advancedFilter)
+                }else{
+                    const advancedFilter = rider.filter((item)=>(
+                        item.name.startsWith(riderInput) && item.status===status
+                    ))
+                    setAdvancedFilter(advancedFilter)
+                }
             }
-        }else if(dateInput!==''){
-            if(status==='raw'){
-                const advancedFilter = filterData.filter((item)=>(
-                    new Date(item.date).toLocaleDateString().startsWith(dateInput)
-                ))
-                setAdvancedFilter(advancedFilter)
-            }else{
-                const advancedFilter = rider.filter((item)=>(
-                    item.date.startsWith(dateInput) && item.status===status
-                ))
-                setAdvancedFilter(advancedFilter)
-            }
-        }else{
-            if(status==='raw'){
-                const advancedFilter = filterData.filter((item)=>(
-                    item.name.startsWith(riderInput)
-                ))
-                setAdvancedFilter(advancedFilter)
-            }else{
-                const advancedFilter = rider.filter((item)=>(
-                    item.name.startsWith(riderInput) && item.status===status
-                ))
-                setAdvancedFilter(advancedFilter)
-            }
-        }
 
-        for(let i=0; i<advancedFilter.length; i++){
-            let name = advancedFilter[i].name
-            let date = advancedFilter[i].date
-            riderlist.push(name)
-            datelist.push(date)
-        }
-    }else{
-        if(status==='raw'){
-            for(let i=0; i<filterData.length; i++){
-                let name = filterData[i].name
-                let date = new Date(filterData[i].date).toLocaleDateString()
+            for(let i=0; i<advancedFilter.length; i++){
+                let name = advancedFilter[i].name
+                let date = advancedFilter[i].date
                 riderlist.push(name)
                 datelist.push(date)
             }
         }else{
-            const filteredRider = rider.filter((item)=>item.status===status)
-            for(let i=0; i<filteredRider.length; i++){
-                let name = filteredRider[i].name
-                let date = filteredRider[i].date
-                riderlist.push(name)
-                datelist.push(date)
+            if(status==='raw'){
+                for(let i=0; i<filterData.length; i++){
+                    let name = filterData[i].name
+                    let date = new Date(filterData[i].date).toLocaleDateString()
+                    riderlist.push(name)
+                    datelist.push(date)
+                }
+            }else{
+                const filteredRider = rider.filter((item)=>item.status===status)
+                for(let i=0; i<filteredRider.length; i++){
+                    let name = filteredRider[i].name
+                    let date = filteredRider[i].date
+                    riderlist.push(name)
+                    datelist.push(date)
+                }
+            }
+        }
+        let riderresult = riderlist.filter(function(element, index, arr){
+        return arr.indexOf(element) === index;
+        });
+
+        if(status==='submit'){
+            setRiderList(riderresult)
+        }else if(status==='confirm'){
+            setRiderConfirmList(riderresult)
+        }else{
+            setRiderRawList(riderresult)
+        }
+
+        let dateresult = datelist.filter(function(element, index, arr){
+        return arr.indexOf(element) === index;
+        });
+
+        if(status==='submit'){
+            setDayList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
+        }else if(status==='confirm'){
+            setDayConfirmList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
+        }else{
+            setDayRawList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
+        }
+
+        if(type==='dateAllCheck'){
+            if(status==='submit'){
+                setDateFilterPreview(dateresult)
+                return
+            }else if(status==='confirm'){
+                setDateConfirmFilterPreview(dateresult)
+                return
+            }else{
+                setDateRawFilterPreview(dateresult)
+                return
+            }
+        }
+        if(type==='dateAllCancel'){
+            if(status==='submit'){
+                setDateFilterPreview([])
+                return
+            }else if(status==='confirm'){
+                setDateConfirmFilterPreview([])
+                return
+            }else{
+                setDateRawFilterPreview([])
+                return
+            }
+        }
+        if(type==='riderAllCheck'){
+            if(status==='submit'){
+                setRiderFilterPreview(riderresult)
+                return
+            }else if(status==='confirm'){
+                setRiderConfirmFilterPreview(riderresult)
+                return
+            }else{
+                setRiderRawFilterPreview(riderresult)
+                return
+            }
+        }
+        if(type==='riderAllCancel'){
+            if(status==='submit'){
+                setRiderFilterPreview([])
+                return 
+            }else if(status==='confirm'){
+                setRiderConfirmFilterPreview([])
+                return
+            }else{
+                setRiderRawFilterPreview([])
+                return
             }
         }
     }
-    let riderresult = riderlist.filter(function(element, index, arr){
-    return arr.indexOf(element) === index;
-    });
 
-    if(status==='submit'){
-        setRiderList(riderresult)
-    }else if(status==='confirm'){
-        setRiderConfirmList(riderresult)
-    }else{
-        setRiderRawList(riderresult)
-    }
-
-    let dateresult = datelist.filter(function(element, index, arr){
-    return arr.indexOf(element) === index;
-    });
-
-    if(status==='submit'){
-        setDayList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
-    }else if(status==='confirm'){
-        setDayConfirmList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
-    }else{
-        setDayRawList(dateresult.sort((a, b) => new Date(a) - new Date(b)))
-    }
-
-    if(type==='dateAllCheck'){
-        if(status==='submit'){
-            setDateFilterPreview(dateresult)
-            return
-        }else if(status==='confirm'){
-            setDateConfirmFilterPreview(dateresult)
-            return
-        }else{
-            setDateRawFilterPreview(dateresult)
-            return
-        }
-    }
-    if(type==='dateAllCancel'){
-        if(status==='submit'){
-            setDateFilterPreview([])
-            return
-        }else if(status==='confirm'){
-            setDateConfirmFilterPreview([])
-            return
-        }else{
-            setDateRawFilterPreview([])
-            return
-        }
-    }
-    if(type==='riderAllCheck'){
-        if(status==='submit'){
-            setRiderFilterPreview(riderresult)
-            return
-        }else if(status==='confirm'){
-            setRiderConfirmFilterPreview(riderresult)
-            return
-        }else{
-            setRiderRawFilterPreview(riderresult)
-            return
-        }
-    }
-    if(type==='riderAllCancel'){
-        if(status==='submit'){
-            setRiderFilterPreview([])
-            return 
-        }else if(status==='confirm'){
-            setRiderConfirmFilterPreview([])
-            return
-        }else{
-            setRiderRawFilterPreview([])
-            return
-        }
-    }
-    }
+    console.log(clientConfirmData)
 
     useEffect(()=>{
         getFilterList('na', status)
-    },[filterData, dateInput, riderInput])
+    },[filterData, dateInput, riderInput, dateFilterPreview, riderFilterPreview, riderConfirmFilterPreview, dateConfirmFilterConfirm, riderRawFilterPreview, dateRawFilterPreview])
 
     const dateSelect = (date, status) =>{
         if(status==='submit'){
@@ -240,6 +242,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         findDB(dateSubmitFilterConfirm,riderSubmitFilterConfirm, 'submit');
     }, [dateSubmitFilterConfirm, riderSubmitFilterConfirm]);
 
+    console.log(dateSubmitFilterConfirm)
+
     useEffect(() => {
         findDB(dateConfirmFilterConfirm, riderConfirmFilterConfirm, 'confirm');
     }, [dateConfirmFilterConfirm, riderConfirmFilterConfirm]);
@@ -261,16 +265,23 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     }
 
     const findDB = async(date, rider, status) => {
-        const formData = new FormData()
-        formData.append('dateInput', JSON.stringify(date?date:[]))
-        formData.append('riderInput', JSON.stringify(rider?rider:[]))
-        formData.append('statusInput', status)
 
+        if (date.length === 0 &&  rider.length === 0) {
+            console.log("block")
+            return
+        }
+        const formData = new FormData()
+        formData.append('dateInput', JSON.stringify(date))
+        formData.append('riderInput', JSON.stringify(rider))
+        formData.append('statusInput', status)
+        
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
         if(status==='submit'){
             setClientData(data.clientData)
-        }else if(status==='confirm'){
+            console.log("run")
+        }else{
             setClientConfirmData(data.clientData)
+            console.log(data.clientData)
         }
     }
 
