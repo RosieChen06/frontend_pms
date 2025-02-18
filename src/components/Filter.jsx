@@ -160,8 +160,6 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
         }
     }
 
-    console.log(clientConfirmData)
-
     useEffect(()=>{
         getFilterList('na', status)
     },[filterData, dateInput, riderInput, dateFilterPreview, riderFilterPreview, riderConfirmFilterPreview, dateConfirmFilterConfirm, riderRawFilterPreview, dateRawFilterPreview])
@@ -215,8 +213,11 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             if(riderFilterPreview.length === 0 && dateFilterPreview.length === 0){
                 toast.error('請選擇篩選項目')
             }else{
-                await setDateSubmitFilterConfirm(dateFilterPreview)
-                await setRiderSubmitFilterConfirm(riderFilterPreview)
+
+                await setDateSubmitFilterConfirm(dateFilterPreview);
+                await setRiderSubmitFilterConfirm(riderFilterPreview);
+                
+                findDB(dateFilterPreview,riderFilterPreview, 'submit');
                 setSubmitFilter(false)
             }
         }else if(status==='confirm'){
@@ -225,6 +226,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             }else{
                 await setDateConfirmFilterConfirm(dateConfirmFilterPreview)
                 await setRiderConfirmFilterConfirm(riderConfirmFilterPreview)
+                findDB(dateConfirmFilterPreview,riderConfirmFilterPreview, 'confirm');
                 setConfirmFilter(false)
             }
         }else{
@@ -237,16 +239,6 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
             }
         }
     }
-
-    useEffect(() => {
-        findDB(dateSubmitFilterConfirm,riderSubmitFilterConfirm, 'submit');
-    }, [dateSubmitFilterConfirm, riderSubmitFilterConfirm]);
-
-    console.log(dateSubmitFilterConfirm)
-
-    useEffect(() => {
-        findDB(dateConfirmFilterConfirm, riderConfirmFilterConfirm, 'confirm');
-    }, [dateConfirmFilterConfirm, riderConfirmFilterConfirm]);
 
     const cancelEvent = () => {
         if(status==='submit'){
