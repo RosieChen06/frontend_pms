@@ -68,13 +68,24 @@ const Delete = () => {
     const [selectedData, setSelectedData] = useState(false)
     const [selectedWeekData, setSelectedWeekData] = useState(false)
 
-    const getDetail = (id, name, weeknum) => {
+    const getDetail = async(date, name, status, weeknum) => {
         if(isWarning){
             return
         }
-        const selectedData = filteredData.filter((item)=>(item._id===id))
+
+        const formData = new FormData()
+        formData.append('dateInput', JSON.stringify([date]))
+        formData.append('riderInput', JSON.stringify([name]))
+        formData.append('statusInput', status)
+
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
+        if(data.success){
+            setSelectedData(data.clientData[0])
+        }
+
+        console.log(selectedData)
+
         const selectedWeekData = onlineData.filter((item)=>(item.name===name && item.weeknum===weeknum))
-        setSelectedData(selectedData[0])
         setSelectedWeekData(selectedWeekData[0])
         setIsShowData(true)
     }
@@ -192,7 +203,7 @@ const Delete = () => {
             sp2_3_serve_type={selectedData.sp2_3_serve_type}
             sp2_3_sop={selectedData.sp2_3_sop}
             epod={selectedData.epod}
-            lost_cnt={selectedData.lost_cnt.length}
+            lost_cnt={selectedData.lost_cnt?selectedData.lost_cnt.length:0}
             weeknum={selectedData.weeknum}
             sp2_attendance={selectedData.sp2_attendance}
             epod_lost={selectedWeekData.epod_lost}
@@ -287,7 +298,7 @@ const Delete = () => {
                                         </td>
                                         <td className="p-4 border-b border-slate-200">
                                             <div className='flex flex-row items-center justify-center'>
-                                                <button onClick={()=>getDetail(item._id, item.name, item.weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
+                                                <button onClick={()=>getDetail(item.date, item.name, item.status, item.weeknum)} className='bg-white p-3 rounded-l-md border-2 border-slate-200 hover:bg-slate-200'><BiDetail /></button>
                                                 <button onClick={()=>editForm(item._id, item.status)} className='bg-white p-3 border-y-2 border-r-2 border-slate-200 hover:bg-green-600 hover:text-white hover:border-green-600'><BiEdit /></button>
                                                 <button onClick={()=>{getId(item._id, item.name, item.weeknum, 'outer'); setSelectedData(filteredData.filter((i)=>(item.name===i.name && item.date===i.date)))}} className='bg-white p-3 rounded-r-md border-y-2 border-r-2 border-slate-200 hover:bg-red-600 hover:text-white hover:border-red-600'><MdDeleteOutline /></button>
                                             </div>
