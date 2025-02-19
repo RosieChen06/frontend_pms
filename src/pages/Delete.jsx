@@ -153,7 +153,10 @@ const Delete = () => {
     }
 
     const editForm = (id, status) => {
-        if(editId===id){
+        if(isWarning){
+            return
+        }
+        else if(editId===id){
             setEditId('')
             setEditItem('item.status')
         }else{
@@ -249,9 +252,9 @@ const Delete = () => {
                 <div className='h-[65%] flex justify-center items-center mt-4'>
                     {!isShow?
                         <GrDocumentExcel className='text-[24px] text-gray-300'/>:
-                        <div className='w-full h-full overflow-scroll'>
+                        <div className='w-full h-full overflow-scroll relative'>
                            {isWarning?
-                            <div className='bg-white border-2 rounded-sm p-4 px-8 absolute top-[40%] left-[43%]'>
+                            <div className='bg-white border-2 rounded-sm p-4 px-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
                                 <p>是否同步刪除{selectedData[0].date} {selectedData[0].name}當周累計配送數據?</p>
                                 <div className='w-full flex flex-col justify-center gap-2 mt-8'>
                                     <button onClick={()=>getId(selectedData[0]._id, selectedData[0].name, selectedData[0].weeknum, 'allDelete')} className='w-full bg-red-600 text-white p-1 rounded-md'>同步刪除</button>
