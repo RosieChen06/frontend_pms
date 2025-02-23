@@ -1,7 +1,6 @@
-import { useContext, useEffect, useRef, useState } from 'react'
-import './App.css'
+import { useContext, useEffect, useRef} from 'react'
 import Home from './pages/Home'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import {Route, Routes} from 'react-router-dom'
@@ -26,14 +25,14 @@ function App() {
   useEffect(() => {
       dispatch(fetchData()); 
       dispatch(fetchWeekData());
-    }, [dispatch]);
+    }, []);
 
-  useEffect(() => {
-      if (prevDataRef.current !== data) {
-        dispatch(fetchData());
-      }
-      prevDataRef.current = data; 
-    }, [data, dispatch]);
+  // useEffect(() => {
+  //     if (prevDataRef.current !== data) {
+  //       dispatch(fetchData());
+  //     }
+  //     prevDataRef.current = data; 
+  //   }, [data, dispatch]);
 
   return (
     <>

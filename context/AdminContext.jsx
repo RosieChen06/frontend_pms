@@ -29,34 +29,6 @@ const AdminContextProvider = (props) =>{
     const [uploadItem, setUploadItem] = useState([])
     const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
-    // const getDB = async () => {
-    //     try{
-    //     const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
-    //     if(data.success){
-    //         setRider(data.riders)
-    //         }
-    //     else{
-    //         toast.error(data.message)
-    //     }
-    //     }catch(error){
-    //         toast.error(data.message)
-    //     }
-    // }
-
-    // const getWeekDB = async () => {
-        
-    //     try{
-    //         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
-    //         if(data.success){
-    //             setOnlineData(data.weekData) 
-    //         }else{
-    //             toast.error(data.message)
-    //         }
-    //     }catch(error){
-    //         toast.error(data.message)
-    //     }
-    // }
-
     const fetchData = async () => {
         try{
                 const response = await axios.get('https://script.google.com/macros/s/AKfycbx-drlHbjO5h2Ks_UwTz51bX7_atvrZjMRA_SW6ZWRA7s9Mm_8Ebk_yOURZQMr4nbdz/exec')
@@ -78,8 +50,7 @@ const AdminContextProvider = (props) =>{
         rider, data, state, setData, 
         setToken, token, userEmail, riderData, setRiderData, riderWeekData, setRiderWeekData,
         setUserEmail, isShowAdminDetail, setIsShowAdminDetail, 
-        weekData, setWeekData, 
-        isEdit, setIsEdit, isResolve, setIsResolve,isWeekEdit, setIsWeekEdit,
+        weekData, setWeekData, isEdit, setIsEdit, isResolve, setIsResolve,isWeekEdit, setIsWeekEdit,
         isSpQualify, setSpIsQualify, displayMainItem, setDisplayMainItem,
         displayOnlineMainItem, setDisplayOnlineMainItem, isRawFilter, setRawFilter,
         riderRawList, setRiderRawList, dayRawList, setDayRawList, isShowData, setIsShowData,

@@ -8,25 +8,27 @@ import { toast } from 'react-toastify';
 import { FaRegSave } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../redux/slices/apiSlice";
 
-const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem, riderSubmitFilterConfirm, dateSubmitFilterConfirm}) => {
+const List = React.memo(({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem, riderSubmitFilterConfirm, dateSubmitFilterConfirm}) => {
 
   const {setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
-  const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData, clientConfirmData, setClientConfirmData} = useContext(UserContext)
+  const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData, clientConfirmData} = useContext(UserContext)
   const onlineData = useSelector((state) => state.onlineData.onlineData); 
   const findDB = async() => {
     const formData = new FormData()
     formData.append('dateInput', JSON.stringify(dateSubmitFilterConfirm))
     formData.append('riderInput', JSON.stringify(riderSubmitFilterConfirm))
     formData.append('statusInput', 'submit')
-    console.log(dateSubmitFilterConfirm)
 
     const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
     if(data.success){
         setClientData(data.clientData)
     }
   }
+
+  const dispatch = useDispatch()
 
   const displayDetail = (date, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
@@ -133,6 +135,7 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
 
         if(data.success){
             toast.success(data.message)
+            dispatch(fetchData());
         }else{
             toast.error(data.message)
         }
@@ -265,6 +268,6 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
           }
       </tr>
   )
-}
+})
 
 export default List

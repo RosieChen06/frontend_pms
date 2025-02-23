@@ -14,7 +14,8 @@ import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../redux/slices/apiSlice";
 
 const Home = () => {
 
@@ -28,8 +29,7 @@ const Home = () => {
     const [filterRawData, setFilterRawData] = useState([])
 
     const apiData = useSelector((state) => state.data.data);
-    const loading = useSelector((state) => state.data.loading);
-    const error = useSelector((state) => state.data.error);
+    const dispatch = useDispatch()
     
     const filterdData = data.filter((item)=>(apiData.filter((i)=>(i.name===item.name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.name !=='')
     
@@ -37,10 +37,10 @@ const Home = () => {
             if(riderRawFilterConfirm.length === 0 && dateRawFilterConfirm.length === 0){
                 let newData = filterdData
                 setFilterRawData(newData)
-            }else if(riderRawFilterConfirm.length === 0){
+            }else if(riderRawFilterConfirm.length !== 0  && dateRawFilterConfirm.length !== 0){
                 let newData = filterdData.filter((item)=>(
-                    dateRawFilterConfirm.includes(new Date(item.date).toLocaleDateString())
-                  ))
+                    riderRawFilterConfirm.includes(item.name) && dateRawFilterConfirm.includes(new Date(item.date).toLocaleDateString())
+                ))
                 setFilterRawData(newData)
             }else if(dateRawFilterConfirm.length === 0){
                 let newData = filterdData.filter((item)=>(
@@ -49,11 +49,13 @@ const Home = () => {
                 setFilterRawData(newData)
             }else{
                 let newData = filterdData.filter((item)=>(
-                    riderRawFilterConfirm.includes(item.name) && dateRawFilterConfirm.includes(item.date)
-                ))
+                    dateRawFilterConfirm.includes(new Date(item.date).toLocaleDateString())
+                  ))
                 setFilterRawData(newData)
             }
         }
+    console.log(dateRawFilterConfirm)
+    console.log(riderRawFilterConfirm)
     
     useEffect(()=>{
         dataList()
@@ -126,6 +128,7 @@ const Home = () => {
     
             if(data.success){
                 toast.success(data.message)
+                dispatch(fetchData()); 
                 setUploadItem([])
             }else{
                 toast.error(data.message)
@@ -250,29 +253,31 @@ const Home = () => {
         }
         <div className='w-full h-full overflow-scroll mt-6'>
             <table className='table-fixed w-full min-w-[730px] text-center'>   
-                {isShowMenu?'':
-                <tr className='sticky top-0 z-1'>
-                    <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">Date</p>
-                    </th>
-                    <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">Rider</p>
-                    </th>
-                    <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
-                    </th>
-                    <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
-                    </th>
-                    <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
-                    </th>
-                    <th className="p-4 border-b border-slate-300 bg-slate-50">
-                        <p className="block text-sm font-normal leading-none text-slate-500">選項獎勵</p>
-                    </th>
-                </tr>}
+                <tbody>
+                    {isShowMenu?'':
+                    <tr className='sticky top-0 z-1'>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">Date</p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">Rider</p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">保底獎勵</p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">服務獎勵</p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">上線獎勵</p>
+                        </th>
+                        <th className="p-4 border-b border-slate-300 bg-slate-50">
+                            <p className="block text-sm font-normal leading-none text-slate-500">選項獎勵</p>
+                        </th>
+                    </tr>}
+                </tbody>
                 {filterRawData.slice(homeFirst,homeFirst+homeRows).map((item, index)=>(
-                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name)).length>0?weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus:'-'} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
+                    <List key={`${item.date}-${item.name}`} date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name)).length>0?weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus:'-'} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
                 ))
                 }
             </table>

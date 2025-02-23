@@ -20,6 +20,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     const {setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
     const [advancedFilter, setAdvancedFilter] = useState([])
     const data = useSelector((state) => state.data.data);
+    console.log("rerendering")
 
     const getFilterList = (type, status) => {
         const riderlist = []
@@ -164,7 +165,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
 
     useEffect(()=>{
         getFilterList('na', status)
-    },[filterData, dateInput, riderInput, dateFilterPreview, riderFilterPreview, riderConfirmFilterPreview, dateConfirmFilterConfirm, riderRawFilterPreview, dateRawFilterPreview])
+    },[dateInput, riderInput])
 
     const dateSelect = (date, status) =>{
         if(status==='submit'){
