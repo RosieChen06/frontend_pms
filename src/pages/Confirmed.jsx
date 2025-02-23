@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import List from '../components/List'
 import { UserContext } from '../../context/UserContext';
@@ -9,16 +9,21 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
+import { useSelector } from "react-redux";
 
 const Confirmed = () => {
 
-    const {rider, token, isShowMenu, onlineData} = useContext(AdminContext)
-    const {setDateInput, setRiderInput, clientConfirmData, setClientConfirmData} = useContext(UserContext)
+    const {token, isShowMenu, onlineData} = useContext(AdminContext)
+    const {setDateInput, setRiderInput, clientConfirmData} = useContext(UserContext)
     const [filterConfirmData, setFilterConfirmData] = useState([])
     const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
     const [riderConfirmFilterPreview, setRiderConfirmFilterPreview] = useState([])
     const [dateConfirmFilterConfirm, setDateConfirmFilterConfirm] = useState([])
     const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
+
+    const data = useSelector((state) => state.data.data);
+    const loading = useSelector((state) => state.data.loading);
+    const error = useSelector((state) => state.data.error);
 
     const dataList = () => {
         if(clientConfirmData){
@@ -42,7 +47,7 @@ const Confirmed = () => {
         setRows(event.rows);
         console.log(event)
     }
-  return rider && (
+  return data && (
     <div className='w-full sm:w-[80%] h-[96%] overflow-hidden rounded-lg p-2 ml-0 sm:ml-4'> 
       <div className='flex flex-row items-center mt-4'>
         {isShowConfirmDetail?'':isConfirmFilter?'':
@@ -62,7 +67,7 @@ const Confirmed = () => {
           </div>
         }
       </div>
-      {isConfirmFilter?<Filter filterData={rider.filter((item)=>(
+      {isConfirmFilter?<Filter filterData={data.filter((item)=>(
             item.status === 'confirm'
           ))} status='confirm' setRiderConfirmFilterConfirm={setRiderConfirmFilterConfirm} setDateConfirmFilterConfirm={setDateConfirmFilterConfirm} dateConfirmFilterPreview={dateConfirmFilterPreview} setDateConfirmFilterPreview={setDateConfirmFilterPreview} 
           setRiderConfirmFilterPreview={setRiderConfirmFilterPreview} riderConfirmFilterPreview={riderConfirmFilterPreview} dateConfirmFilterConfirm={dateConfirmFilterConfirm} riderConfirmFilterConfirm={riderConfirmFilterConfirm}/>:''}

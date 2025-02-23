@@ -4,6 +4,7 @@ import { FaCheck } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { AdminContext } from '../../context/AdminContext';
 import axios from 'axios'
+import { useSelector } from "react-redux";
 
 const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterConfirm, status,
     setDateFilterPreview, dateFilterPreview, setRiderFilterPreview, riderFilterPreview, setDateConfirmFilterPreview, 
@@ -16,8 +17,9 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
     const {riderList,setRiderList,  dayList, setDayList, setSubmitFilter, dateInput, setDateInput, riderInput, setRiderInput
         , dayConfirmList, setDayConfirmList, riderConfirmList, setRiderConfirmList, setConfirmFilter, clientData, setClientData, clientConfirmData, setClientConfirmData
     } = useContext(UserContext)
-    const {rider, setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
+    const {setRawFilter, riderRawList, setRiderRawList, dayRawList, setDayRawList} = useContext(AdminContext)
     const [advancedFilter, setAdvancedFilter] = useState([])
+    const data = useSelector((state) => state.data.data);
 
     const getFilterList = (type, status) => {
         const riderlist = []
@@ -31,8 +33,8 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                     ))
                     setAdvancedFilter(advancedFilter)
                 }else{
-                    const advancedFilter = rider.filter((item)=>(
-                        item.date.startsWith(dateInput) && item.rider.startsWith(riderInput) && item.status===status
+                    const advancedFilter = data.filter((item)=>(
+                        item.date.startsWith(dateInput) && item.name.startsWith(riderInput) && item.status===status
                     ))
                     setAdvancedFilter(advancedFilter)
                 }
@@ -43,7 +45,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                     ))
                     setAdvancedFilter(advancedFilter)
                 }else{
-                    const advancedFilter = rider.filter((item)=>(
+                    const advancedFilter = data.filter((item)=>(
                         item.date.startsWith(dateInput) && item.status===status
                     ))
                     setAdvancedFilter(advancedFilter)
@@ -55,7 +57,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                     ))
                     setAdvancedFilter(advancedFilter)
                 }else{
-                    const advancedFilter = rider.filter((item)=>(
+                    const advancedFilter = data.filter((item)=>(
                         item.name.startsWith(riderInput) && item.status===status
                     ))
                     setAdvancedFilter(advancedFilter)
@@ -77,7 +79,7 @@ const Filter = ({filterData, setRiderSubmitFilterConfirm, setDateSubmitFilterCon
                     datelist.push(date)
                 }
             }else{
-                const filteredRider = rider.filter((item)=>item.status===status)
+                const filteredRider = data.filter((item)=>item.status===status)
                 for(let i=0; i<filteredRider.length; i++){
                     let name = filteredRider[i].name
                     let date = filteredRider[i].date

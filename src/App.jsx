@@ -1,10 +1,9 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Home from './pages/Home'
 import { ToastContainer, toast } from 'react-toastify';
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
-import Update from './pages/Update'
 import {Route, Routes} from 'react-router-dom'
 import Login from './pages/Login';
 import Report from './pages/Report';
@@ -13,10 +12,27 @@ import VendorHomePage from './pages/VendorHomePage';
 import Confirmed from './pages/Confirmed';
 import MissingParcel from './pages/MissingParcel';
 import Delete from './pages/Delete';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "./redux/slices/apiSlice";
 
 function App() {
 
   const {token} = useContext(AdminContext)
+  const dispatch = useDispatch();
+    const data = useSelector((state) => state.data.data);
+    const prevDataRef = useRef(data);
+
+    useEffect(() => {
+        dispatch(fetchData()); 
+      }, [dispatch]);
+
+    useEffect(() => {
+        if (prevDataRef.current !== data) {
+          dispatch(fetchData());
+        }
+        prevDataRef.current = data; 
+      }, [data, dispatch]);
+      
   return (
     <>
       <div>

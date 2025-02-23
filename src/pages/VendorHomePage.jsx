@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { AdminContext } from '../../context/AdminContext'
@@ -15,10 +15,11 @@ import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const VendorHomePage = () => {
 
-    const {getDB, rider, state, token, isShowMenu, onlineData} = useContext(AdminContext)
+    const {token, isShowMenu, onlineData, getWeekDB} = useContext(AdminContext)
     const {clientData, setClientData, isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
         setSp2_3_reportItem, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
@@ -32,6 +33,10 @@ const VendorHomePage = () => {
     const [riderSubmitFilterConfirm, setRiderSubmitFilterConfirm] = useState([])
     const [dateFilterPreview, setDateFilterPreview] = useState([])
     const [riderFilterPreview, setRiderFilterPreview] = useState([])
+
+    const data = useSelector((state) => state.data.data);
+    const loading = useSelector((state) => state.data.loading);
+    const error = useSelector((state) => state.data.error);
 
     const dataList = () => {
         if(clientData){
@@ -52,7 +57,6 @@ const VendorHomePage = () => {
         '3':[],
       }
     
-
     const isReportOnline = async (_id) => {
 
         if(Object.keys(onlineReportItem).length === 0){
@@ -75,7 +79,7 @@ const VendorHomePage = () => {
             if(data.success){
                 setReportForm(false);
                 toast.success(data.message)
-                getDB()
+                dispatch(fetchData());
             }else{
                 toast.error(data.message)
             }
@@ -91,6 +95,7 @@ const VendorHomePage = () => {
         setImage1(false)
         setImage2(false)
         setImage3(false)
+        getWeekDB()
     }
 
     const findDB = async() => {
@@ -124,7 +129,7 @@ const VendorHomePage = () => {
             return
         }
 
-        let report = rider.filter((item)=>item._id===_id)[0]
+        let report = data.filter((item)=>item._id===_id)[0]
         if(Number(report.sp2_1_ttl_delivered)+Number(report.sp2_1_onhold)>=Number(report.sp2_1_remaindelivering) && reportItem['1'].includes('remain_delivering') ||
         Number(report.sp2_2_ttl_delivered)+Number(report.sp2_2_onhold)>=Number(report.sp2_2_remaindelivering) && reportItem['2'].includes('remain_delivering') ||
         Number(report.sp2_3_ttl_delivered)+Number(report.sp2_3_onhold)>=Number(report.sp2_3_remaindelivering) && reportItem['3'].includes('remain_delivering')
@@ -143,13 +148,16 @@ const VendorHomePage = () => {
             formData.append('image2', image2)
             formData.append('image3', image3)
             formData.append('reportdatetime', new Date())
+
+            console.log(image1)
+            console.log(image2)
   
             const {data} = await axios.post('https://backend-pms.vercel.app/api/user/report',formData)
   
             if(data.success){
                 setReportForm(false);
                 toast.success(data.message)
-                getDB()
+                dispatch(fetchData());
             }else{
                 toast.error(data.message)
             }
@@ -208,7 +216,7 @@ const VendorHomePage = () => {
             </div>
             }
         </div>
-        {isSubmitFilter?<Filter filterData={rider.filter((item)=>(
+        {isSubmitFilter?<Filter filterData={data.filter((item)=>(
             item.status === 'submit'
           ))} setDateSubmitFilterConfirm={setDateSubmitFilterConfirm} setRiderSubmitFilterConfirm={setRiderSubmitFilterConfirm} status='submit'
           setDateFilterPreview={setDateFilterPreview} dateFilterPreview={dateFilterPreview} setRiderFilterPreview={setRiderFilterPreview} riderFilterPreview={riderFilterPreview}

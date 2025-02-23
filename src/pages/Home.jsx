@@ -14,20 +14,25 @@ import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Home = () => {
 
-    const {rider, data, state, token, isShowAdminDetail, displayMainItem, isMassiveUpload, setIsMassiveUpload,
-        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, getDB, isShowMenu, uploadItem, setUploadItem} = useContext(AdminContext)  
+    const {data, state, token, isShowAdminDetail, displayMainItem, isMassiveUpload, setIsMassiveUpload,
+        displayOnlineMainItem, isRawFilter, setRawFilter, weekData, isShowMenu, uploadItem, setUploadItem} = useContext(AdminContext)  
     const {setDateInput, setRiderInput} = useContext(UserContext) 
     const [dateRawFilterPreview, setDateRawFilterPreview] = useState([])
     const [riderRawFilterPreview, setRiderRawFilterPreview] = useState([])
     const [dateRawFilterConfirm, setDateRawFilterConfirm] = useState([])
     const [riderRawFilterConfirm, setRiderRawFilterConfirm] = useState([])
     const [filterRawData, setFilterRawData] = useState([])
-    
-    const filterdData = data.filter((item)=>(rider.filter((i)=>(i.name===item.name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.name !=='')
 
+    const apiData = useSelector((state) => state.data.data);
+    const loading = useSelector((state) => state.data.loading);
+    const error = useSelector((state) => state.data.error);
+    
+    const filterdData = data.filter((item)=>(apiData.filter((i)=>(i.name===item.name)).filter((j)=>(j.date===new Date(item.date).toLocaleDateString())).length===0) && item.name !=='')
+    
     const dataList = () => {
             if(riderRawFilterConfirm.length === 0 && dateRawFilterConfirm.length === 0){
                 let newData = filterdData
@@ -52,7 +57,7 @@ const Home = () => {
     
     useEffect(()=>{
         dataList()
-    }, [dateRawFilterConfirm, riderRawFilterConfirm, rider])
+    }, [dateRawFilterConfirm, riderRawFilterConfirm, apiData])
 
     const addUploadItem = () => {
         const tempArray = []
@@ -122,7 +127,6 @@ const Home = () => {
             if(data.success){
                 toast.success(data.message)
                 setUploadItem([])
-                getDB()
             }else{
                 toast.error(data.message)
             }
@@ -268,7 +272,7 @@ const Home = () => {
                     </th>
                 </tr>}
                 {filterRawData.slice(homeFirst,homeFirst+homeRows).map((item, index)=>(
-                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
+                    <List date={new Date(item.date).toLocaleDateString()} name={item.name} is_garantee={item.is_garantee} is_service_bonus={item.is_service_bonus} is_online_bonus={weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name)).length>0?weekData.filter((i)=>(i.weeknum===item.weeknum && i.name===item.name))[0].is_online_bonus:'-'} index={index} id={item._id} sp2_1_is_service_bonus={item.sp2_1_is_servicce_bonus} sp2_2_is_service_bonus={item.sp2_2_is_servicce_bonus} sp2_3_is_service_bonus={item.sp2_3_is_servicce_bonus} weeknum={item.weeknum} status='raw' filterdData={filterRawData} isMassiveUpload={isMassiveUpload} uploadItem={uploadItem} setUploadItem={setUploadItem} first={homeFirst} rows={homeRows}/>
                 ))
                 }
             </table>

@@ -15,10 +15,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
+import { useSelector } from "react-redux";
 
 const Delete = () => {
 
-    const {rider, onlineData, isShowData, setIsShowData, getDB, getWeekDB, isShowMenu} = useContext(AdminContext)
+    const {onlineData, isShowData, setIsShowData, getWeekDB, isShowMenu} = useContext(AdminContext)
     const [startDate, setStartDate] = useState(dayjs(Date()))
     const [endDate, setEndDate] = useState(dayjs(Date()))
     const [maxDate, setMaxDate] = useState('')
@@ -29,8 +30,10 @@ const Delete = () => {
     const [searchStatus ,setSearchStatus] = useState('confirm')
     const [filteredData, setFilteredData] = useState([])
 
+    const apiData = useSelector((state) => state.data.data);
+
     const filterData = () => {
-        const data = rider.filter((item)=>(
+        const data = apiData.filter((item)=>(
             new Date(startDate.$d.setHours(0, 0, 0, 0))<=new Date(item.date) && new Date(endDate.$d.setHours(0, 0, 0, 0))>=new Date(item.date) && searchStatus===item.status
         ))
 
@@ -39,8 +42,8 @@ const Delete = () => {
 
     const findMinDate = () => {
         let datelist = []
-        for(let i=0; i<rider.length; i++){
-            let date = new Date(rider[i].date)
+        for(let i=0; i<apiData.length; i++){
+            let date = new Date(apiData[i].date)
             datelist.push(date)
         }
         let dateresult = datelist.filter(function(element, index, arr){
@@ -54,7 +57,7 @@ const Delete = () => {
     useEffect(()=>{
         findMinDate()
         filterData()
-    },[rider])
+    },[apiData])
 
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
@@ -111,7 +114,6 @@ const Delete = () => {
                 if(data.success){
                     toast.success(data.message)
                     setIsWarning(false)
-                    getDB()
                     getWeekDB()
                 }else{
                     toast.error(data.message)
@@ -122,7 +124,6 @@ const Delete = () => {
                 if(data.success){
                     toast.success(data.message)
                     setIsWarning(false)
-                    getDB()
                 }else{
                     toast.error(data.message)
                 }
@@ -142,7 +143,6 @@ const Delete = () => {
             if(data.success){
                 toast.success(data.message)
                 setEditId('')
-                getDB()
             }else{
                 toast.error(data.message)
             }

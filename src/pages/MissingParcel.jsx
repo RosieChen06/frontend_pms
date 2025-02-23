@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { AdminContext } from '../../context/AdminContext'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const MissingParcel = () => {
     const [date, setDate] = useState('')
     const [riderName, setRiderName] = useState('')
     const [parcelId, setParcelId] = useState('')
-    const {rider, onlineData} = useContext(AdminContext)
     const [dayDetail, setDayDetail] = useState(false)
     const [weekDetail, setWeekDetail] = useState(false)
+    const apiData = useSelector((state) => state.data.data);
 
     const debounce = (func, delay) => {
         let timer;
@@ -24,7 +24,7 @@ const MissingParcel = () => {
     };
 
     const catchDB = debounce(async(name, date) => {
-        const riderData = await rider.find((item) => item.date === date);
+        const riderData = await apiData.find((item) => item.date === date);
         const weeknum = riderData ? riderData.weeknum : null;
 
         const formData = new FormData();
@@ -44,7 +44,7 @@ const MissingParcel = () => {
     },[date, riderName])
 
     const setItem = (type) => {
-        if(parcelId==='' || rider==='' || dayDetail===''){
+        if(parcelId==='' || riderName==='' || date===''){
             toast.error('請填寫完整資訊')
             return
         }

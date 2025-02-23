@@ -7,13 +7,24 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 
-const Update = () => {
+const Update = ({setFilterdData}) => {
 
-    const {getDB, isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
+    const {isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, getWeekDB} = useContext(AdminContext)
     const {reportSp2Item} = useContext(UserContext)
-
     const [dayAdjustment, setDayAdjustment] = useState(true)
     const myRef = useRef(null)
+
+    const findDB = async(status) => {
+        const formData = new FormData()
+        formData.append('dateInput', JSON.stringify([]))
+        formData.append('riderInput', JSON.stringify([]))
+        formData.append('statusInput', status)
+
+        const {data} = await axios.post('https://backend-pms.vercel.app/api/user/clientReadData',formData)
+        if(data.success){
+          setFilterdData(data.clientData)
+        }
+      }
 
     const updateData = async (id) => {
         try{
@@ -50,7 +61,7 @@ const Update = () => {
             if(data.success){
                 toast.success(data.message)
                 setIsEdit(false)
-                getDB()
+                findDB('report')
             }else{
                 toast.error(data.message)
             }
@@ -66,7 +77,6 @@ const Update = () => {
                     {...item, [ob]:value}:item
                 }))
     }
-    console.log(isSpQualify)
 
     const updateWeekData = async (id) => {
 
@@ -88,10 +98,10 @@ const Update = () => {
 
             if(data.success){
                 toast.success(data.message)
+                getWeekDB()
                 setIsWeekEdit(false)
                 setIsEdit(false)
                 setDayAdjustment(false)
-                getDB()
             }else{
                 toast.error(data.message)
             }

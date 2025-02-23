@@ -9,9 +9,10 @@ import { FiUpload } from "react-icons/fi";
 import Reportsp from '../components/Reportsp';
 import { UserContext } from '../../context/UserContext';
 import Update from './Update';
+import { useSelector } from "react-redux";
 
 const Report = () => {
-      const {getDB, rider, onlineData, token, isEdit, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, setIsEdit} = useContext(AdminContext)
+      const {onlineData, token, isEdit, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, setIsEdit, getWeekDB} = useContext(AdminContext)
       const {setReportSp2Item} = useContext(UserContext)
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
@@ -26,6 +27,7 @@ const Report = () => {
       const [seletedData, setSeletedData] = useState('')
       const [filterdData, setFilterdData] = useState([])
       const [weekPer, setWeekPer] = useState([])
+      const data = useSelector((state) => state.data.data);
 
       const findDB = async(status) => {
         const formData = new FormData()
@@ -61,6 +63,7 @@ const Report = () => {
             if(data.success){
                 toast.success(reply)
                 findDB(isResolve)
+                getWeekDB()
             }else{
                 toast.error(data.message)
             }
@@ -90,13 +93,25 @@ const Report = () => {
     }
 
     if(!image1){
-      setUploadUrl1(seletedData[0].image[0])
+      if(type==="day"){
+        setUploadUrl1(replyItem.image[0])
+      }else{
+        setUploadUrl1(replyWeekItemimage[0])
+      }
     }
     if(!image2){
-      setUploadUrl2(seletedData[0].image[1])
+      if(type==="day"){
+        setUploadUrl2(replyItem.image[1])
+      }else{
+        setUploadUrl2(replyWeekItem.image[1])
+      }
     }
     if(!image3){
-      setUploadUrl3(seletedData[0].image[2])
+      if(type==="day"){
+        setUploadUrl3(replyItem.image[1])
+      }else{
+        setUploadUrl3(replyWeekItem.image[1])
+      }
     }
 
     try{
@@ -115,13 +130,15 @@ const Report = () => {
         formData.append('image2', image2)
         formData.append('image3', image3)
         formData.append('type', type)
+        console.log(uploadUrl1)
+        console.log(image2)
+        console.log(filterdData[0].image[0])
 
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/reply',formData)
 
         if(data.success){
             setIsReply(false);
             toast.success(data.message)
-            getDB()
         }else{
             toast.error(data.message)
         }
@@ -130,9 +147,9 @@ const Report = () => {
         console.log(error)
     }
 
-    setImage1(false)
-    setImage2(false)
-    setImage3(false)
+    // setImage1(false)
+    // setImage2(false)
+    // setImage3(false)
 }
 
 const catchDB = async(name, date, weeknum) => {
@@ -242,13 +259,15 @@ const filterdWeekData = onlineData.filter((item)=>(
   item.status === isResolve
 ))
 
+console.log(filterdWeekData)
+
 const openWeekEditForm = (id, name, weeknum) => {
 
   const selectedData = filterdWeekData.filter((item)=>(
       item._id===id
   ))
 
-  const selectDayData = rider.filter((item)=>(
+  const selectDayData = data.filter((item)=>(
       item.name===name && item.weeknum===weeknum
   ))
 
@@ -287,11 +306,11 @@ const openWeekEditForm = (id, name, weeknum) => {
 
   return (
     <div className='w-full bg-white sm:w-[80%] h-[96%] rounded-lg sm:m-4 mt-4'>
-      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update />:isWeekEdit?<Update />:''}
+      {token==='user'?'':riderData && riderWeekData && isSpQualify && isEdit?<Update setFilterdData={setFilterdData}/>:isWeekEdit?<Update setFilterdData={setFilterdData}/>:''}
       {token==='admin'?<div className='mt-4'></div>:
       <div className='flex flex-row justify-end px-4 mt-4 w-full mb-4'>
-          <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{rider.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
-        <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復<span className={isResolve==='resolve'?'ml-3 rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{rider.filter((item)=>(item.status === 'resolve')).length+onlineData.filter((item)=>(item.status === 'resolve')).length}</span></p>
+          <p className={isResolve==='report'?'rounded-l-full py-1 px-3 border-2 w-1/2 border-[#004e76] text-white bg-[#004e76] cursor-pointer':'rounded-l-full w-1/2 py-1 px-3 bg-white border-y-2 border-l-2 border-[#004e76] text-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('report')}>待處理<span className={isResolve==='report'?'ml-3 justify-end rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{data.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</span></p>
+        <p className={isResolve!=='resolve'?'rounded-r-full py-1 px-3 w-1/2 bg-white border-y-2 border-r-2 border-[#004e76] text-[#004e76] cursor-pointer':'rounded-r-full py-1 px-3 w-1/2 border-2 border-[#004e76] text-white bg-[#004e76] cursor-pointer'} onClick={()=>setIsResolve('resolve')}>已回復<span className={isResolve==='resolve'?'ml-3 rounded-sm px-2 py-0.5 bg-white text-[#004e76]':'ml-3 rounded-sm px-2 py-0.5 bg-[#004e76] text-white'}>{data.filter((item)=>(item.status === 'resolve')).length+onlineData.filter((item)=>(item.status === 'resolve')).length}</span></p>
       </div>}
       {isEdit?'':isWeekEdit?'':
         <div className={token==='admin'?'w-full flex-wrap-reverse h-[80vh] px-4 overflow-scroll':'w-full flex-wrap-reverse h-[72vh] px-4 overflow-scroll'}>
@@ -451,7 +470,7 @@ const openWeekEditForm = (id, name, weeknum) => {
             </div>
           ))
         }
-        {
+        {isReply?'':
           filterdWeekData.map((item, index)=>(
             <div key={index} className='w-full bg-white pt-2 p-2 rounded-lg mb-4'>
               <div className='flex flex-col justify-between'>

@@ -11,7 +11,7 @@ import { FaCheck } from "react-icons/fa";
 
 const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem, riderSubmitFilterConfirm, dateSubmitFilterConfirm}) => {
 
-  const {getDB, rider, onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
+  const {onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
   const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData, clientConfirmData, setClientConfirmData} = useContext(UserContext)
 
   const findDB = async() => {
@@ -44,6 +44,7 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
         const formData = new FormData()
         formData.append('riderId', _id)
         formData.append('status', 'confirm')
+        formData.append('type', 'day')
 
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/confirm-data',formData)
 
@@ -58,8 +59,6 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
         console.log(error)
     }
   }
-
-  // console.log(clientData)
 
   const displayConfirmDetail = (date, name, weeknum) =>{
     let online_bonus_data = onlineData.filter((item)=>(
@@ -133,7 +132,6 @@ const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service
 
         if(data.success){
             toast.success(data.message)
-            getDB()
         }else{
             toast.error(data.message)
         }

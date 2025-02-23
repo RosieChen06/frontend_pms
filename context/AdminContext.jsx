@@ -30,19 +30,19 @@ const AdminContextProvider = (props) =>{
     const [uploadItem, setUploadItem] = useState([])
     const [isMassiveUpload, setIsMassiveUpload] = useState(false)
 
-    const getDB = async () => {
-        try{
-        const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
-        if(data.success){
-            setRider(data.riders)
-            }
-        else{
-            toast.error(data.message)
-        }
-        }catch(error){
-            toast.error(data.message)
-        }
-    }
+    // const getDB = async () => {
+    //     try{
+    //     const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/all-rider')
+    //     if(data.success){
+    //         setRider(data.riders)
+    //         }
+    //     else{
+    //         toast.error(data.message)
+    //     }
+    //     }catch(error){
+    //         toast.error(data.message)
+    //     }
+    // }
 
     const getWeekDB = async () => {
         
@@ -73,15 +73,15 @@ const AdminContextProvider = (props) =>{
 
     useEffect(()=>{
         fetchData()
+        getWeekDB()
     },[])
 
-    useEffect(()=>{
-        getDB()
-        getWeekDB()
-    },[rider])
+    // useEffect(()=>{
+    //     getWeekDB()
+    // },[rider])
 
     const value = {
-        getDB, rider, data, state, setData, 
+        rider, data, state, setData, 
         setToken, token, userEmail, riderData, setRiderData, riderWeekData, setRiderWeekData,
         setUserEmail, isShowAdminDetail, setIsShowAdminDetail, 
         weekData, setWeekData, getWeekDB, onlineData, setOnlineData,
