@@ -80,7 +80,7 @@ const VendorHomePage = () => {
             if(data.success){
                 setReportForm(false);
                 toast.success(data.message)
-                dispatch(fetchData());
+                dispatch(fetchWeekData());
             }else{
                 toast.error(data.message)
             }
@@ -149,16 +149,13 @@ const VendorHomePage = () => {
             formData.append('image2', image2)
             formData.append('image3', image3)
             formData.append('reportdatetime', new Date())
-
-            console.log(image1)
-            console.log(image2)
   
             const {data} = await axios.post('https://backend-pms.vercel.app/api/user/report',formData)
   
             if(data.success){
                 setReportForm(false);
                 toast.success(data.message)
-                dispatch(fetchData());
+                findDB()
             }else{
                 toast.error(data.message)
             }
@@ -178,7 +175,6 @@ const VendorHomePage = () => {
         setSp2_2_reportItem([])
         setSp2_3_reportItem([])
         setReportForm(false)
-        findDB()
     }
 
     const [first, setFirst] = useState(0);
