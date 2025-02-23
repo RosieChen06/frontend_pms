@@ -17,6 +17,7 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchWeekData } from "../redux/slices/weekDataSlice";
+import { fetchData } from "../redux/slices/apiSlice";
 
 const Delete = () => {
 
@@ -59,8 +60,11 @@ const Delete = () => {
 
     useEffect(()=>{
         findMinDate()
-        filterData()
     },[apiData])
+
+    useEffect(()=>{
+        filterData()
+    },[apiData, startDate, endDate, searchStatus])
 
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
@@ -116,6 +120,7 @@ const Delete = () => {
                 const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/all-delete',formData)
                 if(data.success){
                     toast.success(data.message)
+                    dispatch(fetchData()); 
                     setIsWarning(false)
                     dispatch(fetchWeekData());
                 }else{
@@ -126,6 +131,7 @@ const Delete = () => {
                 const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/delete',formData)
                 if(data.success){
                     toast.success(data.message)
+                    dispatch(fetchData()); 
                     setIsWarning(false)
                 }else{
                     toast.error(data.message)
@@ -145,6 +151,7 @@ const Delete = () => {
             const {data} = await axios.post('https://backend-pms.vercel.app/api/admin/update-status',formData)
             if(data.success){
                 toast.success(data.message)
+                dispatch(fetchData()); 
                 setEditId('')
             }else{
                 toast.error(data.message)
