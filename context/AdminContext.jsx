@@ -13,7 +13,6 @@ const AdminContextProvider = (props) =>{
     const [token, setToken] = useState(sessionStorage.getItem('token')?sessionStorage.getItem('token'):'')
     const [userEmail, setUserEmail] = useState(sessionStorage.getItem('useremail')?sessionStorage.getItem('useremail'):'')
     const [isShowAdminDetail, setIsShowAdminDetail] = useState(false)
-    const [onlineData, setOnlineData] = useState([])
     const [isEdit, setIsEdit] = useState(false)
     const [isWeekEdit, setIsWeekEdit] = useState(false)
     const [isResolve, setIsResolve] = useState('report')
@@ -44,19 +43,19 @@ const AdminContextProvider = (props) =>{
     //     }
     // }
 
-    const getWeekDB = async () => {
+    // const getWeekDB = async () => {
         
-        try{
-            const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
-            if(data.success){
-                setOnlineData(data.weekData) 
-            }else{
-                toast.error(data.message)
-            }
-        }catch(error){
-            toast.error(data.message)
-        }
-    }
+    //     try{
+    //         const {data} = await axios.get('https://backend-pms.vercel.app/api/admin/week-data')
+    //         if(data.success){
+    //             setOnlineData(data.weekData) 
+    //         }else{
+    //             toast.error(data.message)
+    //         }
+    //     }catch(error){
+    //         toast.error(data.message)
+    //     }
+    // }
 
     const fetchData = async () => {
         try{
@@ -73,18 +72,13 @@ const AdminContextProvider = (props) =>{
 
     useEffect(()=>{
         fetchData()
-        getWeekDB()
     },[])
-
-    // useEffect(()=>{
-    //     getWeekDB()
-    // },[rider])
 
     const value = {
         rider, data, state, setData, 
         setToken, token, userEmail, riderData, setRiderData, riderWeekData, setRiderWeekData,
         setUserEmail, isShowAdminDetail, setIsShowAdminDetail, 
-        weekData, setWeekData, getWeekDB, onlineData, setOnlineData,
+        weekData, setWeekData, 
         isEdit, setIsEdit, isResolve, setIsResolve,isWeekEdit, setIsWeekEdit,
         isSpQualify, setSpIsQualify, displayMainItem, setDisplayMainItem,
         displayOnlineMainItem, setDisplayOnlineMainItem, isRawFilter, setRawFilter,

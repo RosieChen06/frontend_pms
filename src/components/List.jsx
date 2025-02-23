@@ -8,12 +8,13 @@ import { toast } from 'react-toastify';
 import { FaRegSave } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const List = ({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2_is_service_bonus, sp2_3_is_service_bonus, is_online_bonus, index, id, weeknum, status, filterdData, isMassiveUpload, uploadItem, setUploadItem, riderSubmitFilterConfirm, dateSubmitFilterConfirm}) => {
 
-  const {onlineData, setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
+  const {setDisplayMainItem, setDisplayOnlineMainItem, setIsShowAdminDetail, weekData} = useContext(AdminContext)
   const {setDisplayItem, setIsShowDetail, setDisplayOnlineItem, setDisplayConfirmOnlineItem,  setDisplayConfirmItem, setIsShowConfirmDetail, setClientData, clientData, clientConfirmData, setClientConfirmData} = useContext(UserContext)
-
+  const onlineData = useSelector((state) => state.onlineData.onlineData); 
   const findDB = async() => {
     const formData = new FormData()
     formData.append('dateInput', JSON.stringify(dateSubmitFilterConfirm))

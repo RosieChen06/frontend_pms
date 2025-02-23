@@ -6,13 +6,16 @@ import { UserContext } from '../../context/UserContext'
 import { CiCircleQuestion } from "react-icons/ci";
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
+import { useDispatch } from 'react-redux'
+import { fetchWeekData } from "../redux/slices/weekDataSlice";
 
 const Update = ({setFilterdData}) => {
 
-    const {isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, getWeekDB} = useContext(AdminContext)
+    const {isEdit, setIsEdit,isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData} = useContext(AdminContext)
     const {reportSp2Item} = useContext(UserContext)
     const [dayAdjustment, setDayAdjustment] = useState(true)
     const myRef = useRef(null)
+    const dispatch = useDispatch()
 
     const findDB = async(status) => {
         const formData = new FormData()
@@ -98,7 +101,7 @@ const Update = ({setFilterdData}) => {
 
             if(data.success){
                 toast.success(data.message)
-                getWeekDB()
+                dispatch(fetchWeekData());
                 setIsWeekEdit(false)
                 setIsEdit(false)
                 setDayAdjustment(false)

@@ -14,25 +14,27 @@ import MissingParcel from './pages/MissingParcel';
 import Delete from './pages/Delete';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "./redux/slices/apiSlice";
+import { fetchWeekData } from "./redux/slices/weekDataSlice";
 
 function App() {
 
   const {token} = useContext(AdminContext)
   const dispatch = useDispatch();
-    const data = useSelector((state) => state.data.data);
-    const prevDataRef = useRef(data);
+  const data = useSelector((state) => state.data.data);
+  const prevDataRef = useRef(data);
 
-    useEffect(() => {
-        dispatch(fetchData()); 
-      }, [dispatch]);
+  useEffect(() => {
+      dispatch(fetchData()); 
+      dispatch(fetchWeekData());
+    }, [dispatch]);
 
-    useEffect(() => {
-        if (prevDataRef.current !== data) {
-          dispatch(fetchData());
-        }
-        prevDataRef.current = data; 
-      }, [data, dispatch]);
-      
+  useEffect(() => {
+      if (prevDataRef.current !== data) {
+        dispatch(fetchData());
+      }
+      prevDataRef.current = data; 
+    }, [data, dispatch]);
+
   return (
     <>
       <div>

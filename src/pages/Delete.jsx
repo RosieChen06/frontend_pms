@@ -15,11 +15,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeekData } from "../redux/slices/weekDataSlice";
 
 const Delete = () => {
 
-    const {onlineData, isShowData, setIsShowData, getWeekDB, isShowMenu} = useContext(AdminContext)
+    const {isShowData, setIsShowData, isShowMenu} = useContext(AdminContext)
     const [startDate, setStartDate] = useState(dayjs(Date()))
     const [endDate, setEndDate] = useState(dayjs(Date()))
     const [maxDate, setMaxDate] = useState('')
@@ -31,6 +32,8 @@ const Delete = () => {
     const [filteredData, setFilteredData] = useState([])
 
     const apiData = useSelector((state) => state.data.data);
+    const onlineData = useSelector((state) => state.onlineData.onlineData); 
+    const dispatch = useDispatch();
 
     const filterData = () => {
         const data = apiData.filter((item)=>(
@@ -114,7 +117,7 @@ const Delete = () => {
                 if(data.success){
                     toast.success(data.message)
                     setIsWarning(false)
-                    getWeekDB()
+                    dispatch(fetchWeekData());
                 }else{
                     toast.error(data.message)
                 }

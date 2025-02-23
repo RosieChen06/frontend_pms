@@ -37,7 +37,7 @@ const MissingParcel = () => {
             setDayDetail(data.catchData[0]);
             setWeekDetail(data.catchWeekData[0]);
         }
-    }, 2000);
+    }, 1500);
 
     useEffect(()=>{
         catchDB(riderName, date)

@@ -15,11 +15,12 @@ import 'primeicons/primeicons.css'
 import { Paginator } from 'primereact/paginator';
 import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeekData } from "../redux/slices/weekDataSlice";
 
 const VendorHomePage = () => {
 
-    const {token, isShowMenu, onlineData, getWeekDB} = useContext(AdminContext)
+    const {token, isShowMenu} = useContext(AdminContext)
     const {clientData, setClientData, isShowDetail, displayOnlineItem, displayItem, reportForm, setReportForm, isOnlineReport, setIsReportOnline, 
         sp2_1_reportItem, sp2_2_reportItem, sp2_3_reportItem, setSp2_1_reportItem, setSp2_2_reportItem, 
         setSp2_3_reportItem, setDateInput, isSubmitFilter, setSubmitFilter, setRiderInput} = useContext( UserContext)
@@ -35,8 +36,8 @@ const VendorHomePage = () => {
     const [riderFilterPreview, setRiderFilterPreview] = useState([])
 
     const data = useSelector((state) => state.data.data);
-    const loading = useSelector((state) => state.data.loading);
-    const error = useSelector((state) => state.data.error);
+    const onlineData = useSelector((state) => state.onlineData.onlineData); 
+    const dispatch = useDispatch()
 
     const dataList = () => {
         if(clientData){
@@ -95,7 +96,7 @@ const VendorHomePage = () => {
         setImage1(false)
         setImage2(false)
         setImage3(false)
-        getWeekDB()
+        dispatch(fetchWeekData());
     }
 
     const findDB = async() => {

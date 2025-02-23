@@ -9,10 +9,12 @@ import { MdOutlineFactCheck } from "react-icons/md";
 import { VscReport } from "react-icons/vsc";
 import { LuClipboardPenLine } from "react-icons/lu";
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
 
-  const {setToken, token, isShowMenu, setIsShowMenu, rider, onlineData} = useContext(AdminContext)
+  const {setToken, token, isShowMenu, setIsShowMenu, rider} = useContext(AdminContext)
+  const onlineData = useSelector((state) => state.onlineData.onlineData); 
   return (
     <div className={isShowMenu?'w-full sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] absolute sm:relative':'hidden sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] absolute sm:relative'}>
     {token==='admin'?       

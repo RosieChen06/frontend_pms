@@ -9,10 +9,11 @@ import { FiUpload } from "react-icons/fi";
 import Reportsp from '../components/Reportsp';
 import { UserContext } from '../../context/UserContext';
 import Update from './Update';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeekData } from "../redux/slices/weekDataSlice";
 
 const Report = () => {
-      const {onlineData, token, isEdit, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, setIsEdit, getWeekDB} = useContext(AdminContext)
+      const {token, isEdit, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, setIsEdit} = useContext(AdminContext)
       const {setReportSp2Item} = useContext(UserContext)
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
@@ -28,6 +29,8 @@ const Report = () => {
       const [filterdData, setFilterdData] = useState([])
       const [weekPer, setWeekPer] = useState([])
       const data = useSelector((state) => state.data.data);
+      const onlineData = useSelector((state) => state.onlineData.onlineData); 
+      const dispatch = useDispatch();
 
       const findDB = async(status) => {
         const formData = new FormData()
@@ -63,7 +66,7 @@ const Report = () => {
             if(data.success){
                 toast.success(reply)
                 findDB(isResolve)
-                getWeekDB()
+                dispatch(fetchWeekData());
             }else{
                 toast.error(data.message)
             }

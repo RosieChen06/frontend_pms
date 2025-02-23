@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 const Confirmed = () => {
 
-    const {token, isShowMenu, onlineData} = useContext(AdminContext)
+    const {token, isShowMenu} = useContext(AdminContext)
     const {setDateInput, setRiderInput, clientConfirmData} = useContext(UserContext)
     const [filterConfirmData, setFilterConfirmData] = useState([])
     const [dateConfirmFilterPreview, setDateConfirmFilterPreview] = useState([])
@@ -22,8 +22,7 @@ const Confirmed = () => {
     const [riderConfirmFilterConfirm, setRiderConfirmFilterConfirm] = useState([])
 
     const data = useSelector((state) => state.data.data);
-    const loading = useSelector((state) => state.data.loading);
-    const error = useSelector((state) => state.data.error);
+    const onlineData = useSelector((state) => state.onlineData.onlineData); 
 
     const dataList = () => {
         if(clientConfirmData){
