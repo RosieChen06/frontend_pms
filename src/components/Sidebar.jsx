@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 const Sidebar = () => {
 
   const {setToken, token, isShowMenu, setIsShowMenu, rider} = useContext(AdminContext)
+  const data = useSelector((state) => state.data.data);
   const onlineData = useSelector((state) => state.onlineData.onlineData); 
   return (
     <div className={isShowMenu?'w-full sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] absolute sm:relative':'hidden sm:block sm:w-1/3 md:w-1/6 bg-[#004e76] h-[88vh] absolute sm:relative'}>
@@ -26,7 +27,7 @@ const Sidebar = () => {
             <NavLink to={'/admin-update'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <TbMessageReport className='text-lg'/>
                 <p>Report & Update</p>
-                <p className={({isActive})=>`'px-2 py-1 rounded-md text-sm' ${isActive? 'bg-[#004e76] text-white':'bg-white text-[#004e76]'}`}>{rider.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</p>
+                <p className={({isActive})=>`'px-2 py-1 rounded-md text-sm' ${isActive? 'bg-[#004e76] text-white':'bg-white text-[#004e76]'}`}>{data.filter((item)=>(item.status === 'report')).length+onlineData.filter((item)=>(item.status === 'report')).length}</p>
             </NavLink>
             <NavLink to={'/missing-parcel'} className={({isActive})=>`flex pl-4 gap-4 items-center h-16 w-full cursor-pointer ${isActive? 'bg-white text-[#004e76]':'text-white'}`} onClick={()=>setIsShowMenu(false)}>
                 <LuClipboardPenLine className='text-lg'/>
