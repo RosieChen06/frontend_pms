@@ -99,7 +99,7 @@ const Report = () => {
       if(type==="day"){
         setUploadUrl1(replyItem.image[0])
       }else{
-        setUploadUrl1(replyWeekItemimage[0])
+        setUploadUrl1(replyWeekItem.image[0])
       }
     }
     if(!image2){
