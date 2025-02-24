@@ -154,6 +154,9 @@ const Report = () => {
     setImage1(false)
     setImage2(false)
     setImage3(false)
+    setUploadUrl1(false)
+    setUploadUrl2(false)
+    setUploadUrl3(false)
 }
 
 const catchDB = async(name, date, weeknum) => {
