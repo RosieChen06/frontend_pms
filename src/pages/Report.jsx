@@ -11,6 +11,7 @@ import { UserContext } from '../../context/UserContext';
 import Update from './Update';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchWeekData } from "../redux/slices/weekDataSlice";
+import { fetchData } from "../redux/slices/apiSlice";
 
 const Report = () => {
       const {token, isEdit, isResolve, setIsResolve, isWeekEdit, setIsWeekEdit, isSpQualify, setSpIsQualify, riderData, setRiderData, riderWeekData, setRiderWeekData, setIsEdit} = useContext(AdminContext)
@@ -21,9 +22,6 @@ const Report = () => {
       const uploadUrl1 = useRef(false);
       const uploadUrl2 = useRef(false);
       const uploadUrl3 = useRef(false);
-      // const [uploadUrl1, setUploadUrl1] = useState(false)
-      // const [uploadUrl2, setUploadUrl2] = useState(false)
-      // const [uploadUrl3, setUploadUrl3] = useState(false)
       const [replyItem, setReplyItem] = useState([])
       const [replyWeekItem, setReplyWeekItem] = useState([])
       const [isReply, setIsReply] = useState(false)
@@ -70,6 +68,7 @@ const Report = () => {
                 toast.success(reply)
                 findDB(isResolve)
                 dispatch(fetchWeekData());
+                dispatch(fetchData()); 
             }else{
                 toast.error(data.message)
             }
@@ -119,12 +118,6 @@ const Report = () => {
         uploadUrl3.current = replyWeekItem.image[2]
       }
     }
-    console.log(`upload1:${uploadUrl1.current}`)
-    console.log(`upload1:${uploadUrl2.current}`)
-    console.log(`upload3:${uploadUrl3.current}`)
-    console.log(`image1:${image1}`)
-    console.log(`image2:${image2}`)
-    console.log(`image3:${image3}`)
 
     try{
         const formData = new FormData()
@@ -147,6 +140,8 @@ const Report = () => {
 
         if(data.success){
             setIsReply(false);
+            dispatch(fetchData()); 
+            dispatch(fetchWeekData());
             toast.success(data.message)
             findDB(isResolve)
             setImage1(false)
