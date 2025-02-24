@@ -54,6 +54,7 @@ const List = React.memo(({date, name, is_garantee, sp2_1_is_service_bonus, sp2_2
         if(data.success){
             toast.success(data.message)
             findDB()
+            dispatch(fetchData()); 
         }else{
             toast.error(data.message)
         }
