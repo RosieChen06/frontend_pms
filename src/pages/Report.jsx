@@ -142,6 +142,7 @@ const Report = () => {
         if(data.success){
             setIsReply(false);
             toast.success(data.message)
+            findDB(isResolve)
         }else{
             toast.error(data.message)
         }
@@ -150,9 +151,9 @@ const Report = () => {
         console.log(error)
     }
 
-    // setImage1(false)
-    // setImage2(false)
-    // setImage3(false)
+    setImage1(false)
+    setImage2(false)
+    setImage3(false)
 }
 
 const catchDB = async(name, date, weeknum) => {
