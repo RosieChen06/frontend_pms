@@ -95,25 +95,25 @@ const Report = () => {
       setSeletedData(filterdWeekData.filter((item)=>(item._id===_id)))
     }
 
-    if(!image1){
+   if((replyItem.image?replyItem.image[0]:false && !image1) || (replyWeekItem.image?replyWeekItem.image[0]:false && !image1)){
       if(type==="day"){
         setUploadUrl1(replyItem.image[0])
       }else{
         setUploadUrl1(replyWeekItem.image[0])
       }
     }
-    if(!image2){
+    if((replyItem.image?replyItem.image[1]:false && !image2) || (replyWeekItem.image?replyWeekItem.image[1]:false && !image2)){
       if(type==="day"){
         setUploadUrl2(replyItem.image[1])
       }else{
         setUploadUrl2(replyWeekItem.image[1])
       }
     }
-    if(!image3){
+    if((replyItem.image?replyItem.image[2]:false && !image3) || (replyWeekItem.image?replyWeekItem.image[2]:false && !image3)){
       if(type==="day"){
-        setUploadUrl3(replyItem.image[1])
+        setUploadUrl3(replyItem.image[2])
       }else{
-        setUploadUrl3(replyWeekItem.image[1])
+        setUploadUrl3(replyWeekItem.image[2])
       }
     }
 
