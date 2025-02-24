@@ -6,18 +6,14 @@ const Login = () => {
 
     const administrator = [
         {
-            user: 'rosie.chenyy@shopee.com',
+            user: 'admin@gmail.com',
             password: 'admin001'
         }
     ]
 
     const user = [
         {
-            user: 'rosie.chenyy@shopee.com',
-            password: 'user001'
-        },
-        {
-            user: 'vendor@gmail.com',
+            user: 'user@gmail.com',
             password: 'user001'
         }
     ]
