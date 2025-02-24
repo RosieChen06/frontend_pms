@@ -17,6 +17,7 @@ import { ImCross } from "react-icons/im";
 import { FaCheck } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchWeekData } from "../redux/slices/weekDataSlice";
+import { fetchData } from "../redux/slices/apiSlice";
 
 const VendorHomePage = () => {
 
@@ -149,6 +150,9 @@ const VendorHomePage = () => {
             formData.append('image2', image2)
             formData.append('image3', image3)
             formData.append('reportdatetime', new Date())
+
+            console.log(image1)
+            console.log(image2)
   
             const {data} = await axios.post('https://backend-pms.vercel.app/api/user/report',formData)
   
@@ -156,6 +160,7 @@ const VendorHomePage = () => {
                 setReportForm(false);
                 toast.success(data.message)
                 findDB()
+                dispatch(fetchData()); 
             }else{
                 toast.error(data.message)
             }
