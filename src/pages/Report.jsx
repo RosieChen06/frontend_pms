@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AdminContext } from '../../context/AdminContext'
 import axios from 'axios'
 import {toast} from 'react-toastify'
@@ -18,9 +18,12 @@ const Report = () => {
       const [image1, setImage1] = useState(false)
       const [image2, setImage2] = useState(false)
       const [image3, setImage3] = useState(false)
-      const [uploadUrl1, setUploadUrl1] = useState(false)
-      const [uploadUrl2, setUploadUrl2] = useState(false)
-      const [uploadUrl3, setUploadUrl3] = useState(false)
+      const uploadUrl1 = useRef(false);
+      const uploadUrl2 = useRef(false);
+      const uploadUrl3 = useRef(false);
+      // const [uploadUrl1, setUploadUrl1] = useState(false)
+      // const [uploadUrl2, setUploadUrl2] = useState(false)
+      // const [uploadUrl3, setUploadUrl3] = useState(false)
       const [replyItem, setReplyItem] = useState([])
       const [replyWeekItem, setReplyWeekItem] = useState([])
       const [isReply, setIsReply] = useState(false)
@@ -97,25 +100,31 @@ const Report = () => {
 
     if((replyItem.image?replyItem.image[0]:false && !image1) || (replyWeekItem.image?replyWeekItem.image[0]:false && !image1)){
       if(type==="day"){
-        setUploadUrl1(replyItem.image[0])
+        uploadUrl1.current = replyItem.image[0]
       }else{
-        setUploadUrl1(replyWeekItem.image[0])
+        uploadUrl1.current = replyWeekItem.image[0]
       }
     }
     if((replyItem.image?replyItem.image[1]:false && !image2) || (replyWeekItem.image?replyWeekItem.image[1]:false && !image2)){
       if(type==="day"){
-        setUploadUrl2(replyItem.image[1])
+        uploadUrl2.current = replyItem.image[1]
       }else{
-        setUploadUrl2(replyWeekItem.image[1])
+        uploadUrl2.current = replyWeekItem.image[1]
       }
     }
     if((replyItem.image?replyItem.image[2]:false && !image3) || (replyWeekItem.image?replyWeekItem.image[2]:false && !image3)){
       if(type==="day"){
-        setUploadUrl3(replyItem.image[2])
+        uploadUrl3.current = replyItem.image[2]
       }else{
-        setUploadUrl3(replyWeekItem.image[2])
+        uploadUrl3.current = replyWeekItem.image[2]
       }
     }
+    console.log(`upload1:${uploadUrl1.current}`)
+    console.log(`upload1:${uploadUrl2.current}`)
+    console.log(`upload3:${uploadUrl3.current}`)
+    console.log(`image1:${image1}`)
+    console.log(`image2:${image2}`)
+    console.log(`image3:${image3}`)
 
     try{
         const formData = new FormData()
@@ -126,15 +135,13 @@ const Report = () => {
         }else{
           formData.append('comment', replyWeekItem.comment)
         }
-        formData.append('imageUrl1', uploadUrl1)
-        formData.append('imageUrl2', uploadUrl2)
-        formData.append('imageUrl3', uploadUrl3)
+        formData.append('imageUrl1', uploadUrl1.current)
+        formData.append('imageUrl2', uploadUrl2.current)
+        formData.append('imageUrl3', uploadUrl3.current)
         formData.append('image1', image1)
         formData.append('image2', image2)
         formData.append('image3', image3)
         formData.append('type', type)
-        console.log(uploadUrl1)
-        console.log(image2)
 
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/reply',formData)
 
@@ -142,6 +149,12 @@ const Report = () => {
             setIsReply(false);
             toast.success(data.message)
             findDB(isResolve)
+            setImage1(false)
+            setImage2(false)
+            setImage3(false)
+            uploadUrl1.current = false
+            uploadUrl2.current = false
+            uploadUrl3.current = false
         }else{
             toast.error(data.message)
         }
@@ -149,13 +162,6 @@ const Report = () => {
     }catch(error){
         console.log(error)
     }
-
-    setImage1(false)
-    setImage2(false)
-    setImage3(false)
-    setUploadUrl1(false)
-    setUploadUrl2(false)
-    setUploadUrl3(false)
 }
 
 const catchDB = async(name, date, weeknum) => {
@@ -326,7 +332,7 @@ const openWeekEditForm = (id, name, weeknum) => {
               <div className='flex justify-between'>
                   <p className='text-lg font-bold'>異常回復</p>
                   <div className='flex flex-row'>
-                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>setIsReply(false)}>取消回復</button>  
+                    <button className='mr-5 px-6 py-1 bg-yellow-200 rounded-sm' onClick={()=>{setIsReply(false); setImage1(false);setImage2(false); setImage3(false); uploadUrl1.current = false; uploadUrl2.current = false; uploadUrl3.current = false}}>取消回復</button>  
                     {replyType==='day'?
                     <button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReport(replyItem._id, 'day')}}>提交回復</button>:
                     <button className='mr-5 px-6 py-1 bg-green-200 rounded-sm' onClick={()=>{isReport(replyWeekItem._id, 'week')}}>提交回復</button>
