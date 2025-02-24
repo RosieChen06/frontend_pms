@@ -133,6 +133,8 @@ const Report = () => {
         formData.append('image2', image2)
         formData.append('image3', image3)
         formData.append('type', type)
+        console.log(uploadUrl1)
+        console.log(image2)
 
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/reply',formData)
 
