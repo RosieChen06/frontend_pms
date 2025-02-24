@@ -95,7 +95,7 @@ const Report = () => {
       setSeletedData(filterdWeekData.filter((item)=>(item._id===_id)))
     }
 
-   if((replyItem.image?replyItem.image[0]:false && !image1) || (replyWeekItem.image?replyWeekItem.image[0]:false && !image1)){
+    if((replyItem.image?replyItem.image[0]:false && !image1) || (replyWeekItem.image?replyWeekItem.image[0]:false && !image1)){
       if(type==="day"){
         setUploadUrl1(replyItem.image[0])
       }else{
@@ -133,9 +133,6 @@ const Report = () => {
         formData.append('image2', image2)
         formData.append('image3', image3)
         formData.append('type', type)
-        console.log(uploadUrl1)
-        console.log(image2)
-        console.log(filterdData[0].image[0])
 
         const {data} = await axios.post('https://backend-pms.vercel.app/api/user/reply',formData)
 
