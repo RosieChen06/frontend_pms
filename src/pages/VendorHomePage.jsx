@@ -237,9 +237,9 @@ const VendorHomePage = () => {
                     }
                   </div>
               </div>
-              <p className='mt-4 text-sm text-gray-700'>Rider Name:</p>
+              <p className='mt-4 text-sm text-gray-700'>Rider Name: {displayItem.name}</p>
               <div className='flex justify-between'>
-                  <p className='text-sm text-gray-700'>Date: </p>
+                  <p className='text-sm text-gray-700'>Date: {displayItem.date}</p>
               </div>
             </div>
             <div className='bg-[#f8f9fd] h-[80%] mt-4 rounded-lg overflow-scroll px-5 py-4'>
