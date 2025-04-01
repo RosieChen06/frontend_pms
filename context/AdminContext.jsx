@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react"
 import axios from "axios"
+import {toast } from 'react-toastify';
 
 export const AdminContext = createContext()
 
@@ -30,9 +31,13 @@ const AdminContextProvider = (props) =>{
 
     const fetchData = async () => {
         try{    
-                const api = await axios.get('https://backend-pms.vercel.app/api/data')
-                setData(api.data.dayData)
-                setWeekData(api.data.weekData)
+                
+                // const api = await axios.get('http://localhost:4000/api/data')
+                // console.log(api)
+                const response = await axios.get('https://script.google.com/macros/s/AKfycbx-drlHbjO5h2Ks_UwTz51bX7_atvrZjMRA_SW6ZWRA7s9Mm_8Ebk_yOURZQMr4nbdz/exec')
+                setData(response.data)
+                const response2 = await axios.get('https://script.google.com/macros/s/AKfycbw1RwAEg0sGWUgG40s8v3lIxu_1ZEfrwub9oXka9JuzcMCX3a34fORX0UNRoFMFxxzs/exec')
+                setWeekData(response2.data)
                 setState(true)
             }
         catch(error){
