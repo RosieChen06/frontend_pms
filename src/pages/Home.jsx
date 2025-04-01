@@ -54,8 +54,6 @@ const Home = () => {
                 setFilterRawData(newData)
             }
         }
-    console.log(dateRawFilterConfirm)
-    console.log(riderRawFilterConfirm)
     
     useEffect(()=>{
         dataList()
@@ -145,7 +143,6 @@ const Home = () => {
     const onPageChange = (event) => {
         setHomeFirst(event.first);
         setHomeRows(event.rows);
-        console.log(event)
     }
   
     return state && (
